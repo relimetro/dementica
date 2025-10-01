@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  dummy:
+    build: ./services/dummy
+    container_name: dummy
+    ports:
+      - "50051:50051"
+    networks:
+      - backend
+
+  openresty:
+    build: ./openresty
+    container_name: nginx
+    ports:
+      - 80:80
+    depends_on:
+      - dummy
+    volumes:
+    - ./openresty/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+    networks:
+      - backend
+
+  envoy:
+    image: envoyproxy/envoy:v1.31-latest
+    volumes:
+      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
+      - ./services/dummy/dummy.pb:/services/dummy.pb
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
