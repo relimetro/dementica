@@ -1,0 +1,3 @@
+[submodule "services/frontend/webFrontEnd"]
+	path = services/frontend/webFrontEnd
+	url = https://github.com/relimetro/webFrontEnd
