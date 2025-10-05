@@ -8,6 +8,14 @@ services:
     networks:
       - backend
 
+  frontend:
+    build: ./services/frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
+
   openresty:
     build: ./openresty
     container_name: nginx
