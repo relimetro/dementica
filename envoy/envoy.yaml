@@ -19,12 +19,12 @@ static_resources:
               domains: ["*"]
               routes:
               - match:
-                  prefix: "/d"
+                  prefix: "/v1"
                 route:
                   cluster: grpc_service
                   timeout: 0s
               - match:
-                  prefix: "/f"
+                  prefix: "/v2"
                 route:
                   cluster: firebaseprototype
                   timeout: 0s
