@@ -1,0 +1,17 @@
+syntax = "proto3";
+package aiProompt;
+
+service aiProompt{
+  rpc HealtcareProompt(ProomptMsg) returns (ProomptReturn);
+}
+
+message ProomptMsg {
+  string message = 1;
+}
+
+message ProomptReturn {
+  string message = 1;
+}
+
+
+
