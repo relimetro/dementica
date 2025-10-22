@@ -19,9 +19,14 @@ static_resources:
               domains: ["*"]
               routes:
               - match:
-                  prefix: "/"
+                  prefix: "/v1"
                 route:
                   cluster: grpc_service
+                  timeout: 0s
+              - match:
+                  prefix: "/v2"
+                route:
+                  cluster: firebaseprototype
                   timeout: 0s
               typed_per_filter_config:
                 envoy.filters.http.cors:
@@ -43,8 +48,8 @@ static_resources:
           - name: envoy.filters.http.grpc_json_transcoder
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
-              proto_descriptor: "/services/dummy.pb"
-              services: ["dummy.HelloService"]
+              proto_descriptor: "/services/merge.pb"
+              services: ["dummy.HelloService","serv"]
               print_options:
                 always_print_primitive_fields: true
           - name: envoy.filters.http.cors
@@ -69,3 +74,17 @@ static_resources:
               socket_address:
                 address: dummy
                 port_value: 50051
+  - name: firebaseprototype
+    connect_timeout: 0.25s
+    type: logical_dns
+    lb_policy: round_robin
+    http2_protocol_options: {}
+    load_assignment:
+      cluster_name: firebaseprototype
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: firebaseprototype
+                port_value: 9000

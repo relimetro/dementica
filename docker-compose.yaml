@@ -49,6 +49,8 @@ services:
     volumes:
       - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
       - ./services/dummy/dummy.pb:/services/dummy.pb
+      - ./services/firebaseprototype/proto/firebase.pb:/services/firebaseprototype.pb
+      - ./merge.pb:/services/merge.pb
     ports:
       - "8080:8080"
     networks:
