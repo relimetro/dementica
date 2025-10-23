@@ -12,7 +12,7 @@ services:
     build: ./services/firebaseprototype
     container_name: firebaseprototype
     ports:
-      - "9000:9000"
+      - "9001:9000"
     networks:
       - backend
 
