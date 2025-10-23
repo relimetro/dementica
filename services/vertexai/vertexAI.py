@@ -9,7 +9,7 @@ def FTproompt(proompt):
   client = genai.Client(
       vertexai=True,
       api_key=os.environ.get("GOOGLE_CLOUD_API_KEY"),
-	  project='copper-actor-475117-i7', location='us-central1'
+      project='copper-actor-475117-i7', location='us-central1'
   )
 
 
@@ -51,4 +51,8 @@ def FTproompt(proompt):
     out += txt
   return out
 
+
+if __name__ == "__main__":
+    res = FTproompt("Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes")
+    print(res)
 
