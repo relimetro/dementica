@@ -8,11 +8,27 @@ services:
     networks:
       - backend
 
+  firebaseprototype:
+    build: ./services/firebaseprototype
+    container_name: firebaseprototype
+    ports:
+      - "9000:9000"
+    networks:
+      - backend
+
   frontend:
     build: ./services/frontend
     container_name: frontend
     ports:
       - "3000:3000"
+    networks:
+      - backend
+
+  vertexai:
+    build: ./services/vertexai
+    container_name: vertexai
+    ports:
+      - "50052:50052"
     networks:
       - backend
 
@@ -33,6 +49,8 @@ services:
     volumes:
       - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
       - ./services/dummy/dummy.pb:/services/dummy.pb
+      - ./proto/firebase.pb:/services/firebaseprototype.pb
+      - ./proto/both.pb:/services/both.pb # unused
     ports:
       - "8080:8080"
     networks:

@@ -2,8 +2,6 @@
 
 
 [ $1 == "test" ] && { curl -X POST -d '{"name":"Bob"}' http://localhost:80/v1/say_hello; exit; }
-
-[ $1 ] && sudo docker-compose -f docker-compose.yaml build
-
-
-sudo docker-compose -f docker-compose.yaml up
+[ $1 == "firebase" ] && { curl -X POST -d '{"message":"Bob"}' http://localhost:80/v1/send_lifestyle; exit; }
+[ $1 == "build" ] && { sudo docker-compose -f docker-compose.yaml build && sudo docker-compose -f docker-compose.yaml up; }
+[ $1 == "run" ] && { sudo docker-compose -f docker-compose.yaml up; }
