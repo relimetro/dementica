@@ -23,4 +23,4 @@ protoc \
 	vertex.proto
 
 # failed attempt to get firebase & dummy both working
-protoc -I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto.pb proto/firebase.proto # ../../proto/dummy.proto
+protoc -I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto/both.pb proto/firebase.proto proto/dummy.proto
