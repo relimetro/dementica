@@ -142,8 +142,9 @@ func (s *server) GetRisk(ctx context.Context, x *pb.SessionToken) (*pb.RiskScore
 func (s *server) ProcessLifestyle(x string) string {
 	// return "0" // probably better to not reconnect each time idk?
 
+	print("firebase attempt")
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
+	conn, err := grpc.Dial("vertexai:50052", grpc.WithInsecure())
 	if err != nil { log.Fatalf("GRPC: cound not connect vertexAI at 50052: \n%s",err)}
 	defer conn.Close()
 	c := aiProompt.NewAiProomptClient(conn)
@@ -152,7 +153,7 @@ func (s *server) ProcessLifestyle(x string) string {
 	// txt = "short response why is the sky blue"
 	message := aiProompt.ProomptMsg { Message: txt}
 	resp, err := c.HealtcareProompt(context.Background(), &message)
-	if err != nil { log.Printf("vertexAI not settup in docker, run manualy"); return "0" ; log.Printf("xx: FTproompt, <%s>, <%d>",err,resp); return "0"; }
+	if err != nil { log.Fatalf("FTproompt, <%s>, <%d>",err,resp); return "0"; }
 	log.Printf("Response FTproompt: %s",resp.Message)
 	return resp.Message } 
  
@@ -172,6 +173,7 @@ func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb
 
 
 	FBctx := context.Background()
+	print("firebase attempt")
 	calc_risk := s.ProcessLifestyle(x.Message) // vertexAI
 	log.Printf("calc_risk: %s\n",calc_risk)
 	print(calc_risk)
