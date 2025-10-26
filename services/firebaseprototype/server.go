@@ -139,13 +139,13 @@ func (s *server) GetRisk(ctx context.Context, x *pb.SessionToken) (*pb.RiskScore
 
 
 
-func (s *server) ProcessLifestyle(x string) string {
+func (s *server) ProcessLifestyle(x string) (string,bool) {
 	// return "0" // probably better to not reconnect each time idk?
 
 	print("firebase attempt")
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("vertexai:50052", grpc.WithInsecure())
-	if err != nil { log.Fatalf("GRPC: cound not connect vertexAI at 50052: \n%s",err)}
+	if err != nil { log.Printf("[ERROR] GRPC: cound not connect vertexAI at 50052: \n%s",err); return "",false; }
 	defer conn.Close()
 	c := aiProompt.NewAiProomptClient(conn)
 
@@ -153,9 +153,9 @@ func (s *server) ProcessLifestyle(x string) string {
 	// txt = "short response why is the sky blue"
 	message := aiProompt.ProomptMsg { Message: txt}
 	resp, err := c.HealtcareProompt(context.Background(), &message)
-	if err != nil { log.Fatalf("FTproompt, <%s>, <%d>",err,resp); return "0"; }
+	if err != nil { log.Printf("[ERROR] FTproompt, <%s>, <%d>",err,resp); return "",false; }
 	log.Printf("Response FTproompt: %s",resp.Message)
-	return resp.Message } 
+	return resp.Message,true } 
  
 
 
@@ -173,10 +173,10 @@ func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb
 
 
 	FBctx := context.Background()
-	print("firebase attempt")
-	calc_risk := s.ProcessLifestyle(x.Message) // vertexAI
+	calc_risk, ok := s.ProcessLifestyle(x.Message) // vertexAI
+	if ok == false { calc_risk = "Error Calculating"; }
 	log.Printf("calc_risk: %s\n",calc_risk)
-	print(calc_risk)
+	// TODO: log errors that occur in database, or some log file
 
 	// test firebase add
 	_, _, err2 := client.Collection("patientData").Add(FBctx, map[string]interface{}{
