@@ -144,7 +144,8 @@ func (s *server) ProcessLifestyle(x string) (string,bool) {
 
 	print("firebase attempt")
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("vertexai:50052", grpc.WithInsecure())
+	// conn, err := grpc.Dial("vertexai:50052", grpc.WithInsecure())
+	conn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
 	if err != nil { log.Printf("[ERROR] GRPC: cound not connect vertexAI at 50052: \n%s",err); return "",false; }
 	defer conn.Close()
 	c := aiProompt.NewAiProomptClient(conn)

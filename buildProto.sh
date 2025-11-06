@@ -15,6 +15,11 @@ python -m grpc_tools.protoc \
 	--proto_path=./proto/ ./proto/vertex.proto \
 	--python_out=./services/vertexai --grpc_python_out=./services/vertexai
 
+# vertexAI (keras)
+python -m grpc_tools.protoc \
+	--proto_path=./proto/ ./proto/vertex.proto \
+	--python_out=./services/keras --grpc_python_out=./services/keras
+
 # vertexAI (firebaseprototype)
 protoc \
 	--proto_path=./proto \

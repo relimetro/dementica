@@ -1,0 +1,55 @@
+import grpc
+from concurrent import futures
+import vertex_pb2
+import vertex_pb2_grpc
+from grpc_reflection.v1alpha import reflection
+from kerasPredict import kerasRun
+from datatypes import LifestyleQuestionareFromDataset, LifestyleQuestionareFromIntermediary, LifestyleQuestionare
+
+print("KERAS OUTSIDE")
+
+class AiProompt(vertex_pb2_grpc.aiProomptServicer):
+    def HealtcareProompt(self, request, context):
+        txt = request.message
+        print(f"recieved {txt}")
+
+        lifestyle:LifestyleQuestionare = LifestyleQuestionareFromIntermediary(txt)
+        kerasRun(lifestyle)
+
+        out = "1"
+        print("recieved AI response")
+        print(f"response {out}")
+        return vertex_pb2.ProomptReturn(message=out)
+
+print("KERAS OUTSIDE")
+
+def serve():
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    vertex_pb2_grpc.add_aiProomptServicer_to_server(AiProompt(), server)
+    # dummy_pb2_grpc.add_HelloServiceServicer_to_server(HelloService(), server)
+
+    SERVICE_NAMES = (
+        vertex_pb2_grpc.aiProomptServicer.__name__,
+        # dummy_pb2_grpc.HelloServiceServicer.__name__,
+        reflection.SERVICE_NAME,
+    )
+    reflection.enable_server_reflection(SERVICE_NAMES, server)
+
+    port = "50053"
+    server.add_insecure_port('[::]:'+port)
+    server.start()
+    print("Keras running on port "+port)
+    server.wait_for_termination()
+
+
+print("KERAS OUTSIDE")
+if __name__ == "__main__":
+    print("KERAS NAME MAIN")
+    # txt:str = "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes"
+    # lifestyle:LifestyleQuestionare = LifestyleQuestionareFromIntermediary(txt)
+    # kerasRun(lifestyle)
+    print("\n\n\nKERAS RUN DONE\n\n\n")
+    serve()
+
+
+
