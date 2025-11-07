@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v6.32.1
-// source: firebase.proto
+// source: firestore.proto
 
 package proto_example
 
@@ -32,7 +32,7 @@ type UserLogin struct {
 
 func (x *UserLogin) Reset() {
 	*x = UserLogin{}
-	mi := &file_firebase_proto_msgTypes[0]
+	mi := &file_firestore_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +44,7 @@ func (x *UserLogin) String() string {
 func (*UserLogin) ProtoMessage() {}
 
 func (x *UserLogin) ProtoReflect() protoreflect.Message {
-	mi := &file_firebase_proto_msgTypes[0]
+	mi := &file_firestore_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +57,7 @@ func (x *UserLogin) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserLogin.ProtoReflect.Descriptor instead.
 func (*UserLogin) Descriptor() ([]byte, []int) {
-	return file_firebase_proto_rawDescGZIP(), []int{0}
+	return file_firestore_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *UserLogin) GetUserName() string {
@@ -83,7 +83,7 @@ type UserID struct {
 
 func (x *UserID) Reset() {
 	*x = UserID{}
-	mi := &file_firebase_proto_msgTypes[1]
+	mi := &file_firestore_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -95,7 +95,7 @@ func (x *UserID) String() string {
 func (*UserID) ProtoMessage() {}
 
 func (x *UserID) ProtoReflect() protoreflect.Message {
-	mi := &file_firebase_proto_msgTypes[1]
+	mi := &file_firestore_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -108,7 +108,7 @@ func (x *UserID) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserID.ProtoReflect.Descriptor instead.
 func (*UserID) Descriptor() ([]byte, []int) {
-	return file_firebase_proto_rawDescGZIP(), []int{1}
+	return file_firestore_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *UserID) GetUserName() string {
@@ -128,7 +128,7 @@ type UserRequest struct {
 
 func (x *UserRequest) Reset() {
 	*x = UserRequest{}
-	mi := &file_firebase_proto_msgTypes[2]
+	mi := &file_firestore_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -140,7 +140,7 @@ func (x *UserRequest) String() string {
 func (*UserRequest) ProtoMessage() {}
 
 func (x *UserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_firebase_proto_msgTypes[2]
+	mi := &file_firestore_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -153,7 +153,7 @@ func (x *UserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserRequest.ProtoReflect.Descriptor instead.
 func (*UserRequest) Descriptor() ([]byte, []int) {
-	return file_firebase_proto_rawDescGZIP(), []int{2}
+	return file_firestore_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *UserRequest) GetSessionToken() int64 {
@@ -179,7 +179,7 @@ type SessionToken struct {
 
 func (x *SessionToken) Reset() {
 	*x = SessionToken{}
-	mi := &file_firebase_proto_msgTypes[3]
+	mi := &file_firestore_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -191,7 +191,7 @@ func (x *SessionToken) String() string {
 func (*SessionToken) ProtoMessage() {}
 
 func (x *SessionToken) ProtoReflect() protoreflect.Message {
-	mi := &file_firebase_proto_msgTypes[3]
+	mi := &file_firestore_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -204,7 +204,7 @@ func (x *SessionToken) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SessionToken.ProtoReflect.Descriptor instead.
 func (*SessionToken) Descriptor() ([]byte, []int) {
-	return file_firebase_proto_rawDescGZIP(), []int{3}
+	return file_firestore_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *SessionToken) GetTemp() int64 {
@@ -223,7 +223,7 @@ type UserDetails struct {
 
 func (x *UserDetails) Reset() {
 	*x = UserDetails{}
-	mi := &file_firebase_proto_msgTypes[4]
+	mi := &file_firestore_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -235,7 +235,7 @@ func (x *UserDetails) String() string {
 func (*UserDetails) ProtoMessage() {}
 
 func (x *UserDetails) ProtoReflect() protoreflect.Message {
-	mi := &file_firebase_proto_msgTypes[4]
+	mi := &file_firestore_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -248,7 +248,7 @@ func (x *UserDetails) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserDetails.ProtoReflect.Descriptor instead.
 func (*UserDetails) Descriptor() ([]byte, []int) {
-	return file_firebase_proto_rawDescGZIP(), []int{4}
+	return file_firestore_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UserDetails) GetDetails() string {
@@ -267,7 +267,7 @@ type RiskScore struct {
 
 func (x *RiskScore) Reset() {
 	*x = RiskScore{}
-	mi := &file_firebase_proto_msgTypes[5]
+	mi := &file_firestore_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -279,7 +279,7 @@ func (x *RiskScore) String() string {
 func (*RiskScore) ProtoMessage() {}
 
 func (x *RiskScore) ProtoReflect() protoreflect.Message {
-	mi := &file_firebase_proto_msgTypes[5]
+	mi := &file_firestore_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -292,7 +292,7 @@ func (x *RiskScore) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RiskScore.ProtoReflect.Descriptor instead.
 func (*RiskScore) Descriptor() ([]byte, []int) {
-	return file_firebase_proto_rawDescGZIP(), []int{5}
+	return file_firestore_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *RiskScore) GetScore() int32 {
@@ -311,7 +311,7 @@ type LifestyleRequest struct {
 
 func (x *LifestyleRequest) Reset() {
 	*x = LifestyleRequest{}
-	mi := &file_firebase_proto_msgTypes[6]
+	mi := &file_firestore_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -323,7 +323,7 @@ func (x *LifestyleRequest) String() string {
 func (*LifestyleRequest) ProtoMessage() {}
 
 func (x *LifestyleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_firebase_proto_msgTypes[6]
+	mi := &file_firestore_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -336,7 +336,7 @@ func (x *LifestyleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LifestyleRequest.ProtoReflect.Descriptor instead.
 func (*LifestyleRequest) Descriptor() ([]byte, []int) {
-	return file_firebase_proto_rawDescGZIP(), []int{6}
+	return file_firestore_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *LifestyleRequest) GetMessage() string {
@@ -355,7 +355,7 @@ type LifestyleResponse struct {
 
 func (x *LifestyleResponse) Reset() {
 	*x = LifestyleResponse{}
-	mi := &file_firebase_proto_msgTypes[7]
+	mi := &file_firestore_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -367,7 +367,7 @@ func (x *LifestyleResponse) String() string {
 func (*LifestyleResponse) ProtoMessage() {}
 
 func (x *LifestyleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_firebase_proto_msgTypes[7]
+	mi := &file_firestore_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -380,7 +380,7 @@ func (x *LifestyleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LifestyleResponse.ProtoReflect.Descriptor instead.
 func (*LifestyleResponse) Descriptor() ([]byte, []int) {
-	return file_firebase_proto_rawDescGZIP(), []int{7}
+	return file_firestore_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *LifestyleResponse) GetSuccess() bool {
@@ -390,11 +390,11 @@ func (x *LifestyleResponse) GetSuccess() bool {
 	return false
 }
 
-var File_firebase_proto protoreflect.FileDescriptor
+var File_firestore_proto protoreflect.FileDescriptor
 
-const file_firebase_proto_rawDesc = "" +
+const file_firestore_proto_rawDesc = "" +
 	"\n" +
-	"\x0efirebase.proto\x12\x11firebaseprototype\x1a\x1cgoogle/api/annotations.proto\"U\n" +
+	"\x0ffirestore.proto\x12\tfirestore\x1a\x1cgoogle/api/annotations.proto\"U\n" +
 	"\tUserLogin\x12\x1a\n" +
 	"\bUserName\x18\x01 \x01(\tR\bUserName\x12,\n" +
 	"\x11PlaintextPassword\x18\x02 \x01(\tR\x11PlaintextPassword\"$\n" +
@@ -412,47 +412,46 @@ const file_firebase_proto_rawDesc = "" +
 	"\x10LifestyleRequest\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\"-\n" +
 	"\x11LifestyleResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xac\x03\n" +
-	"\x04serv\x12\\\n" +
-	"\x05Login\x12\x1c.firebaseprototype.UserLogin\x1a\x1f.firebaseprototype.SessionToken\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/login\x12h\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xf1\x02\n" +
+	"\tfirestore\x12L\n" +
+	"\x05Login\x12\x14.firestore.UserLogin\x1a\x17.firestore.SessionToken\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/login\x12X\n" +
 	"\n" +
-	"getDetails\x12\x1e.firebaseprototype.UserRequest\x1a\x1e.firebaseprototype.UserDetails\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/get_details\x12a\n" +
-	"\agetRisk\x12\x1f.firebaseprototype.SessionToken\x1a\x1c.firebaseprototype.RiskScore\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/get_risk\x12y\n" +
-	"\rSendLifestyle\x12#.firebaseprototype.LifestyleRequest\x1a$.firebaseprototype.LifestyleResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/v1/send_lifestyleB-\n" +
-	"\x14com.example.testgrpcZ\x15example/proto_exampleb\x06proto3"
+	"getDetails\x12\x16.firestore.UserRequest\x1a\x16.firestore.UserDetails\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/get_details\x12Q\n" +
+	"\agetRisk\x12\x17.firestore.SessionToken\x1a\x14.firestore.RiskScore\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/get_risk\x12i\n" +
+	"\rSendLifestyle\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/v1/send_lifestyleB\x17Z\x15example/proto_exampleb\x06proto3"
 
 var (
-	file_firebase_proto_rawDescOnce sync.Once
-	file_firebase_proto_rawDescData []byte
+	file_firestore_proto_rawDescOnce sync.Once
+	file_firestore_proto_rawDescData []byte
 )
 
-func file_firebase_proto_rawDescGZIP() []byte {
-	file_firebase_proto_rawDescOnce.Do(func() {
-		file_firebase_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_firebase_proto_rawDesc), len(file_firebase_proto_rawDesc)))
+func file_firestore_proto_rawDescGZIP() []byte {
+	file_firestore_proto_rawDescOnce.Do(func() {
+		file_firestore_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_firestore_proto_rawDesc), len(file_firestore_proto_rawDesc)))
 	})
-	return file_firebase_proto_rawDescData
+	return file_firestore_proto_rawDescData
 }
 
-var file_firebase_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
-var file_firebase_proto_goTypes = []any{
-	(*UserLogin)(nil),         // 0: firebaseprototype.UserLogin
-	(*UserID)(nil),            // 1: firebaseprototype.UserID
-	(*UserRequest)(nil),       // 2: firebaseprototype.UserRequest
-	(*SessionToken)(nil),      // 3: firebaseprototype.SessionToken
-	(*UserDetails)(nil),       // 4: firebaseprototype.UserDetails
-	(*RiskScore)(nil),         // 5: firebaseprototype.RiskScore
-	(*LifestyleRequest)(nil),  // 6: firebaseprototype.LifestyleRequest
-	(*LifestyleResponse)(nil), // 7: firebaseprototype.LifestyleResponse
+var file_firestore_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_firestore_proto_goTypes = []any{
+	(*UserLogin)(nil),         // 0: firestore.UserLogin
+	(*UserID)(nil),            // 1: firestore.UserID
+	(*UserRequest)(nil),       // 2: firestore.UserRequest
+	(*SessionToken)(nil),      // 3: firestore.SessionToken
+	(*UserDetails)(nil),       // 4: firestore.UserDetails
+	(*RiskScore)(nil),         // 5: firestore.RiskScore
+	(*LifestyleRequest)(nil),  // 6: firestore.LifestyleRequest
+	(*LifestyleResponse)(nil), // 7: firestore.LifestyleResponse
 }
-var file_firebase_proto_depIdxs = []int32{
-	0, // 0: firebaseprototype.serv.Login:input_type -> firebaseprototype.UserLogin
-	2, // 1: firebaseprototype.serv.getDetails:input_type -> firebaseprototype.UserRequest
-	3, // 2: firebaseprototype.serv.getRisk:input_type -> firebaseprototype.SessionToken
-	6, // 3: firebaseprototype.serv.SendLifestyle:input_type -> firebaseprototype.LifestyleRequest
-	3, // 4: firebaseprototype.serv.Login:output_type -> firebaseprototype.SessionToken
-	4, // 5: firebaseprototype.serv.getDetails:output_type -> firebaseprototype.UserDetails
-	5, // 6: firebaseprototype.serv.getRisk:output_type -> firebaseprototype.RiskScore
-	7, // 7: firebaseprototype.serv.SendLifestyle:output_type -> firebaseprototype.LifestyleResponse
+var file_firestore_proto_depIdxs = []int32{
+	0, // 0: firestore.firestore.Login:input_type -> firestore.UserLogin
+	2, // 1: firestore.firestore.getDetails:input_type -> firestore.UserRequest
+	3, // 2: firestore.firestore.getRisk:input_type -> firestore.SessionToken
+	6, // 3: firestore.firestore.SendLifestyle:input_type -> firestore.LifestyleRequest
+	3, // 4: firestore.firestore.Login:output_type -> firestore.SessionToken
+	4, // 5: firestore.firestore.getDetails:output_type -> firestore.UserDetails
+	5, // 6: firestore.firestore.getRisk:output_type -> firestore.RiskScore
+	7, // 7: firestore.firestore.SendLifestyle:output_type -> firestore.LifestyleResponse
 	4, // [4:8] is the sub-list for method output_type
 	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -460,26 +459,26 @@ var file_firebase_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_firebase_proto_init() }
-func file_firebase_proto_init() {
-	if File_firebase_proto != nil {
+func init() { file_firestore_proto_init() }
+func file_firestore_proto_init() {
+	if File_firestore_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_firebase_proto_rawDesc), len(file_firebase_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_firestore_proto_rawDesc), len(file_firestore_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_firebase_proto_goTypes,
-		DependencyIndexes: file_firebase_proto_depIdxs,
-		MessageInfos:      file_firebase_proto_msgTypes,
+		GoTypes:           file_firestore_proto_goTypes,
+		DependencyIndexes: file_firestore_proto_depIdxs,
+		MessageInfos:      file_firestore_proto_msgTypes,
 	}.Build()
-	File_firebase_proto = out.File
-	file_firebase_proto_goTypes = nil
-	file_firebase_proto_depIdxs = nil
+	File_firestore_proto = out.File
+	file_firestore_proto_goTypes = nil
+	file_firestore_proto_depIdxs = nil
 }

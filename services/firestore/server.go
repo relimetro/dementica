@@ -51,7 +51,7 @@ func ValidateLogin(username string, password string) bool {
 ///////////////////////////////////////////////////////////////
 /// GRPC
 type server struct{
-	pb.UnimplementedServServer
+	pb.UnimplementedFirestoreServer
 }
 
 
@@ -264,7 +264,7 @@ func main() {
 
 	// serv GRPC
 	grpcServer := grpc.NewServer()
-	pb.RegisterServServer(grpcServer, &server{})
+	pb.RegisterFirestoreServer(grpcServer, &server{})
 	log.Printf("Ready!! >:0")
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("GRPC: Failed to serve:\n%v",err) }

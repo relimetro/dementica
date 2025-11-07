@@ -19,9 +19,9 @@ services:
   #     - ./firebase.json:/run/secrets/firebase.json:ro
   #   restart: unless-stopped
 
-  firebaseprototype:
-    build: ./services/firebaseprototype
-    container_name: firebaseprototype
+  firestore:
+    build: ./services/firestore
+    container_name: firestore
     ports:
       - "9000:9000"
     networks:
@@ -61,9 +61,8 @@ services:
     image: envoyproxy/envoy:v1.31-latest
     volumes:
       - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
-      - ./services/dummy/dummy.pb:/services/dummy.pb
-      - ./proto/firebase.pb:/services/firebaseprototype.pb
-      - ./proto/both.pb:/services/both.pb # unused
+      - ./services/dummy/dummy.pb:/services/dummy.pb #unused
+      - ./proto/firestore.pb:/services/firestore.pb
     ports:
       - "8080:8080"
     networks:

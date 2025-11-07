@@ -1,14 +1,17 @@
-# protoc --include_imports --include_source_info -o proto/firebase.pb proto/proto.proto
 
 GOOGLEAPIS_DIR="./googleapis"
 
-# firebase
+
+
+# firestore
 protoc \
-	-I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto/firebase.pb \
+	-I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto/firestore.pb \
 	--proto_path=./proto/ \
-	--go_out=./services/firebaseprototype/protoOut --go_opt=paths=source_relative \
-	--go-grpc_out=./services/firebaseprototype/protoOut --go-grpc_opt=paths=source_relative \
-	firebase.proto
+	--go_out=./services/firestore/protoOut --go_opt=paths=source_relative \
+	--go-grpc_out=./services/firestore/protoOut --go-grpc_opt=paths=source_relative \
+	firestore.proto
+
+
 
 # vertexAI (python)
 python -m grpc_tools.protoc \
@@ -23,9 +26,7 @@ python -m grpc_tools.protoc \
 # vertexAI (firebaseprototype)
 protoc \
 	--proto_path=./proto \
-	--go_out=./services/firebaseprototype/protoAI --go_opt=paths=source_relative \
-	--go-grpc_out=./services/firebaseprototype/protoAI --go-grpc_opt=paths=source_relative \
+	--go_out=./services/firestore/protoAI --go_opt=paths=source_relative \
+	--go-grpc_out=./services/firestore/protoAI --go-grpc_opt=paths=source_relative \
 	vertex.proto
 
-# failed attempt to get firebase & dummy both working
-protoc -I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto/both.pb proto/firebase.proto proto/dummy.proto

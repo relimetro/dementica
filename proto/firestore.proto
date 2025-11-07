@@ -1,11 +1,10 @@
 syntax = "proto3";
-package firebaseprototype;
+package firestore;
 option go_package = "example/proto_example";
-option java_package = "com.example.testgrpc";
 
 import "google/api/annotations.proto";
 
-service serv {
+service firestore {
   rpc Login(UserLogin) returns (SessionToken) {
 	option (google.api.http) = {
 		post: "/v1/login"
