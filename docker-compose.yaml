@@ -8,16 +8,16 @@ services:
     networks:
       - backend
 
-  # user_service:
-  #   build: ./services/user_service
-  #   ports:
-  #     - "50061:50061"
-  #   environment:
-  #     - FIREBASE_WEB_API_KEY=${FIREBASE_WEB_API_KEY}
-  #     - FIREBASE_CREDENTIALS=/run/secrets/firebase.json
-  #   volumes:
-  #     - ./firebase.json:/run/secrets/firebase.json:ro
-  #   restart: unless-stopped
+  user_service:
+    build: ./services/user_service
+    ports:
+      - "50061:50061"
+    environment:
+      - FIREBASE_WEB_API_KEY=${FIREBASE_WEB_API_KEY}
+      - FIREBASE_CREDENTIALS=/run/secrets/firebase.json
+    volumes:
+      - ./firebase.json:/run/secrets/firebase.json:ro
+    restart: unless-stopped
 
   firestore:
     build: ./services/firestore
