@@ -1,4 +1,5 @@
 FROM golang:1.25
+# requires /usr/src/app/firebase.json from docker-compose
 
 WORKDIR /usr/src/app
 

@@ -1,4 +1,3 @@
-services/firebaseprototype/firebase.json
 .venv/
 services/vertexai/*.json
 firebase.json

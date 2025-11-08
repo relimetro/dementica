@@ -26,6 +26,8 @@ services:
       - "9000:9000"
     networks:
       - backend
+    volumes:
+      - ./firebase.json:/usr/src/app/firebase.json
 
   frontend:
     build: ./services/frontend
