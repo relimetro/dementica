@@ -50,6 +50,8 @@ services:
       - "50053:50053"
     networks:
       - backend
+    environment:
+      - PYTHONUNBUFFERED=1
 
   openresty:
     build: ./openresty

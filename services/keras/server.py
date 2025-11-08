@@ -4,7 +4,6 @@ import vertex_pb2
 import vertex_pb2_grpc
 from grpc_reflection.v1alpha import reflection
 
-print("KERAS OUTSIDE")
 
 class AiProompt(vertex_pb2_grpc.aiProomptServicer):
 	def HealtcareProompt(self, request, context):
@@ -13,7 +12,6 @@ class AiProompt(vertex_pb2_grpc.aiProomptServicer):
 		print(f"response {out}")
 		return vertex_pb2.ProomptReturn(message=out)
 
-print("KERAS OUTSIDE")
 
 def serve():
 	server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
@@ -34,13 +32,7 @@ def serve():
 	server.wait_for_termination()
 
 
-print("KERAS OUTSIDE")
 if __name__ == "__main__":
-	print("KERAS NAME MAIN")
-	# txt:str = "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes"
-	# lifestyle:LifestyleQuestionare = LifestyleQuestionareFromIntermediary(txt)
-	# kerasRun(lifestyle)
-	print("\n\n\nKERAS RUN DONE\n\n\n")
 	serve()
 
 
