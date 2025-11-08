@@ -144,9 +144,9 @@ func (s *server) ProcessLifestyle(x string) (string,bool) {
 
 	print("firebase attempt")
 	var conn *grpc.ClientConn
-	// conn, err := grpc.Dial("vertexai:50052", grpc.WithInsecure())
-	conn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
-	if err != nil { log.Printf("[ERROR] GRPC: cound not connect vertexAI at 50052: \n%s",err); return "",false; }
+	// conn, err := grpc.Dial("keras:50053", grpc.WithInsecure())
+	conn, err := grpc.Dial("keras:50053", grpc.WithInsecure())
+	if err != nil { log.Printf("[ERROR] GRPC: cound not connect keras at 50053: \n%s",err); return "",false; }
 	defer conn.Close()
 	c := aiProompt.NewAiProomptClient(conn)
 
@@ -160,7 +160,7 @@ func (s *server) ProcessLifestyle(x string) (string,bool) {
  
 
 
-// } // todo, grpc into vertexAI
+// } // todo, grpc into keras
 
 // SendLifestyle (SessionToken -> RiskScore)
 func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb.LifestyleResponse, error) {
@@ -174,7 +174,7 @@ func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb
 
 
 	FBctx := context.Background()
-	calc_risk, ok := s.ProcessLifestyle(x.Message) // vertexAI
+	calc_risk, ok := s.ProcessLifestyle(x.Message) // keras
 	if ok == false { calc_risk = "Error Calculating"; }
 	log.Printf("calc_risk: %s\n",calc_risk)
 	// TODO: log errors that occur in database, or some log file

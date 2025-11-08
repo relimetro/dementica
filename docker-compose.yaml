@@ -36,10 +36,18 @@ services:
       - backend
 
   vertexai:
-    build: ./services/keras
+    build: ./services/vertexai
     container_name: vertexai
     ports:
-      - "50052:50053"
+      - "50052:50052"
+    networks:
+      - backend
+
+  keras:
+    build: ./services/keras
+    container_name: keras
+    ports:
+      - "50053:50053"
     networks:
       - backend
 
