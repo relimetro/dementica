@@ -22,17 +22,890 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type UserRegister_RegisterTypeE int32
+
+const (
+	UserRegister_None   UserRegister_RegisterTypeE = 0
+	UserRegister_Email  UserRegister_RegisterTypeE = 1
+	UserRegister_Social UserRegister_RegisterTypeE = 2
+)
+
+// Enum value maps for UserRegister_RegisterTypeE.
+var (
+	UserRegister_RegisterTypeE_name = map[int32]string{
+		0: "None",
+		1: "Email",
+		2: "Social",
+	}
+	UserRegister_RegisterTypeE_value = map[string]int32{
+		"None":   0,
+		"Email":  1,
+		"Social": 2,
+	}
+)
+
+func (x UserRegister_RegisterTypeE) Enum() *UserRegister_RegisterTypeE {
+	p := new(UserRegister_RegisterTypeE)
+	*p = x
+	return p
+}
+
+func (x UserRegister_RegisterTypeE) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (UserRegister_RegisterTypeE) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[0].Descriptor()
+}
+
+func (UserRegister_RegisterTypeE) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[0]
+}
+
+func (x UserRegister_RegisterTypeE) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use UserRegister_RegisterTypeE.Descriptor instead.
+func (UserRegister_RegisterTypeE) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{0, 0}
+}
+
+type UserRegister_UserTypeE int32
+
+const (
+	UserRegister_Patient UserRegister_UserTypeE = 0
+	UserRegister_Doctor  UserRegister_UserTypeE = 1
+)
+
+// Enum value maps for UserRegister_UserTypeE.
+var (
+	UserRegister_UserTypeE_name = map[int32]string{
+		0: "Patient",
+		1: "Doctor",
+	}
+	UserRegister_UserTypeE_value = map[string]int32{
+		"Patient": 0,
+		"Doctor":  1,
+	}
+)
+
+func (x UserRegister_UserTypeE) Enum() *UserRegister_UserTypeE {
+	p := new(UserRegister_UserTypeE)
+	*p = x
+	return p
+}
+
+func (x UserRegister_UserTypeE) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (UserRegister_UserTypeE) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[1].Descriptor()
+}
+
+func (UserRegister_UserTypeE) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[1]
+}
+
+func (x UserRegister_UserTypeE) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use UserRegister_UserTypeE.Descriptor instead.
+func (UserRegister_UserTypeE) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{0, 1}
+}
+
+type RegisterResult_RegResult int32
+
+const (
+	RegisterResult_Ok    RegisterResult_RegResult = 0
+	RegisterResult_Taken RegisterResult_RegResult = 1
+)
+
+// Enum value maps for RegisterResult_RegResult.
+var (
+	RegisterResult_RegResult_name = map[int32]string{
+		0: "Ok",
+		1: "Taken",
+	}
+	RegisterResult_RegResult_value = map[string]int32{
+		"Ok":    0,
+		"Taken": 1,
+	}
+)
+
+func (x RegisterResult_RegResult) Enum() *RegisterResult_RegResult {
+	p := new(RegisterResult_RegResult)
+	*p = x
+	return p
+}
+
+func (x RegisterResult_RegResult) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RegisterResult_RegResult) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[2].Descriptor()
+}
+
+func (RegisterResult_RegResult) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[2]
+}
+
+func (x RegisterResult_RegResult) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RegisterResult_RegResult.Descriptor instead.
+func (RegisterResult_RegResult) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{1, 0}
+}
+
+type UserLogin_UserTypeE int32
+
+const (
+	UserLogin_Any     UserLogin_UserTypeE = 0
+	UserLogin_Patient UserLogin_UserTypeE = 1
+	UserLogin_Doctor  UserLogin_UserTypeE = 2
+)
+
+// Enum value maps for UserLogin_UserTypeE.
+var (
+	UserLogin_UserTypeE_name = map[int32]string{
+		0: "Any",
+		1: "Patient",
+		2: "Doctor",
+	}
+	UserLogin_UserTypeE_value = map[string]int32{
+		"Any":     0,
+		"Patient": 1,
+		"Doctor":  2,
+	}
+)
+
+func (x UserLogin_UserTypeE) Enum() *UserLogin_UserTypeE {
+	p := new(UserLogin_UserTypeE)
+	*p = x
+	return p
+}
+
+func (x UserLogin_UserTypeE) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (UserLogin_UserTypeE) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[3].Descriptor()
+}
+
+func (UserLogin_UserTypeE) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[3]
+}
+
+func (x UserLogin_UserTypeE) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use UserLogin_UserTypeE.Descriptor instead.
+func (UserLogin_UserTypeE) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{2, 0}
+}
+
+type LoginResult_RegResult int32
+
+const (
+	LoginResult_Ok       LoginResult_RegResult = 0
+	LoginResult_UserPass LoginResult_RegResult = 1
+	LoginResult_Type     LoginResult_RegResult = 2
+)
+
+// Enum value maps for LoginResult_RegResult.
+var (
+	LoginResult_RegResult_name = map[int32]string{
+		0: "Ok",
+		1: "UserPass",
+		2: "Type",
+	}
+	LoginResult_RegResult_value = map[string]int32{
+		"Ok":       0,
+		"UserPass": 1,
+		"Type":     2,
+	}
+)
+
+func (x LoginResult_RegResult) Enum() *LoginResult_RegResult {
+	p := new(LoginResult_RegResult)
+	*p = x
+	return p
+}
+
+func (x LoginResult_RegResult) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (LoginResult_RegResult) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[4].Descriptor()
+}
+
+func (LoginResult_RegResult) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[4]
+}
+
+func (x LoginResult_RegResult) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use LoginResult_RegResult.Descriptor instead.
+func (LoginResult_RegResult) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{3, 0}
+}
+
+type PatientData_Dementia int32
+
+const (
+	PatientData_Unknown  PatientData_Dementia = 0
+	PatientData_Positive PatientData_Dementia = 1
+	PatientData_Negative PatientData_Dementia = 2
+)
+
+// Enum value maps for PatientData_Dementia.
+var (
+	PatientData_Dementia_name = map[int32]string{
+		0: "Unknown",
+		1: "Positive",
+		2: "Negative",
+	}
+	PatientData_Dementia_value = map[string]int32{
+		"Unknown":  0,
+		"Positive": 1,
+		"Negative": 2,
+	}
+)
+
+func (x PatientData_Dementia) Enum() *PatientData_Dementia {
+	p := new(PatientData_Dementia)
+	*p = x
+	return p
+}
+
+func (x PatientData_Dementia) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (PatientData_Dementia) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[5].Descriptor()
+}
+
+func (PatientData_Dementia) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[5]
+}
+
+func (x PatientData_Dementia) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use PatientData_Dementia.Descriptor instead.
+func (PatientData_Dementia) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{5, 0}
+}
+
+type PatientData_Res int32
+
+const (
+	PatientData_Ok           PatientData_Res = 0
+	PatientData_NotFound     PatientData_Res = 1
+	PatientData_NoPermission PatientData_Res = 2
+	PatientData_NotPatient   PatientData_Res = 3
+)
+
+// Enum value maps for PatientData_Res.
+var (
+	PatientData_Res_name = map[int32]string{
+		0: "Ok",
+		1: "NotFound",
+		2: "NoPermission",
+		3: "NotPatient",
+	}
+	PatientData_Res_value = map[string]int32{
+		"Ok":           0,
+		"NotFound":     1,
+		"NoPermission": 2,
+		"NotPatient":   3,
+	}
+)
+
+func (x PatientData_Res) Enum() *PatientData_Res {
+	p := new(PatientData_Res)
+	*p = x
+	return p
+}
+
+func (x PatientData_Res) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (PatientData_Res) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[6].Descriptor()
+}
+
+func (PatientData_Res) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[6]
+}
+
+func (x PatientData_Res) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use PatientData_Res.Descriptor instead.
+func (PatientData_Res) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{5, 1}
+}
+
+type RiskResponse_Res int32
+
+const (
+	RiskResponse_Ok           RiskResponse_Res = 0
+	RiskResponse_NotFound     RiskResponse_Res = 1
+	RiskResponse_NoPermission RiskResponse_Res = 2
+	RiskResponse_NotPatient   RiskResponse_Res = 3
+)
+
+// Enum value maps for RiskResponse_Res.
+var (
+	RiskResponse_Res_name = map[int32]string{
+		0: "Ok",
+		1: "NotFound",
+		2: "NoPermission",
+		3: "NotPatient",
+	}
+	RiskResponse_Res_value = map[string]int32{
+		"Ok":           0,
+		"NotFound":     1,
+		"NoPermission": 2,
+		"NotPatient":   3,
+	}
+)
+
+func (x RiskResponse_Res) Enum() *RiskResponse_Res {
+	p := new(RiskResponse_Res)
+	*p = x
+	return p
+}
+
+func (x RiskResponse_Res) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (RiskResponse_Res) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[7].Descriptor()
+}
+
+func (RiskResponse_Res) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[7]
+}
+
+func (x RiskResponse_Res) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use RiskResponse_Res.Descriptor instead.
+func (RiskResponse_Res) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{6, 0}
+}
+
+type DoctorData_Res int32
+
+const (
+	DoctorData_Ok           DoctorData_Res = 0
+	DoctorData_NotFound     DoctorData_Res = 1
+	DoctorData_NoPermission DoctorData_Res = 2
+	DoctorData_NotDoctor    DoctorData_Res = 3
+)
+
+// Enum value maps for DoctorData_Res.
+var (
+	DoctorData_Res_name = map[int32]string{
+		0: "Ok",
+		1: "NotFound",
+		2: "NoPermission",
+		3: "NotDoctor",
+	}
+	DoctorData_Res_value = map[string]int32{
+		"Ok":           0,
+		"NotFound":     1,
+		"NoPermission": 2,
+		"NotDoctor":    3,
+	}
+)
+
+func (x DoctorData_Res) Enum() *DoctorData_Res {
+	p := new(DoctorData_Res)
+	*p = x
+	return p
+}
+
+func (x DoctorData_Res) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DoctorData_Res) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[8].Descriptor()
+}
+
+func (DoctorData_Res) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[8]
+}
+
+func (x DoctorData_Res) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DoctorData_Res.Descriptor instead.
+func (DoctorData_Res) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{7, 0}
+}
+
+type PatientsResponse_Res int32
+
+const (
+	PatientsResponse_Ok           PatientsResponse_Res = 0
+	PatientsResponse_NotFound     PatientsResponse_Res = 1
+	PatientsResponse_NoPermission PatientsResponse_Res = 2
+	PatientsResponse_NotDoctor    PatientsResponse_Res = 3
+)
+
+// Enum value maps for PatientsResponse_Res.
+var (
+	PatientsResponse_Res_name = map[int32]string{
+		0: "Ok",
+		1: "NotFound",
+		2: "NoPermission",
+		3: "NotDoctor",
+	}
+	PatientsResponse_Res_value = map[string]int32{
+		"Ok":           0,
+		"NotFound":     1,
+		"NoPermission": 2,
+		"NotDoctor":    3,
+	}
+)
+
+func (x PatientsResponse_Res) Enum() *PatientsResponse_Res {
+	p := new(PatientsResponse_Res)
+	*p = x
+	return p
+}
+
+func (x PatientsResponse_Res) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (PatientsResponse_Res) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[9].Descriptor()
+}
+
+func (PatientsResponse_Res) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[9]
+}
+
+func (x PatientsResponse_Res) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use PatientsResponse_Res.Descriptor instead.
+func (PatientsResponse_Res) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{8, 0}
+}
+
+type LifestyleResponse_Res int32
+
+const (
+	LifestyleResponse_Ok           LifestyleResponse_Res = 0
+	LifestyleResponse_NotFound     LifestyleResponse_Res = 1
+	LifestyleResponse_NoPermission LifestyleResponse_Res = 2
+	LifestyleResponse_NotPatient   LifestyleResponse_Res = 3
+	LifestyleResponse_Invalid      LifestyleResponse_Res = 4
+)
+
+// Enum value maps for LifestyleResponse_Res.
+var (
+	LifestyleResponse_Res_name = map[int32]string{
+		0: "Ok",
+		1: "NotFound",
+		2: "NoPermission",
+		3: "NotPatient",
+		4: "Invalid",
+	}
+	LifestyleResponse_Res_value = map[string]int32{
+		"Ok":           0,
+		"NotFound":     1,
+		"NoPermission": 2,
+		"NotPatient":   3,
+		"Invalid":      4,
+	}
+)
+
+func (x LifestyleResponse_Res) Enum() *LifestyleResponse_Res {
+	p := new(LifestyleResponse_Res)
+	*p = x
+	return p
+}
+
+func (x LifestyleResponse_Res) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (LifestyleResponse_Res) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[10].Descriptor()
+}
+
+func (LifestyleResponse_Res) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[10]
+}
+
+func (x LifestyleResponse_Res) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use LifestyleResponse_Res.Descriptor instead.
+func (LifestyleResponse_Res) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{10, 0}
+}
+
+type TestHistoryResponse_Res int32
+
+const (
+	TestHistoryResponse_Ok           TestHistoryResponse_Res = 0
+	TestHistoryResponse_NotFound     TestHistoryResponse_Res = 1
+	TestHistoryResponse_NoPermission TestHistoryResponse_Res = 2
+	TestHistoryResponse_NotPatient   TestHistoryResponse_Res = 3
+)
+
+// Enum value maps for TestHistoryResponse_Res.
+var (
+	TestHistoryResponse_Res_name = map[int32]string{
+		0: "Ok",
+		1: "NotFound",
+		2: "NoPermission",
+		3: "NotPatient",
+	}
+	TestHistoryResponse_Res_value = map[string]int32{
+		"Ok":           0,
+		"NotFound":     1,
+		"NoPermission": 2,
+		"NotPatient":   3,
+	}
+)
+
+func (x TestHistoryResponse_Res) Enum() *TestHistoryResponse_Res {
+	p := new(TestHistoryResponse_Res)
+	*p = x
+	return p
+}
+
+func (x TestHistoryResponse_Res) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TestHistoryResponse_Res) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[11].Descriptor()
+}
+
+func (TestHistoryResponse_Res) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[11]
+}
+
+func (x TestHistoryResponse_Res) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TestHistoryResponse_Res.Descriptor instead.
+func (TestHistoryResponse_Res) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{12, 0}
+}
+
+type DementiaRequest_DementiaE int32
+
+const (
+	DementiaRequest_Unknown  DementiaRequest_DementiaE = 0
+	DementiaRequest_Positive DementiaRequest_DementiaE = 1
+	DementiaRequest_Negative DementiaRequest_DementiaE = 2
+)
+
+// Enum value maps for DementiaRequest_DementiaE.
+var (
+	DementiaRequest_DementiaE_name = map[int32]string{
+		0: "Unknown",
+		1: "Positive",
+		2: "Negative",
+	}
+	DementiaRequest_DementiaE_value = map[string]int32{
+		"Unknown":  0,
+		"Positive": 1,
+		"Negative": 2,
+	}
+)
+
+func (x DementiaRequest_DementiaE) Enum() *DementiaRequest_DementiaE {
+	p := new(DementiaRequest_DementiaE)
+	*p = x
+	return p
+}
+
+func (x DementiaRequest_DementiaE) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DementiaRequest_DementiaE) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[12].Descriptor()
+}
+
+func (DementiaRequest_DementiaE) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[12]
+}
+
+func (x DementiaRequest_DementiaE) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DementiaRequest_DementiaE.Descriptor instead.
+func (DementiaRequest_DementiaE) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{13, 0}
+}
+
+type DementiaResponse_Res int32
+
+const (
+	DementiaResponse_Ok          DementiaResponse_Res = 0
+	DementiaResponse_NotFound    DementiaResponse_Res = 1
+	DementiaResponse_NoOperation DementiaResponse_Res = 2
+	DementiaResponse_NotPatient  DementiaResponse_Res = 3
+)
+
+// Enum value maps for DementiaResponse_Res.
+var (
+	DementiaResponse_Res_name = map[int32]string{
+		0: "Ok",
+		1: "NotFound",
+		2: "NoOperation",
+		3: "NotPatient",
+	}
+	DementiaResponse_Res_value = map[string]int32{
+		"Ok":          0,
+		"NotFound":    1,
+		"NoOperation": 2,
+		"NotPatient":  3,
+	}
+)
+
+func (x DementiaResponse_Res) Enum() *DementiaResponse_Res {
+	p := new(DementiaResponse_Res)
+	*p = x
+	return p
+}
+
+func (x DementiaResponse_Res) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DementiaResponse_Res) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[13].Descriptor()
+}
+
+func (DementiaResponse_Res) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[13]
+}
+
+func (x DementiaResponse_Res) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DementiaResponse_Res.Descriptor instead.
+func (DementiaResponse_Res) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{14, 0}
+}
+
+type NewsRequest_UserType int32
+
+const (
+	NewsRequest_Patient NewsRequest_UserType = 0
+	NewsRequest_Doctor  NewsRequest_UserType = 1
+)
+
+// Enum value maps for NewsRequest_UserType.
+var (
+	NewsRequest_UserType_name = map[int32]string{
+		0: "Patient",
+		1: "Doctor",
+	}
+	NewsRequest_UserType_value = map[string]int32{
+		"Patient": 0,
+		"Doctor":  1,
+	}
+)
+
+func (x NewsRequest_UserType) Enum() *NewsRequest_UserType {
+	p := new(NewsRequest_UserType)
+	*p = x
+	return p
+}
+
+func (x NewsRequest_UserType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (NewsRequest_UserType) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[14].Descriptor()
+}
+
+func (NewsRequest_UserType) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[14]
+}
+
+func (x NewsRequest_UserType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use NewsRequest_UserType.Descriptor instead.
+func (NewsRequest_UserType) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{15, 0}
+}
+
+// Register
+type UserRegister struct {
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	Name          string                     `protobuf:"bytes,1,opt,name=Name,proto3" json:"Name,omitempty"`
+	Password      string                     `protobuf:"bytes,2,opt,name=Password,proto3" json:"Password,omitempty"`
+	UserType      UserRegister_UserTypeE     `protobuf:"varint,3,opt,name=UserType,proto3,enum=firestore.UserRegister_UserTypeE" json:"UserType,omitempty"`
+	RegType       UserRegister_RegisterTypeE `protobuf:"varint,4,opt,name=RegType,proto3,enum=firestore.UserRegister_RegisterTypeE" json:"RegType,omitempty"`
+	RegisterWith  string                     `protobuf:"bytes,5,opt,name=RegisterWith,proto3" json:"RegisterWith,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserRegister) Reset() {
+	*x = UserRegister{}
+	mi := &file_firestore_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserRegister) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserRegister) ProtoMessage() {}
+
+func (x *UserRegister) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserRegister.ProtoReflect.Descriptor instead.
+func (*UserRegister) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *UserRegister) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UserRegister) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+func (x *UserRegister) GetUserType() UserRegister_UserTypeE {
+	if x != nil {
+		return x.UserType
+	}
+	return UserRegister_Patient
+}
+
+func (x *UserRegister) GetRegType() UserRegister_RegisterTypeE {
+	if x != nil {
+		return x.RegType
+	}
+	return UserRegister_None
+}
+
+func (x *UserRegister) GetRegisterWith() string {
+	if x != nil {
+		return x.RegisterWith
+	}
+	return ""
+}
+
+type RegisterResult struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Result        RegisterResult_RegResult `protobuf:"varint,1,opt,name=Result,proto3,enum=firestore.RegisterResult_RegResult" json:"Result,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegisterResult) Reset() {
+	*x = RegisterResult{}
+	mi := &file_firestore_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterResult) ProtoMessage() {}
+
+func (x *RegisterResult) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterResult.ProtoReflect.Descriptor instead.
+func (*RegisterResult) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *RegisterResult) GetResult() RegisterResult_RegResult {
+	if x != nil {
+		return x.Result
+	}
+	return RegisterResult_Ok
+}
+
+// Login
 type UserLogin struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	UserName          string                 `protobuf:"bytes,1,opt,name=UserName,proto3" json:"UserName,omitempty"`
-	PlaintextPassword string                 `protobuf:"bytes,2,opt,name=PlaintextPassword,proto3" json:"PlaintextPassword,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=Name,proto3" json:"Name,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=Password,proto3" json:"Password,omitempty"`
+	UserType      UserLogin_UserTypeE    `protobuf:"varint,3,opt,name=UserType,proto3,enum=firestore.UserLogin_UserTypeE" json:"UserType,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UserLogin) Reset() {
 	*x = UserLogin{}
-	mi := &file_firestore_proto_msgTypes[0]
+	mi := &file_firestore_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -44,7 +917,7 @@ func (x *UserLogin) String() string {
 func (*UserLogin) ProtoMessage() {}
 
 func (x *UserLogin) ProtoReflect() protoreflect.Message {
-	mi := &file_firestore_proto_msgTypes[0]
+	mi := &file_firestore_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,33 +930,92 @@ func (x *UserLogin) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserLogin.ProtoReflect.Descriptor instead.
 func (*UserLogin) Descriptor() ([]byte, []int) {
-	return file_firestore_proto_rawDescGZIP(), []int{0}
+	return file_firestore_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UserLogin) GetUserName() string {
+func (x *UserLogin) GetName() string {
 	if x != nil {
-		return x.UserName
+		return x.Name
 	}
 	return ""
 }
 
-func (x *UserLogin) GetPlaintextPassword() string {
+func (x *UserLogin) GetPassword() string {
 	if x != nil {
-		return x.PlaintextPassword
+		return x.Password
 	}
 	return ""
+}
+
+func (x *UserLogin) GetUserType() UserLogin_UserTypeE {
+	if x != nil {
+		return x.UserType
+	}
+	return UserLogin_Any
+}
+
+type LoginResult struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserID        string                 `protobuf:"bytes,1,opt,name=UserID,proto3" json:"UserID,omitempty"`
+	Result        LoginResult_RegResult  `protobuf:"varint,2,opt,name=Result,proto3,enum=firestore.LoginResult_RegResult" json:"Result,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LoginResult) Reset() {
+	*x = LoginResult{}
+	mi := &file_firestore_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginResult) ProtoMessage() {}
+
+func (x *LoginResult) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginResult.ProtoReflect.Descriptor instead.
+func (*LoginResult) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *LoginResult) GetUserID() string {
+	if x != nil {
+		return x.UserID
+	}
+	return ""
+}
+
+func (x *LoginResult) GetResult() LoginResult_RegResult {
+	if x != nil {
+		return x.Result
+	}
+	return LoginResult_Ok
 }
 
 type UserID struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserName      string                 `protobuf:"bytes,1,opt,name=UserName,proto3" json:"UserName,omitempty"`
+	UserID        string                 `protobuf:"bytes,1,opt,name=UserID,proto3" json:"UserID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *UserID) Reset() {
 	*x = UserID{}
-	mi := &file_firestore_proto_msgTypes[1]
+	mi := &file_firestore_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -95,7 +1027,7 @@ func (x *UserID) String() string {
 func (*UserID) ProtoMessage() {}
 
 func (x *UserID) ProtoReflect() protoreflect.Message {
-	mi := &file_firestore_proto_msgTypes[1]
+	mi := &file_firestore_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -108,177 +1040,41 @@ func (x *UserID) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserID.ProtoReflect.Descriptor instead.
 func (*UserID) Descriptor() ([]byte, []int) {
-	return file_firestore_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *UserID) GetUserName() string {
-	if x != nil {
-		return x.UserName
-	}
-	return ""
-}
-
-type UserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	SessionToken  int64                  `protobuf:"varint,1,opt,name=SessionToken,proto3" json:"SessionToken,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=UserId,proto3" json:"UserId,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UserRequest) Reset() {
-	*x = UserRequest{}
-	mi := &file_firestore_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UserRequest) ProtoMessage() {}
-
-func (x *UserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_firestore_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UserRequest.ProtoReflect.Descriptor instead.
-func (*UserRequest) Descriptor() ([]byte, []int) {
-	return file_firestore_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *UserRequest) GetSessionToken() int64 {
-	if x != nil {
-		return x.SessionToken
-	}
-	return 0
-}
-
-func (x *UserRequest) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
-}
-
-type SessionToken struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Temp          int64                  `protobuf:"varint,1,opt,name=Temp,proto3" json:"Temp,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *SessionToken) Reset() {
-	*x = SessionToken{}
-	mi := &file_firestore_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SessionToken) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SessionToken) ProtoMessage() {}
-
-func (x *SessionToken) ProtoReflect() protoreflect.Message {
-	mi := &file_firestore_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SessionToken.ProtoReflect.Descriptor instead.
-func (*SessionToken) Descriptor() ([]byte, []int) {
-	return file_firestore_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *SessionToken) GetTemp() int64 {
-	if x != nil {
-		return x.Temp
-	}
-	return 0
-}
-
-type UserDetails struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Details       string                 `protobuf:"bytes,1,opt,name=Details,proto3" json:"Details,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UserDetails) Reset() {
-	*x = UserDetails{}
-	mi := &file_firestore_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UserDetails) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UserDetails) ProtoMessage() {}
-
-func (x *UserDetails) ProtoReflect() protoreflect.Message {
-	mi := &file_firestore_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UserDetails.ProtoReflect.Descriptor instead.
-func (*UserDetails) Descriptor() ([]byte, []int) {
 	return file_firestore_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *UserDetails) GetDetails() string {
+func (x *UserID) GetUserID() string {
 	if x != nil {
-		return x.Details
+		return x.UserID
 	}
 	return ""
 }
 
-type RiskScore struct {
+type PatientData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Score         int32                  `protobuf:"varint,1,opt,name=Score,proto3" json:"Score,omitempty"`
+	Result        PatientData_Res        `protobuf:"varint,1,opt,name=Result,proto3,enum=firestore.PatientData_Res" json:"Result,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	HasDementia   PatientData_Dementia   `protobuf:"varint,3,opt,name=HasDementia,proto3,enum=firestore.PatientData_Dementia" json:"HasDementia,omitempty"`
+	DoctorID      string                 `protobuf:"bytes,4,opt,name=DoctorID,proto3" json:"DoctorID,omitempty"`   // "" if not assigned
+	RiskScore     string                 `protobuf:"bytes,5,opt,name=RiskScore,proto3" json:"RiskScore,omitempty"` // "" is not assigned, else float
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *RiskScore) Reset() {
-	*x = RiskScore{}
+func (x *PatientData) Reset() {
+	*x = PatientData{}
 	mi := &file_firestore_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *RiskScore) String() string {
+func (x *PatientData) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RiskScore) ProtoMessage() {}
+func (*PatientData) ProtoMessage() {}
 
-func (x *RiskScore) ProtoReflect() protoreflect.Message {
+func (x *PatientData) ProtoReflect() protoreflect.Message {
 	mi := &file_firestore_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -290,28 +1086,221 @@ func (x *RiskScore) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RiskScore.ProtoReflect.Descriptor instead.
-func (*RiskScore) Descriptor() ([]byte, []int) {
+// Deprecated: Use PatientData.ProtoReflect.Descriptor instead.
+func (*PatientData) Descriptor() ([]byte, []int) {
 	return file_firestore_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *RiskScore) GetScore() int32 {
+func (x *PatientData) GetResult() PatientData_Res {
 	if x != nil {
-		return x.Score
+		return x.Result
 	}
-	return 0
+	return PatientData_Ok
+}
+
+func (x *PatientData) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *PatientData) GetHasDementia() PatientData_Dementia {
+	if x != nil {
+		return x.HasDementia
+	}
+	return PatientData_Unknown
+}
+
+func (x *PatientData) GetDoctorID() string {
+	if x != nil {
+		return x.DoctorID
+	}
+	return ""
+}
+
+func (x *PatientData) GetRiskScore() string {
+	if x != nil {
+		return x.RiskScore
+	}
+	return ""
+}
+
+type RiskResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Result        RiskResponse_Res       `protobuf:"varint,1,opt,name=Result,proto3,enum=firestore.RiskResponse_Res" json:"Result,omitempty"`
+	RiskScore     string                 `protobuf:"bytes,2,opt,name=RiskScore,proto3" json:"RiskScore,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RiskResponse) Reset() {
+	*x = RiskResponse{}
+	mi := &file_firestore_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RiskResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RiskResponse) ProtoMessage() {}
+
+func (x *RiskResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RiskResponse.ProtoReflect.Descriptor instead.
+func (*RiskResponse) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *RiskResponse) GetResult() RiskResponse_Res {
+	if x != nil {
+		return x.Result
+	}
+	return RiskResponse_Ok
+}
+
+func (x *RiskResponse) GetRiskScore() string {
+	if x != nil {
+		return x.RiskScore
+	}
+	return ""
+}
+
+type DoctorData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Result        DoctorData_Res         `protobuf:"varint,1,opt,name=Result,proto3,enum=firestore.DoctorData_Res" json:"Result,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	Email         string                 `protobuf:"bytes,3,opt,name=Email,proto3" json:"Email,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DoctorData) Reset() {
+	*x = DoctorData{}
+	mi := &file_firestore_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DoctorData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DoctorData) ProtoMessage() {}
+
+func (x *DoctorData) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DoctorData.ProtoReflect.Descriptor instead.
+func (*DoctorData) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DoctorData) GetResult() DoctorData_Res {
+	if x != nil {
+		return x.Result
+	}
+	return DoctorData_Ok
+}
+
+func (x *DoctorData) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *DoctorData) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+type PatientsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Result        PatientsResponse_Res   `protobuf:"varint,1,opt,name=Result,proto3,enum=firestore.PatientsResponse_Res" json:"Result,omitempty"`
+	Patients      []*PatientData         `protobuf:"bytes,2,rep,name=Patients,proto3" json:"Patients,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PatientsResponse) Reset() {
+	*x = PatientsResponse{}
+	mi := &file_firestore_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PatientsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PatientsResponse) ProtoMessage() {}
+
+func (x *PatientsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PatientsResponse.ProtoReflect.Descriptor instead.
+func (*PatientsResponse) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *PatientsResponse) GetResult() PatientsResponse_Res {
+	if x != nil {
+		return x.Result
+	}
+	return PatientsResponse_Ok
+}
+
+func (x *PatientsResponse) GetPatients() []*PatientData {
+	if x != nil {
+		return x.Patients
+	}
+	return nil
 }
 
 type LifestyleRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	UserID        string                 `protobuf:"bytes,1,opt,name=UserID,proto3" json:"UserID,omitempty"`
+	Data          string                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *LifestyleRequest) Reset() {
 	*x = LifestyleRequest{}
-	mi := &file_firestore_proto_msgTypes[6]
+	mi := &file_firestore_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -323,7 +1312,7 @@ func (x *LifestyleRequest) String() string {
 func (*LifestyleRequest) ProtoMessage() {}
 
 func (x *LifestyleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_firestore_proto_msgTypes[6]
+	mi := &file_firestore_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -336,26 +1325,33 @@ func (x *LifestyleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LifestyleRequest.ProtoReflect.Descriptor instead.
 func (*LifestyleRequest) Descriptor() ([]byte, []int) {
-	return file_firestore_proto_rawDescGZIP(), []int{6}
+	return file_firestore_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *LifestyleRequest) GetMessage() string {
+func (x *LifestyleRequest) GetUserID() string {
 	if x != nil {
-		return x.Message
+		return x.UserID
+	}
+	return ""
+}
+
+func (x *LifestyleRequest) GetData() string {
+	if x != nil {
+		return x.Data
 	}
 	return ""
 }
 
 type LifestyleResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Result        LifestyleResponse_Res  `protobuf:"varint,1,opt,name=Result,proto3,enum=firestore.LifestyleResponse_Res" json:"Result,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *LifestyleResponse) Reset() {
 	*x = LifestyleResponse{}
-	mi := &file_firestore_proto_msgTypes[7]
+	mi := &file_firestore_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -367,7 +1363,7 @@ func (x *LifestyleResponse) String() string {
 func (*LifestyleResponse) ProtoMessage() {}
 
 func (x *LifestyleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_firestore_proto_msgTypes[7]
+	mi := &file_firestore_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -380,45 +1376,449 @@ func (x *LifestyleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LifestyleResponse.ProtoReflect.Descriptor instead.
 func (*LifestyleResponse) Descriptor() ([]byte, []int) {
-	return file_firestore_proto_rawDescGZIP(), []int{7}
+	return file_firestore_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *LifestyleResponse) GetSuccess() bool {
+func (x *LifestyleResponse) GetResult() LifestyleResponse_Res {
 	if x != nil {
-		return x.Success
+		return x.Result
 	}
-	return false
+	return LifestyleResponse_Ok
+}
+
+type TestData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Date          string                 `protobuf:"bytes,1,opt,name=Date,proto3" json:"Date,omitempty"`
+	RiskScore     string                 `protobuf:"bytes,2,opt,name=RiskScore,proto3" json:"RiskScore,omitempty"` // "Calculating" if calculating
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TestData) Reset() {
+	*x = TestData{}
+	mi := &file_firestore_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TestData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TestData) ProtoMessage() {}
+
+func (x *TestData) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TestData.ProtoReflect.Descriptor instead.
+func (*TestData) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *TestData) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+func (x *TestData) GetRiskScore() string {
+	if x != nil {
+		return x.RiskScore
+	}
+	return ""
+}
+
+type TestHistoryResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Result        TestHistoryResponse_Res `protobuf:"varint,1,opt,name=Result,proto3,enum=firestore.TestHistoryResponse_Res" json:"Result,omitempty"`
+	Tests         []*TestData             `protobuf:"bytes,2,rep,name=Tests,proto3" json:"Tests,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TestHistoryResponse) Reset() {
+	*x = TestHistoryResponse{}
+	mi := &file_firestore_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TestHistoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TestHistoryResponse) ProtoMessage() {}
+
+func (x *TestHistoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TestHistoryResponse.ProtoReflect.Descriptor instead.
+func (*TestHistoryResponse) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *TestHistoryResponse) GetResult() TestHistoryResponse_Res {
+	if x != nil {
+		return x.Result
+	}
+	return TestHistoryResponse_Ok
+}
+
+func (x *TestHistoryResponse) GetTests() []*TestData {
+	if x != nil {
+		return x.Tests
+	}
+	return nil
+}
+
+type DementiaRequest struct {
+	state         protoimpl.MessageState    `protogen:"open.v1"`
+	UserID        string                    `protobuf:"bytes,1,opt,name=UserID,proto3" json:"UserID,omitempty"`
+	Dementia      DementiaRequest_DementiaE `protobuf:"varint,2,opt,name=Dementia,proto3,enum=firestore.DementiaRequest_DementiaE" json:"Dementia,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DementiaRequest) Reset() {
+	*x = DementiaRequest{}
+	mi := &file_firestore_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DementiaRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DementiaRequest) ProtoMessage() {}
+
+func (x *DementiaRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DementiaRequest.ProtoReflect.Descriptor instead.
+func (*DementiaRequest) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *DementiaRequest) GetUserID() string {
+	if x != nil {
+		return x.UserID
+	}
+	return ""
+}
+
+func (x *DementiaRequest) GetDementia() DementiaRequest_DementiaE {
+	if x != nil {
+		return x.Dementia
+	}
+	return DementiaRequest_Unknown
+}
+
+type DementiaResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Result        DementiaResponse_Res   `protobuf:"varint,1,opt,name=Result,proto3,enum=firestore.DementiaResponse_Res" json:"Result,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DementiaResponse) Reset() {
+	*x = DementiaResponse{}
+	mi := &file_firestore_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DementiaResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DementiaResponse) ProtoMessage() {}
+
+func (x *DementiaResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DementiaResponse.ProtoReflect.Descriptor instead.
+func (*DementiaResponse) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *DementiaResponse) GetResult() DementiaResponse_Res {
+	if x != nil {
+		return x.Result
+	}
+	return DementiaResponse_Ok
+}
+
+type NewsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          NewsRequest_UserType   `protobuf:"varint,1,opt,name=Type,proto3,enum=firestore.NewsRequest_UserType" json:"Type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NewsRequest) Reset() {
+	*x = NewsRequest{}
+	mi := &file_firestore_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NewsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NewsRequest) ProtoMessage() {}
+
+func (x *NewsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NewsRequest.ProtoReflect.Descriptor instead.
+func (*NewsRequest) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *NewsRequest) GetType() NewsRequest_UserType {
+	if x != nil {
+		return x.Type
+	}
+	return NewsRequest_Patient
+}
+
+type NewsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Contetn       string                 `protobuf:"bytes,1,opt,name=contetn,proto3" json:"contetn,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NewsResponse) Reset() {
+	*x = NewsResponse{}
+	mi := &file_firestore_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NewsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NewsResponse) ProtoMessage() {}
+
+func (x *NewsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NewsResponse.ProtoReflect.Descriptor instead.
+func (*NewsResponse) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *NewsResponse) GetContetn() string {
+	if x != nil {
+		return x.Contetn
+	}
+	return ""
 }
 
 var File_firestore_proto protoreflect.FileDescriptor
 
 const file_firestore_proto_rawDesc = "" +
 	"\n" +
-	"\x0ffirestore.proto\x12\tfirestore\x1a\x1cgoogle/api/annotations.proto\"U\n" +
-	"\tUserLogin\x12\x1a\n" +
-	"\bUserName\x18\x01 \x01(\tR\bUserName\x12,\n" +
-	"\x11PlaintextPassword\x18\x02 \x01(\tR\x11PlaintextPassword\"$\n" +
-	"\x06UserID\x12\x1a\n" +
-	"\bUserName\x18\x01 \x01(\tR\bUserName\"I\n" +
-	"\vUserRequest\x12\"\n" +
-	"\fSessionToken\x18\x01 \x01(\x03R\fSessionToken\x12\x16\n" +
-	"\x06UserId\x18\x02 \x01(\tR\x06UserId\"\"\n" +
-	"\fSessionToken\x12\x12\n" +
-	"\x04Temp\x18\x01 \x01(\x03R\x04Temp\"'\n" +
-	"\vUserDetails\x12\x18\n" +
-	"\aDetails\x18\x01 \x01(\tR\aDetails\"!\n" +
-	"\tRiskScore\x12\x14\n" +
-	"\x05Score\x18\x01 \x01(\x05R\x05Score\",\n" +
-	"\x10LifestyleRequest\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage\"-\n" +
-	"\x11LifestyleResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xf1\x02\n" +
-	"\tfirestore\x12L\n" +
-	"\x05Login\x12\x14.firestore.UserLogin\x1a\x17.firestore.SessionToken\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/login\x12X\n" +
+	"\x0ffirestore.proto\x12\tfirestore\x1a\x1cgoogle/api/annotations.proto\"\xba\x02\n" +
+	"\fUserRegister\x12\x12\n" +
+	"\x04Name\x18\x01 \x01(\tR\x04Name\x12\x1a\n" +
+	"\bPassword\x18\x02 \x01(\tR\bPassword\x12=\n" +
+	"\bUserType\x18\x03 \x01(\x0e2!.firestore.UserRegister.UserTypeER\bUserType\x12?\n" +
+	"\aRegType\x18\x04 \x01(\x0e2%.firestore.UserRegister.RegisterTypeER\aRegType\x12\"\n" +
+	"\fRegisterWith\x18\x05 \x01(\tR\fRegisterWith\"0\n" +
+	"\rRegisterTypeE\x12\b\n" +
+	"\x04None\x10\x00\x12\t\n" +
+	"\x05Email\x10\x01\x12\n" +
 	"\n" +
-	"getDetails\x12\x16.firestore.UserRequest\x1a\x16.firestore.UserDetails\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/get_details\x12Q\n" +
-	"\agetRisk\x12\x17.firestore.SessionToken\x1a\x14.firestore.RiskScore\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/get_risk\x12i\n" +
-	"\rSendLifestyle\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/v1/send_lifestyleB\x17Z\x15example/proto_exampleb\x06proto3"
+	"\x06Social\x10\x02\"$\n" +
+	"\tUserTypeE\x12\v\n" +
+	"\aPatient\x10\x00\x12\n" +
+	"\n" +
+	"\x06Doctor\x10\x01\"m\n" +
+	"\x0eRegisterResult\x12;\n" +
+	"\x06Result\x18\x01 \x01(\x0e2#.firestore.RegisterResult.RegResultR\x06Result\"\x1e\n" +
+	"\tRegResult\x12\x06\n" +
+	"\x02Ok\x10\x00\x12\t\n" +
+	"\x05Taken\x10\x01\"\xa6\x01\n" +
+	"\tUserLogin\x12\x12\n" +
+	"\x04Name\x18\x01 \x01(\tR\x04Name\x12\x1a\n" +
+	"\bPassword\x18\x02 \x01(\tR\bPassword\x12:\n" +
+	"\bUserType\x18\x03 \x01(\x0e2\x1e.firestore.UserLogin.UserTypeER\bUserType\"-\n" +
+	"\tUserTypeE\x12\a\n" +
+	"\x03Any\x10\x00\x12\v\n" +
+	"\aPatient\x10\x01\x12\n" +
+	"\n" +
+	"\x06Doctor\x10\x02\"\x8c\x01\n" +
+	"\vLoginResult\x12\x16\n" +
+	"\x06UserID\x18\x01 \x01(\tR\x06UserID\x128\n" +
+	"\x06Result\x18\x02 \x01(\x0e2 .firestore.LoginResult.RegResultR\x06Result\"+\n" +
+	"\tRegResult\x12\x06\n" +
+	"\x02Ok\x10\x00\x12\f\n" +
+	"\bUserPass\x10\x01\x12\b\n" +
+	"\x04Type\x10\x02\" \n" +
+	"\x06UserID\x12\x16\n" +
+	"\x06UserID\x18\x01 \x01(\tR\x06UserID\"\xc6\x02\n" +
+	"\vPatientData\x122\n" +
+	"\x06Result\x18\x01 \x01(\x0e2\x1a.firestore.PatientData.ResR\x06Result\x12\x12\n" +
+	"\x04Name\x18\x02 \x01(\tR\x04Name\x12A\n" +
+	"\vHasDementia\x18\x03 \x01(\x0e2\x1f.firestore.PatientData.DementiaR\vHasDementia\x12\x1a\n" +
+	"\bDoctorID\x18\x04 \x01(\tR\bDoctorID\x12\x1c\n" +
+	"\tRiskScore\x18\x05 \x01(\tR\tRiskScore\"3\n" +
+	"\bDementia\x12\v\n" +
+	"\aUnknown\x10\x00\x12\f\n" +
+	"\bPositive\x10\x01\x12\f\n" +
+	"\bNegative\x10\x02\"=\n" +
+	"\x03Res\x12\x06\n" +
+	"\x02Ok\x10\x00\x12\f\n" +
+	"\bNotFound\x10\x01\x12\x10\n" +
+	"\fNoPermission\x10\x02\x12\x0e\n" +
+	"\n" +
+	"NotPatient\x10\x03\"\xa0\x01\n" +
+	"\fRiskResponse\x123\n" +
+	"\x06Result\x18\x01 \x01(\x0e2\x1b.firestore.RiskResponse.ResR\x06Result\x12\x1c\n" +
+	"\tRiskScore\x18\x02 \x01(\tR\tRiskScore\"=\n" +
+	"\x03Res\x12\x06\n" +
+	"\x02Ok\x10\x00\x12\f\n" +
+	"\bNotFound\x10\x01\x12\x10\n" +
+	"\fNoPermission\x10\x02\x12\x0e\n" +
+	"\n" +
+	"NotPatient\x10\x03\"\xa7\x01\n" +
+	"\n" +
+	"DoctorData\x121\n" +
+	"\x06Result\x18\x01 \x01(\x0e2\x19.firestore.DoctorData.ResR\x06Result\x12\x12\n" +
+	"\x04Name\x18\x02 \x01(\tR\x04Name\x12\x14\n" +
+	"\x05Email\x18\x03 \x01(\tR\x05Email\"<\n" +
+	"\x03Res\x12\x06\n" +
+	"\x02Ok\x10\x00\x12\f\n" +
+	"\bNotFound\x10\x01\x12\x10\n" +
+	"\fNoPermission\x10\x02\x12\r\n" +
+	"\tNotDoctor\x10\x03\"\xbd\x01\n" +
+	"\x10PatientsResponse\x127\n" +
+	"\x06Result\x18\x01 \x01(\x0e2\x1f.firestore.PatientsResponse.ResR\x06Result\x122\n" +
+	"\bPatients\x18\x02 \x03(\v2\x16.firestore.PatientDataR\bPatients\"<\n" +
+	"\x03Res\x12\x06\n" +
+	"\x02Ok\x10\x00\x12\f\n" +
+	"\bNotFound\x10\x01\x12\x10\n" +
+	"\fNoPermission\x10\x02\x12\r\n" +
+	"\tNotDoctor\x10\x03\">\n" +
+	"\x10LifestyleRequest\x12\x16\n" +
+	"\x06UserID\x18\x01 \x01(\tR\x06UserID\x12\x12\n" +
+	"\x04data\x18\x02 \x01(\tR\x04data\"\x99\x01\n" +
+	"\x11LifestyleResponse\x128\n" +
+	"\x06Result\x18\x01 \x01(\x0e2 .firestore.LifestyleResponse.ResR\x06Result\"J\n" +
+	"\x03Res\x12\x06\n" +
+	"\x02Ok\x10\x00\x12\f\n" +
+	"\bNotFound\x10\x01\x12\x10\n" +
+	"\fNoPermission\x10\x02\x12\x0e\n" +
+	"\n" +
+	"NotPatient\x10\x03\x12\v\n" +
+	"\aInvalid\x10\x04\"<\n" +
+	"\bTestData\x12\x12\n" +
+	"\x04Date\x18\x01 \x01(\tR\x04Date\x12\x1c\n" +
+	"\tRiskScore\x18\x02 \x01(\tR\tRiskScore\"\xbb\x01\n" +
+	"\x13TestHistoryResponse\x12:\n" +
+	"\x06Result\x18\x01 \x01(\x0e2\".firestore.TestHistoryResponse.ResR\x06Result\x12)\n" +
+	"\x05Tests\x18\x02 \x03(\v2\x13.firestore.TestDataR\x05Tests\"=\n" +
+	"\x03Res\x12\x06\n" +
+	"\x02Ok\x10\x00\x12\f\n" +
+	"\bNotFound\x10\x01\x12\x10\n" +
+	"\fNoPermission\x10\x02\x12\x0e\n" +
+	"\n" +
+	"NotPatient\x10\x03\"\xa1\x01\n" +
+	"\x0fDementiaRequest\x12\x16\n" +
+	"\x06UserID\x18\x01 \x01(\tR\x06UserID\x12@\n" +
+	"\bDementia\x18\x02 \x01(\x0e2$.firestore.DementiaRequest.DementiaER\bDementia\"4\n" +
+	"\tDementiaE\x12\v\n" +
+	"\aUnknown\x10\x00\x12\f\n" +
+	"\bPositive\x10\x01\x12\f\n" +
+	"\bNegative\x10\x02\"\x89\x01\n" +
+	"\x10DementiaResponse\x127\n" +
+	"\x06Result\x18\x01 \x01(\x0e2\x1f.firestore.DementiaResponse.ResR\x06Result\"<\n" +
+	"\x03Res\x12\x06\n" +
+	"\x02Ok\x10\x00\x12\f\n" +
+	"\bNotFound\x10\x01\x12\x0f\n" +
+	"\vNoOperation\x10\x02\x12\x0e\n" +
+	"\n" +
+	"NotPatient\x10\x03\"g\n" +
+	"\vNewsRequest\x123\n" +
+	"\x04Type\x18\x01 \x01(\x0e2\x1f.firestore.NewsRequest.UserTypeR\x04Type\"#\n" +
+	"\bUserType\x12\v\n" +
+	"\aPatient\x10\x00\x12\n" +
+	"\n" +
+	"\x06Doctor\x10\x01\"(\n" +
+	"\fNewsResponse\x12\x18\n" +
+	"\acontetn\x18\x01 \x01(\tR\acontetn2\x94\a\n" +
+	"\tfirestore\x12W\n" +
+	"\bRegister\x12\x17.firestore.UserRegister\x1a\x19.firestore.RegisterResult\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/register\x12K\n" +
+	"\x05Login\x12\x14.firestore.UserLogin\x1a\x16.firestore.LoginResult\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/login\x12U\n" +
+	"\vPatientInfo\x12\x11.firestore.UserID\x1a\x16.firestore.PatientData\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v1/patient_info\x12N\n" +
+	"\agetRisk\x12\x11.firestore.UserID\x1a\x17.firestore.RiskResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/get_risk\x12R\n" +
+	"\n" +
+	"DoctorInfo\x12\x11.firestore.UserID\x1a\x15.firestore.DoctorData\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/doctor_info\x12V\n" +
+	"\vGetPatients\x12\x11.firestore.UserID\x1a\x1b.firestore.PatientsResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/patients\x12`\n" +
+	"\x0eGetTestHistory\x12\x11.firestore.UserID\x1a\x1e.firestore.TestHistoryResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v1/test_history\x12i\n" +
+	"\rSendLifestyle\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/v1/send_lifestyle\x12l\n" +
+	"\x13SendPatientDementia\x12\x1a.firestore.DementiaRequest\x1a\x1b.firestore.DementiaResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/send_dementia\x12S\n" +
+	"\aGetNews\x12\x16.firestore.NewsRequest\x1a\x17.firestore.NewsResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/get_newsB\x17Z\x15example/proto_exampleb\x06proto3"
 
 var (
 	file_firestore_proto_rawDescOnce sync.Once
@@ -432,31 +1832,85 @@ func file_firestore_proto_rawDescGZIP() []byte {
 	return file_firestore_proto_rawDescData
 }
 
-var file_firestore_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_firestore_proto_enumTypes = make([]protoimpl.EnumInfo, 15)
+var file_firestore_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_firestore_proto_goTypes = []any{
-	(*UserLogin)(nil),         // 0: firestore.UserLogin
-	(*UserID)(nil),            // 1: firestore.UserID
-	(*UserRequest)(nil),       // 2: firestore.UserRequest
-	(*SessionToken)(nil),      // 3: firestore.SessionToken
-	(*UserDetails)(nil),       // 4: firestore.UserDetails
-	(*RiskScore)(nil),         // 5: firestore.RiskScore
-	(*LifestyleRequest)(nil),  // 6: firestore.LifestyleRequest
-	(*LifestyleResponse)(nil), // 7: firestore.LifestyleResponse
+	(UserRegister_RegisterTypeE)(0), // 0: firestore.UserRegister.RegisterTypeE
+	(UserRegister_UserTypeE)(0),     // 1: firestore.UserRegister.UserTypeE
+	(RegisterResult_RegResult)(0),   // 2: firestore.RegisterResult.RegResult
+	(UserLogin_UserTypeE)(0),        // 3: firestore.UserLogin.UserTypeE
+	(LoginResult_RegResult)(0),      // 4: firestore.LoginResult.RegResult
+	(PatientData_Dementia)(0),       // 5: firestore.PatientData.Dementia
+	(PatientData_Res)(0),            // 6: firestore.PatientData.Res
+	(RiskResponse_Res)(0),           // 7: firestore.RiskResponse.Res
+	(DoctorData_Res)(0),             // 8: firestore.DoctorData.Res
+	(PatientsResponse_Res)(0),       // 9: firestore.PatientsResponse.Res
+	(LifestyleResponse_Res)(0),      // 10: firestore.LifestyleResponse.Res
+	(TestHistoryResponse_Res)(0),    // 11: firestore.TestHistoryResponse.Res
+	(DementiaRequest_DementiaE)(0),  // 12: firestore.DementiaRequest.DementiaE
+	(DementiaResponse_Res)(0),       // 13: firestore.DementiaResponse.Res
+	(NewsRequest_UserType)(0),       // 14: firestore.NewsRequest.UserType
+	(*UserRegister)(nil),            // 15: firestore.UserRegister
+	(*RegisterResult)(nil),          // 16: firestore.RegisterResult
+	(*UserLogin)(nil),               // 17: firestore.UserLogin
+	(*LoginResult)(nil),             // 18: firestore.LoginResult
+	(*UserID)(nil),                  // 19: firestore.UserID
+	(*PatientData)(nil),             // 20: firestore.PatientData
+	(*RiskResponse)(nil),            // 21: firestore.RiskResponse
+	(*DoctorData)(nil),              // 22: firestore.DoctorData
+	(*PatientsResponse)(nil),        // 23: firestore.PatientsResponse
+	(*LifestyleRequest)(nil),        // 24: firestore.LifestyleRequest
+	(*LifestyleResponse)(nil),       // 25: firestore.LifestyleResponse
+	(*TestData)(nil),                // 26: firestore.TestData
+	(*TestHistoryResponse)(nil),     // 27: firestore.TestHistoryResponse
+	(*DementiaRequest)(nil),         // 28: firestore.DementiaRequest
+	(*DementiaResponse)(nil),        // 29: firestore.DementiaResponse
+	(*NewsRequest)(nil),             // 30: firestore.NewsRequest
+	(*NewsResponse)(nil),            // 31: firestore.NewsResponse
 }
 var file_firestore_proto_depIdxs = []int32{
-	0, // 0: firestore.firestore.Login:input_type -> firestore.UserLogin
-	2, // 1: firestore.firestore.getDetails:input_type -> firestore.UserRequest
-	3, // 2: firestore.firestore.getRisk:input_type -> firestore.SessionToken
-	6, // 3: firestore.firestore.SendLifestyle:input_type -> firestore.LifestyleRequest
-	3, // 4: firestore.firestore.Login:output_type -> firestore.SessionToken
-	4, // 5: firestore.firestore.getDetails:output_type -> firestore.UserDetails
-	5, // 6: firestore.firestore.getRisk:output_type -> firestore.RiskScore
-	7, // 7: firestore.firestore.SendLifestyle:output_type -> firestore.LifestyleResponse
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1,  // 0: firestore.UserRegister.UserType:type_name -> firestore.UserRegister.UserTypeE
+	0,  // 1: firestore.UserRegister.RegType:type_name -> firestore.UserRegister.RegisterTypeE
+	2,  // 2: firestore.RegisterResult.Result:type_name -> firestore.RegisterResult.RegResult
+	3,  // 3: firestore.UserLogin.UserType:type_name -> firestore.UserLogin.UserTypeE
+	4,  // 4: firestore.LoginResult.Result:type_name -> firestore.LoginResult.RegResult
+	6,  // 5: firestore.PatientData.Result:type_name -> firestore.PatientData.Res
+	5,  // 6: firestore.PatientData.HasDementia:type_name -> firestore.PatientData.Dementia
+	7,  // 7: firestore.RiskResponse.Result:type_name -> firestore.RiskResponse.Res
+	8,  // 8: firestore.DoctorData.Result:type_name -> firestore.DoctorData.Res
+	9,  // 9: firestore.PatientsResponse.Result:type_name -> firestore.PatientsResponse.Res
+	20, // 10: firestore.PatientsResponse.Patients:type_name -> firestore.PatientData
+	10, // 11: firestore.LifestyleResponse.Result:type_name -> firestore.LifestyleResponse.Res
+	11, // 12: firestore.TestHistoryResponse.Result:type_name -> firestore.TestHistoryResponse.Res
+	26, // 13: firestore.TestHistoryResponse.Tests:type_name -> firestore.TestData
+	12, // 14: firestore.DementiaRequest.Dementia:type_name -> firestore.DementiaRequest.DementiaE
+	13, // 15: firestore.DementiaResponse.Result:type_name -> firestore.DementiaResponse.Res
+	14, // 16: firestore.NewsRequest.Type:type_name -> firestore.NewsRequest.UserType
+	15, // 17: firestore.firestore.Register:input_type -> firestore.UserRegister
+	17, // 18: firestore.firestore.Login:input_type -> firestore.UserLogin
+	19, // 19: firestore.firestore.PatientInfo:input_type -> firestore.UserID
+	19, // 20: firestore.firestore.getRisk:input_type -> firestore.UserID
+	19, // 21: firestore.firestore.DoctorInfo:input_type -> firestore.UserID
+	19, // 22: firestore.firestore.GetPatients:input_type -> firestore.UserID
+	19, // 23: firestore.firestore.GetTestHistory:input_type -> firestore.UserID
+	24, // 24: firestore.firestore.SendLifestyle:input_type -> firestore.LifestyleRequest
+	28, // 25: firestore.firestore.SendPatientDementia:input_type -> firestore.DementiaRequest
+	30, // 26: firestore.firestore.GetNews:input_type -> firestore.NewsRequest
+	16, // 27: firestore.firestore.Register:output_type -> firestore.RegisterResult
+	18, // 28: firestore.firestore.Login:output_type -> firestore.LoginResult
+	20, // 29: firestore.firestore.PatientInfo:output_type -> firestore.PatientData
+	21, // 30: firestore.firestore.getRisk:output_type -> firestore.RiskResponse
+	22, // 31: firestore.firestore.DoctorInfo:output_type -> firestore.DoctorData
+	23, // 32: firestore.firestore.GetPatients:output_type -> firestore.PatientsResponse
+	27, // 33: firestore.firestore.GetTestHistory:output_type -> firestore.TestHistoryResponse
+	25, // 34: firestore.firestore.SendLifestyle:output_type -> firestore.LifestyleResponse
+	29, // 35: firestore.firestore.SendPatientDementia:output_type -> firestore.DementiaResponse
+	31, // 36: firestore.firestore.GetNews:output_type -> firestore.NewsResponse
+	27, // [27:37] is the sub-list for method output_type
+	17, // [17:27] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_firestore_proto_init() }
@@ -469,13 +1923,14 @@ func file_firestore_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_firestore_proto_rawDesc), len(file_firestore_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   8,
+			NumEnums:      15,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_firestore_proto_goTypes,
 		DependencyIndexes: file_firestore_proto_depIdxs,
+		EnumInfos:         file_firestore_proto_enumTypes,
 		MessageInfos:      file_firestore_proto_msgTypes,
 	}.Build()
 	File_firestore_proto = out.File

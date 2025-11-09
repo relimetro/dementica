@@ -19,20 +19,32 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Firestore_Login_FullMethodName         = "/firestore.firestore/Login"
-	Firestore_GetDetails_FullMethodName    = "/firestore.firestore/getDetails"
-	Firestore_GetRisk_FullMethodName       = "/firestore.firestore/getRisk"
-	Firestore_SendLifestyle_FullMethodName = "/firestore.firestore/SendLifestyle"
+	Firestore_Register_FullMethodName            = "/firestore.firestore/Register"
+	Firestore_Login_FullMethodName               = "/firestore.firestore/Login"
+	Firestore_PatientInfo_FullMethodName         = "/firestore.firestore/PatientInfo"
+	Firestore_GetRisk_FullMethodName             = "/firestore.firestore/getRisk"
+	Firestore_DoctorInfo_FullMethodName          = "/firestore.firestore/DoctorInfo"
+	Firestore_GetPatients_FullMethodName         = "/firestore.firestore/GetPatients"
+	Firestore_GetTestHistory_FullMethodName      = "/firestore.firestore/GetTestHistory"
+	Firestore_SendLifestyle_FullMethodName       = "/firestore.firestore/SendLifestyle"
+	Firestore_SendPatientDementia_FullMethodName = "/firestore.firestore/SendPatientDementia"
+	Firestore_GetNews_FullMethodName             = "/firestore.firestore/GetNews"
 )
 
 // FirestoreClient is the client API for Firestore service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FirestoreClient interface {
-	Login(ctx context.Context, in *UserLogin, opts ...grpc.CallOption) (*SessionToken, error)
-	GetDetails(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserDetails, error)
-	GetRisk(ctx context.Context, in *SessionToken, opts ...grpc.CallOption) (*RiskScore, error)
+	Register(ctx context.Context, in *UserRegister, opts ...grpc.CallOption) (*RegisterResult, error)
+	Login(ctx context.Context, in *UserLogin, opts ...grpc.CallOption) (*LoginResult, error)
+	PatientInfo(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*PatientData, error)
+	GetRisk(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*RiskResponse, error)
+	DoctorInfo(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*DoctorData, error)
+	GetPatients(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*PatientsResponse, error)
+	GetTestHistory(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*TestHistoryResponse, error)
 	SendLifestyle(ctx context.Context, in *LifestyleRequest, opts ...grpc.CallOption) (*LifestyleResponse, error)
+	SendPatientDementia(ctx context.Context, in *DementiaRequest, opts ...grpc.CallOption) (*DementiaResponse, error)
+	GetNews(ctx context.Context, in *NewsRequest, opts ...grpc.CallOption) (*NewsResponse, error)
 }
 
 type firestoreClient struct {
@@ -43,9 +55,19 @@ func NewFirestoreClient(cc grpc.ClientConnInterface) FirestoreClient {
 	return &firestoreClient{cc}
 }
 
-func (c *firestoreClient) Login(ctx context.Context, in *UserLogin, opts ...grpc.CallOption) (*SessionToken, error) {
+func (c *firestoreClient) Register(ctx context.Context, in *UserRegister, opts ...grpc.CallOption) (*RegisterResult, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SessionToken)
+	out := new(RegisterResult)
+	err := c.cc.Invoke(ctx, Firestore_Register_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *firestoreClient) Login(ctx context.Context, in *UserLogin, opts ...grpc.CallOption) (*LoginResult, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LoginResult)
 	err := c.cc.Invoke(ctx, Firestore_Login_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -53,20 +75,50 @@ func (c *firestoreClient) Login(ctx context.Context, in *UserLogin, opts ...grpc
 	return out, nil
 }
 
-func (c *firestoreClient) GetDetails(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserDetails, error) {
+func (c *firestoreClient) PatientInfo(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*PatientData, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UserDetails)
-	err := c.cc.Invoke(ctx, Firestore_GetDetails_FullMethodName, in, out, cOpts...)
+	out := new(PatientData)
+	err := c.cc.Invoke(ctx, Firestore_PatientInfo_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *firestoreClient) GetRisk(ctx context.Context, in *SessionToken, opts ...grpc.CallOption) (*RiskScore, error) {
+func (c *firestoreClient) GetRisk(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*RiskResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RiskScore)
+	out := new(RiskResponse)
 	err := c.cc.Invoke(ctx, Firestore_GetRisk_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *firestoreClient) DoctorInfo(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*DoctorData, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DoctorData)
+	err := c.cc.Invoke(ctx, Firestore_DoctorInfo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *firestoreClient) GetPatients(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*PatientsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PatientsResponse)
+	err := c.cc.Invoke(ctx, Firestore_GetPatients_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *firestoreClient) GetTestHistory(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*TestHistoryResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TestHistoryResponse)
+	err := c.cc.Invoke(ctx, Firestore_GetTestHistory_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -83,14 +135,40 @@ func (c *firestoreClient) SendLifestyle(ctx context.Context, in *LifestyleReques
 	return out, nil
 }
 
+func (c *firestoreClient) SendPatientDementia(ctx context.Context, in *DementiaRequest, opts ...grpc.CallOption) (*DementiaResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DementiaResponse)
+	err := c.cc.Invoke(ctx, Firestore_SendPatientDementia_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *firestoreClient) GetNews(ctx context.Context, in *NewsRequest, opts ...grpc.CallOption) (*NewsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(NewsResponse)
+	err := c.cc.Invoke(ctx, Firestore_GetNews_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FirestoreServer is the server API for Firestore service.
 // All implementations must embed UnimplementedFirestoreServer
 // for forward compatibility.
 type FirestoreServer interface {
-	Login(context.Context, *UserLogin) (*SessionToken, error)
-	GetDetails(context.Context, *UserRequest) (*UserDetails, error)
-	GetRisk(context.Context, *SessionToken) (*RiskScore, error)
+	Register(context.Context, *UserRegister) (*RegisterResult, error)
+	Login(context.Context, *UserLogin) (*LoginResult, error)
+	PatientInfo(context.Context, *UserID) (*PatientData, error)
+	GetRisk(context.Context, *UserID) (*RiskResponse, error)
+	DoctorInfo(context.Context, *UserID) (*DoctorData, error)
+	GetPatients(context.Context, *UserID) (*PatientsResponse, error)
+	GetTestHistory(context.Context, *UserID) (*TestHistoryResponse, error)
 	SendLifestyle(context.Context, *LifestyleRequest) (*LifestyleResponse, error)
+	SendPatientDementia(context.Context, *DementiaRequest) (*DementiaResponse, error)
+	GetNews(context.Context, *NewsRequest) (*NewsResponse, error)
 	mustEmbedUnimplementedFirestoreServer()
 }
 
@@ -101,17 +179,35 @@ type FirestoreServer interface {
 // pointer dereference when methods are called.
 type UnimplementedFirestoreServer struct{}
 
-func (UnimplementedFirestoreServer) Login(context.Context, *UserLogin) (*SessionToken, error) {
+func (UnimplementedFirestoreServer) Register(context.Context, *UserRegister) (*RegisterResult, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedFirestoreServer) Login(context.Context, *UserLogin) (*LoginResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedFirestoreServer) GetDetails(context.Context, *UserRequest) (*UserDetails, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDetails not implemented")
+func (UnimplementedFirestoreServer) PatientInfo(context.Context, *UserID) (*PatientData, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PatientInfo not implemented")
 }
-func (UnimplementedFirestoreServer) GetRisk(context.Context, *SessionToken) (*RiskScore, error) {
+func (UnimplementedFirestoreServer) GetRisk(context.Context, *UserID) (*RiskResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRisk not implemented")
+}
+func (UnimplementedFirestoreServer) DoctorInfo(context.Context, *UserID) (*DoctorData, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DoctorInfo not implemented")
+}
+func (UnimplementedFirestoreServer) GetPatients(context.Context, *UserID) (*PatientsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPatients not implemented")
+}
+func (UnimplementedFirestoreServer) GetTestHistory(context.Context, *UserID) (*TestHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTestHistory not implemented")
 }
 func (UnimplementedFirestoreServer) SendLifestyle(context.Context, *LifestyleRequest) (*LifestyleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendLifestyle not implemented")
+}
+func (UnimplementedFirestoreServer) SendPatientDementia(context.Context, *DementiaRequest) (*DementiaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendPatientDementia not implemented")
+}
+func (UnimplementedFirestoreServer) GetNews(context.Context, *NewsRequest) (*NewsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNews not implemented")
 }
 func (UnimplementedFirestoreServer) mustEmbedUnimplementedFirestoreServer() {}
 func (UnimplementedFirestoreServer) testEmbeddedByValue()                   {}
@@ -134,6 +230,24 @@ func RegisterFirestoreServer(s grpc.ServiceRegistrar, srv FirestoreServer) {
 	s.RegisterService(&Firestore_ServiceDesc, srv)
 }
 
+func _Firestore_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRegister)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FirestoreServer).Register(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Firestore_Register_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FirestoreServer).Register(ctx, req.(*UserRegister))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Firestore_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserLogin)
 	if err := dec(in); err != nil {
@@ -152,26 +266,26 @@ func _Firestore_Login_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Firestore_GetDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRequest)
+func _Firestore_PatientInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FirestoreServer).GetDetails(ctx, in)
+		return srv.(FirestoreServer).PatientInfo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Firestore_GetDetails_FullMethodName,
+		FullMethod: Firestore_PatientInfo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FirestoreServer).GetDetails(ctx, req.(*UserRequest))
+		return srv.(FirestoreServer).PatientInfo(ctx, req.(*UserID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Firestore_GetRisk_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SessionToken)
+	in := new(UserID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -183,7 +297,61 @@ func _Firestore_GetRisk_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: Firestore_GetRisk_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FirestoreServer).GetRisk(ctx, req.(*SessionToken))
+		return srv.(FirestoreServer).GetRisk(ctx, req.(*UserID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Firestore_DoctorInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FirestoreServer).DoctorInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Firestore_DoctorInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FirestoreServer).DoctorInfo(ctx, req.(*UserID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Firestore_GetPatients_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FirestoreServer).GetPatients(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Firestore_GetPatients_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FirestoreServer).GetPatients(ctx, req.(*UserID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Firestore_GetTestHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FirestoreServer).GetTestHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Firestore_GetTestHistory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FirestoreServer).GetTestHistory(ctx, req.(*UserID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -206,6 +374,42 @@ func _Firestore_SendLifestyle_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Firestore_SendPatientDementia_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DementiaRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FirestoreServer).SendPatientDementia(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Firestore_SendPatientDementia_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FirestoreServer).SendPatientDementia(ctx, req.(*DementiaRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Firestore_GetNews_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NewsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FirestoreServer).GetNews(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Firestore_GetNews_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FirestoreServer).GetNews(ctx, req.(*NewsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Firestore_ServiceDesc is the grpc.ServiceDesc for Firestore service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -214,20 +418,44 @@ var Firestore_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*FirestoreServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "Register",
+			Handler:    _Firestore_Register_Handler,
+		},
+		{
 			MethodName: "Login",
 			Handler:    _Firestore_Login_Handler,
 		},
 		{
-			MethodName: "getDetails",
-			Handler:    _Firestore_GetDetails_Handler,
+			MethodName: "PatientInfo",
+			Handler:    _Firestore_PatientInfo_Handler,
 		},
 		{
 			MethodName: "getRisk",
 			Handler:    _Firestore_GetRisk_Handler,
 		},
 		{
+			MethodName: "DoctorInfo",
+			Handler:    _Firestore_DoctorInfo_Handler,
+		},
+		{
+			MethodName: "GetPatients",
+			Handler:    _Firestore_GetPatients_Handler,
+		},
+		{
+			MethodName: "GetTestHistory",
+			Handler:    _Firestore_GetTestHistory_Handler,
+		},
+		{
 			MethodName: "SendLifestyle",
 			Handler:    _Firestore_SendLifestyle_Handler,
+		},
+		{
+			MethodName: "SendPatientDementia",
+			Handler:    _Firestore_SendPatientDementia_Handler,
+		},
+		{
+			MethodName: "GetNews",
+			Handler:    _Firestore_GetNews_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

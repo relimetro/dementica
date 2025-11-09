@@ -41,22 +41,20 @@ func DeleteCollection(c *firestore.Client, colName string){
 }
 
 func BURN_IT_ALL_DOWN(c *firestore.Client) {
+	log.Printf("BURN_IT_ALL_DOWN")
+
 	DeleteCollection(c,"Users")
 	DeleteCollection(c,"TestResults")
 
 	docId := RegisterDoctor(c,"Eoin","Eoin@NeuroMind.com","12345")
 	patId := RegisterPatient(c,"Conor","12345",docId)
 	_ = RegisterPatient(c,"Conor2","12345",docId)
-	v, docId2, logType := Login(c,"Eoin","12345")
 	info, e := GetDoctorInfo(c,docId2)
 	info2, e2 := GetPatientInfo(c,patId)
 	ps := GetPatientsOfDoctor(c,docId)
 
 	AddLifestyleTest(c, patId, "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes" )
 	ts := GetRiskScoreHistory(c, patId)
-	SetPatientDementica(c,patId, "Positive")
-	info3,e3 := GetPatientInfo(c, patId)
-
 
 	log.Printf("%v",docId)
 	log.Printf("%v",patId)
@@ -67,6 +65,8 @@ func BURN_IT_ALL_DOWN(c *firestore.Client) {
 	log.Printf("tests: %v",ts)
 	log.Printf("patient2: %v-%v",info3,e3)
 }
+
+
 
 // DocumentRef, WriteResult, err := client.Collection("NAME").Add(ctx, map[string]interface{}{
 // 	"FIELD":var,
@@ -96,11 +96,10 @@ func BURN_IT_ALL_DOWN(c *firestore.Client) {
 type Patient struct {
 	UserID string
 	Name string
-	HasDementia string
-	HasDoctor bool
+	HasDementia string // Unknown, Positive, Negative
 	DoctorID string
 	HasRiskScore bool
-	RiskScore float64 // change to string of none
+	RiskScore string // "" if empty
 }
 
 type Doctor struct {
@@ -110,13 +109,13 @@ type Doctor struct {
 }
 type TestResult struct {
 	Date string
-	TestID string
-	RiskScore string
+	// TestID string
+	RiskScore string // "Calculating" if calculating
 }
 
 // TestResult(Date,testID,RiskScore)
 func EmptyDoctor() Doctor { return Doctor{UserID:"",Name:"",Email:""} }
-func EmptyPatient() Patient { return Patient{UserID:"",Name:"", HasDementia:"Unknown", HasDoctor:false, DoctorID:"", HasRiskScore:false, RiskScore:0.0}}
+func EmptyPatient() Patient { return Patient{UserID:"",Name:"", HasDementia:"Unknown", DoctorID:"", HasRiskScore:false, RiskScore:"0.0"}}
 
 
 
@@ -143,7 +142,7 @@ func RegisterPatient(c *firestore.Client, name string, password string, doctorRe
 		"Password":password,
 		"HasDementia":"Unknown",
 		"DoctorID":doctorRef,
-		"RiskScore":0.5,
+		"RiskScore":"0.5",
 		"Type":"Patient",
 	})
 	if err != nil { log.Fatalf("RegisterPatient error\n%v",err)}
@@ -192,7 +191,7 @@ func GetPatientInfo(c *firestore.Client, ref string) (Patient, bool) {
 	if err != nil { log.Fatalf("GetPatietnInfo error\n%c",err)}
 	d := doc.Data()
 	if d["Type"] != "Patient" { return EmptyPatient(), true }
-	return Patient{ UserID: ref, Name:d["Name"].(string), HasDementia:d["HasDementia"].(string), HasDoctor:true, DoctorID:d["DoctorID"].(string), HasRiskScore:true, RiskScore: d["RiskScore"].(float64) }, false
+	return Patient{ UserID: ref, Name:d["Name"].(string), HasDementia:d["HasDementia"].(string), DoctorID:d["DoctorID"].(string), HasRiskScore:true, RiskScore:d["RiskScore"].(string) }, false
 }
 
 func GetPatientsOfDoctor(c *firestore.Client, docId string) []Patient{
@@ -209,7 +208,7 @@ func GetPatientsOfDoctor(c *firestore.Client, docId string) []Patient{
 
 		if d["Type"].(string) != "Patient" { continue; }
 		if d["DoctorID"].(string) == docId {
-			p := Patient{ UserID: doc.Ref.ID, Name:d["Name"].(string), HasDementia:d["HasDementia"].(string), HasDoctor:true, DoctorID:d["DoctorID"].(string), HasRiskScore:true, RiskScore: d["RiskScore"].(float64) }
+			p := Patient{ UserID: doc.Ref.ID, Name:d["Name"].(string), HasDementia:d["HasDementia"].(string), DoctorID:d["DoctorID"].(string), HasRiskScore:true, RiskScore:d["RiskScore"].(string) }
 			out = append(out,p)
 		}
 	}
@@ -228,7 +227,7 @@ func AddLifestyleTest(c *firestore.Client, patId string, lifestyle string) {
 	if err != nil { log.Fatalf("RegisterPatient error\n%v",err)}
 
 }
-func GetRiskScoreHistory(c *firestore.Client, patId string) []TestResult {
+func GetTestHistory(c *firestore.Client, patId string) []TestResult {
 	ctx := context.Background()
 
 	var out []TestResult;
