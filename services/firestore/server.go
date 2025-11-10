@@ -48,62 +48,145 @@ func (s *server) ProcessLifestyle(x string) (string,bool) {
 /// GRPC
 type server struct{
 	pb.UnimplementedFirestoreServer
-	client *firestore.Client
+	c *firestore.Client
 }
 
 
 
-// Login (UserLogin -> SessionToken)
-func (s *server) Login(ctx context.Context, x *pb.UserLogin) (*pb.SessionToken, error) {
-	log.Printf("login: %s, %s\n\n",x.UserName, x.PlaintextPassword)
+// Register
+func (s *server) Register(ctx context.Context, x *pb.UserRegister) (*pb.RegisterResult, error) {
+	log.Printf("register:") //%s, %s\n\n",x.UserName, x.PlaintextPassword)
 
-	succ, UserId, _ := myFire.Login(s.c,x.Username,x.PlaintextPassword)
+	if x.UserType == pb.UserType_Patient {
+		myFire.RegisterPatient(s.c, x.Name, x.Password, "") // todo ability to assign to doctor
+	} else {
+		myFire.RegisterDoctor(s.c, x.Name, x.Password, x.RegisterWith) // todo check for correct email etc
+	}
+
 
 	// return session token
-	return &pb.SessionToken{
-		Temp: UserId,
+	return &pb.RegisterResult{
+		Result: pb.RegResult_Ok,
+	}, nil
+}
+
+// Login (UserLogin -> LoginResult)
+func (s *server) Login(ctx context.Context, x *pb.UserLogin) (*pb.LoginResult, error) {
+	log.Printf("login: %s, %s\n\n",x.Name, x.Password)
+
+	_, UserId, _ := myFire.Login(s.c,x.Name,x.Password)
+	// succ, UserId, _ := myFire.Login(s.c,x.Username,x.PlaintextPassword)
+
+	// return session token
+	return &pb.LoginResult{
+		UserID: UserId,
+		Result: RegResult.Ok,
 	}, nil
 }
 
 
+// PatientInfo
+func (s *server) PatientInfo(ctx context.Context, x *pb.UserID) (*pb.PatientData, error) {
+	log.Printf("patientInfo:")
 
-// GetDetails (UserRequest -> UserDetails)
-func (s *server) GetDetails(ctx context.Context, x *pb.UserRequest) (*pb.UserDetails, error) {
-	log.Printf("GetDetails: %s, %s", x.SessionToken, x.UserId)
-	return &pb.UserDetails{
-		Details:"DEPRICATED" }, nil
+	p, _ := myFire.GetPatientInfo(s.c, x.UserID)
+
+	// return session token
+	return &pb.PatientData{
+		Result: pb.PatientData_Ok,
+		Name: p.Name,
+		HasDementia: p.HasDementia,
+		DocotorID: p.DoctorID,
+		RiskScore: p.RiskScore,
+	}, nil
+}
+// Get Risk
+func (s *server) GetRisk(ctx context.Context, x *pb.UserID) (*pb.RiskResponse, error) {
+	log.Printf("GetRisk:")
+
+	p, _ := myFire.GetPatientInfo(s.c, x.UserID)
+
+	// return session token
+	return &pb.RiskResponse{
+		Result: pb.RiskResponse_Ok,
+		RiskScore: p.RiskScore,
+	}, nil
 }
 
 
+// Doctor Info
+func (s *server) DoctorInfo(ctx context.Context, x *pb.UserID) (*pb.DoctorData, error) {
+	log.Printf("DoctorInfo:")
 
-// GetRisk (SessionToken -> RiskScore)
-func (s *server) GetRisk(ctx context.Context, x *pb.SessionToken) (*pb.RiskScore, error) {
+	d, _ := myFire.GetDoctorInfo(s.c, x.UserID)
 
-	p := myFire.GetPatientInfo(s.c, )
-
-	// Dummy Response
-	return &pb.RiskScore{ Score: 0, }, nil
+	// return session token
+	return &pb.DoctorData{
+		Result: pb.DoctorData_Ok,
+		Name: d.Name,
+		Email: d.Email,
+	}, nil
 }
 
 
+// Get Patients
+func (s *server) PGetPatients(ctx context.Context, x *pb.UserID) (*pb.PatientsResponse, error) {
+	log.Printf("GetPatients:")
 
-// SendLifestyle (SessionToken -> RiskScore)
+	ds := myFire.GetPatientsOfDoctor(s.c, x.UserID)
+
+	// return session token
+	return &pb.PatientsResponse{
+		Result: pb.PatientsResponse_Ok,
+		Patients: ds,
+	}, nil
+}
+// Get Test History
+func (s *server) GetTestHistory(ctx context.Context, x *pb.UserID) (*pb.TestHistoryResponse, error) {
+	log.Printf("GetTestHistory:")
+
+	ts := myFire.GetTestHistory(s.c, x.UserID)
+
+	// return session token
+	return &pb.TestHistoryResponse{
+		Result: pb.TestHistoryResponse_Ok,
+		Patients: ts,
+	}, nil
+}
+
+// Send Lifestyle Questionares
 func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb.LifestyleResponse, error) {
-	log.Printf("SendLifestyle:'%s'", x.Message)
+	log.Printf("SendLifestyle:")
 
-	calc_risk, ok := s.ProcessLifestyle(x.Message) // keras
-	if ok == false { calc_risk = "Error Calculating"; }
-	log.Printf("calc_risk: %s\n",calc_risk)
-	// TODO: log errors that occur in database, or some log file?
+	myFire.AddLifestyleTest(s.c, x.UserID, x.Data)
 
-	_, _, err2 := s.client.Collection("patientData").Add(ctx, map[string]interface{}{
-		"data":x.Message,
-		"calculated_risk":calc_risk,
-	})
-	if err2 != nil { log.Fatalf("Failed adding\n%v", err2)}
+	// return session token
+	return &pb.LifestyleResponse{
+		Result: pb.LifestyleResponse_Ok,
+	}, nil
+}
 
-	// Dummy Response
-	return &pb.LifestyleResponse{ Success: true, }, nil
+// Send Patient Dementia
+func (s *server) SendPatientDementia(ctx context.Context, x *pb.DementiaRequest) (*pb.DementiaResponse, error) {
+	log.Printf("SendPatientDementia:")
+
+	myFire.SetPatientDementica(s.c, x.UserID, x.Dementia)
+
+	// return session token
+	return &pb.LifestyleResponse{
+		Result: pb.SendPatientDementia_Ok,
+	}, nil
+}
+
+// GetNews
+func (s *server) GetNews(ctx context.Context, x *pb.NewsRequest) (*pb.NewsResponse, error) {
+	log.Printf("GetNews: __NotImplemented__")
+
+	// todo: check type
+
+	return &pb.NewsResponse{
+		Content: "News Not Implemented Yet",
+	}, nil
 }
 
 

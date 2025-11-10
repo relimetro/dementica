@@ -22,7 +22,7 @@ const (
 	Firestore_Register_FullMethodName            = "/firestore.firestore/Register"
 	Firestore_Login_FullMethodName               = "/firestore.firestore/Login"
 	Firestore_PatientInfo_FullMethodName         = "/firestore.firestore/PatientInfo"
-	Firestore_GetRisk_FullMethodName             = "/firestore.firestore/getRisk"
+	Firestore_GetRisk_FullMethodName             = "/firestore.firestore/GetRisk"
 	Firestore_DoctorInfo_FullMethodName          = "/firestore.firestore/DoctorInfo"
 	Firestore_GetPatients_FullMethodName         = "/firestore.firestore/GetPatients"
 	Firestore_GetTestHistory_FullMethodName      = "/firestore.firestore/GetTestHistory"
@@ -430,7 +430,7 @@ var Firestore_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Firestore_PatientInfo_Handler,
 		},
 		{
-			MethodName: "getRisk",
+			MethodName: "GetRisk",
 			Handler:    _Firestore_GetRisk_Handler,
 		},
 		{

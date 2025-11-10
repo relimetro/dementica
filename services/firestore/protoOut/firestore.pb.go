@@ -1632,7 +1632,7 @@ func (x *NewsRequest) GetType() NewsRequest_UserType {
 
 type NewsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Contetn       string                 `protobuf:"bytes,1,opt,name=contetn,proto3" json:"contetn,omitempty"`
+	Content       string                 `protobuf:"bytes,1,opt,name=Content,proto3" json:"Content,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1667,9 +1667,9 @@ func (*NewsResponse) Descriptor() ([]byte, []int) {
 	return file_firestore_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *NewsResponse) GetContetn() string {
+func (x *NewsResponse) GetContent() string {
 	if x != nil {
-		return x.Contetn
+		return x.Content
 	}
 	return ""
 }
@@ -1806,12 +1806,12 @@ const file_firestore_proto_rawDesc = "" +
 	"\n" +
 	"\x06Doctor\x10\x01\"(\n" +
 	"\fNewsResponse\x12\x18\n" +
-	"\acontetn\x18\x01 \x01(\tR\acontetn2\x94\a\n" +
+	"\aContent\x18\x01 \x01(\tR\aContent2\x94\a\n" +
 	"\tfirestore\x12W\n" +
 	"\bRegister\x12\x17.firestore.UserRegister\x1a\x19.firestore.RegisterResult\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/register\x12K\n" +
 	"\x05Login\x12\x14.firestore.UserLogin\x1a\x16.firestore.LoginResult\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/login\x12U\n" +
 	"\vPatientInfo\x12\x11.firestore.UserID\x1a\x16.firestore.PatientData\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v1/patient_info\x12N\n" +
-	"\agetRisk\x12\x11.firestore.UserID\x1a\x17.firestore.RiskResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/get_risk\x12R\n" +
+	"\aGetRisk\x12\x11.firestore.UserID\x1a\x17.firestore.RiskResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/get_risk\x12R\n" +
 	"\n" +
 	"DoctorInfo\x12\x11.firestore.UserID\x1a\x15.firestore.DoctorData\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/doctor_info\x12V\n" +
 	"\vGetPatients\x12\x11.firestore.UserID\x1a\x1b.firestore.PatientsResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/patients\x12`\n" +
@@ -1889,7 +1889,7 @@ var file_firestore_proto_depIdxs = []int32{
 	15, // 17: firestore.firestore.Register:input_type -> firestore.UserRegister
 	17, // 18: firestore.firestore.Login:input_type -> firestore.UserLogin
 	19, // 19: firestore.firestore.PatientInfo:input_type -> firestore.UserID
-	19, // 20: firestore.firestore.getRisk:input_type -> firestore.UserID
+	19, // 20: firestore.firestore.GetRisk:input_type -> firestore.UserID
 	19, // 21: firestore.firestore.DoctorInfo:input_type -> firestore.UserID
 	19, // 22: firestore.firestore.GetPatients:input_type -> firestore.UserID
 	19, // 23: firestore.firestore.GetTestHistory:input_type -> firestore.UserID
@@ -1899,7 +1899,7 @@ var file_firestore_proto_depIdxs = []int32{
 	16, // 27: firestore.firestore.Register:output_type -> firestore.RegisterResult
 	18, // 28: firestore.firestore.Login:output_type -> firestore.LoginResult
 	20, // 29: firestore.firestore.PatientInfo:output_type -> firestore.PatientData
-	21, // 30: firestore.firestore.getRisk:output_type -> firestore.RiskResponse
+	21, // 30: firestore.firestore.GetRisk:output_type -> firestore.RiskResponse
 	22, // 31: firestore.firestore.DoctorInfo:output_type -> firestore.DoctorData
 	23, // 32: firestore.firestore.GetPatients:output_type -> firestore.PatientsResponse
 	27, // 33: firestore.firestore.GetTestHistory:output_type -> firestore.TestHistoryResponse

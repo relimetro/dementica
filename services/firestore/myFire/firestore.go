@@ -49,21 +49,22 @@ func BURN_IT_ALL_DOWN(c *firestore.Client) {
 	docId := RegisterDoctor(c,"Eoin","Eoin@NeuroMind.com","12345")
 	patId := RegisterPatient(c,"Conor","12345",docId)
 	_ = RegisterPatient(c,"Conor2","12345",docId)
-	info, e := GetDoctorInfo(c,docId2)
+	info, e := GetDoctorInfo(c,docId)
 	info2, e2 := GetPatientInfo(c,patId)
 	ps := GetPatientsOfDoctor(c,docId)
 
 	AddLifestyleTest(c, patId, "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes" )
-	ts := GetRiskScoreHistory(c, patId)
+	// ts := GetRiskScoreHistory(c, patId)
+	ts := GetTestHistory(c, patId)
 
 	log.Printf("%v",docId)
 	log.Printf("%v",patId)
-	log.Printf("%v-%v-%v",v,docId2,logType)
+	// log.Printf("%v-%v-%v",v,docId2,logType)
 	log.Printf("%v-%v",info,e)
 	log.Printf("%v-%v",info2,e2)
 	log.Printf("list: %v",ps)
 	log.Printf("tests: %v",ts)
-	log.Printf("patient2: %v-%v",info3,e3)
+	// log.Printf("patient2: %v-%v",info3,e3)
 }
 
 
@@ -240,7 +241,7 @@ func GetTestHistory(c *firestore.Client, patId string) []TestResult {
 		d := doc.Data()
 
 		if d["UserID"].(string) != patId { continue; }
-		tr := TestResult{ Date:d["Date"].(string), TestID:doc.Ref.ID, RiskScore:d["RiskScore"].(string) }
+		tr := TestResult{ Date:d["Date"].(string), RiskScore:d["RiskScore"].(string) }
 		out = append(out,tr)
 	}
 	return out

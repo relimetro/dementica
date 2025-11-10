@@ -19,7 +19,7 @@ service firestore {
 	option (google.api.http) = {
 		post: "/v1/patient_info"
 		body: "*" }; }
-  rpc getRisk(UserID) returns (RiskResponse) {
+  rpc GetRisk(UserID) returns (RiskResponse) {
 	option (google.api.http) = {
 		post: "/v1/get_risk"
 		body: "*"
@@ -155,7 +155,7 @@ message NewsRequest {
   enum UserType { Patient = 0; Doctor = 1; }
 }
 message NewsResponse {
-  string contetn = 1;
+  string Content = 1;
 }
 
 
