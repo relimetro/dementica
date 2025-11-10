@@ -24,19 +24,29 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12user_service.proto\x12\x04\x61uth\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\";\n\tAuthReply\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x10\n\x08id_token\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t2k\n\x0b\x41uthService\x12.\n\x06SignUp\x12\x13.auth.SignUpRequest\x1a\x0f.auth.AuthReply\x12,\n\x05Login\x12\x12.auth.LoginRequest\x1a\x0f.auth.AuthReplyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12user_service.proto\x12\x0cuser_service\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\";\n\tAuthReply\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x10\n\x08id_token\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\"S\n\x0fLinkUserRequest\x12\x15\n\rpatient_token\x18\x01 \x01(\t\x12\x12\n\ndoctor_uid\x18\x02 \x01(\t\x12\x15\n\rrelation_type\x18\x03 \x01(\t\" \n\rLinkUserReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"@\n\x15GetLinkedUsersRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x15\n\rrelation_type\x18\x02 \x01(\t\"1\n\x0bRelatedUser\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x15\n\rrelation_type\x18\x02 \x01(\t\"G\n\x13GetLinkedUsersReply\x12\x30\n\rrelated_users\x18\x01 \x03(\x0b\x32\x19.user_service.RelatedUser2\xad\x02\n\x0bUserService\x12>\n\x06SignUp\x12\x1b.user_service.SignUpRequest\x1a\x17.user_service.AuthReply\x12<\n\x05Login\x12\x1a.user_service.LoginRequest\x1a\x17.user_service.AuthReply\x12\x46\n\x08LinkUser\x12\x1d.user_service.LinkUserRequest\x1a\x1b.user_service.LinkUserReply\x12X\n\x0eGetLinkedUsers\x12#.user_service.GetLinkedUsersRequest\x1a!.user_service.GetLinkedUsersReplyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'user_service_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_SIGNUPREQUEST']._serialized_start=28
-  _globals['_SIGNUPREQUEST']._serialized_end=76
-  _globals['_LOGINREQUEST']._serialized_start=78
-  _globals['_LOGINREQUEST']._serialized_end=125
-  _globals['_AUTHREPLY']._serialized_start=127
-  _globals['_AUTHREPLY']._serialized_end=186
-  _globals['_AUTHSERVICE']._serialized_start=188
-  _globals['_AUTHSERVICE']._serialized_end=295
+  _globals['_SIGNUPREQUEST']._serialized_start=36
+  _globals['_SIGNUPREQUEST']._serialized_end=84
+  _globals['_LOGINREQUEST']._serialized_start=86
+  _globals['_LOGINREQUEST']._serialized_end=133
+  _globals['_AUTHREPLY']._serialized_start=135
+  _globals['_AUTHREPLY']._serialized_end=194
+  _globals['_LINKUSERREQUEST']._serialized_start=196
+  _globals['_LINKUSERREQUEST']._serialized_end=279
+  _globals['_LINKUSERREPLY']._serialized_start=281
+  _globals['_LINKUSERREPLY']._serialized_end=313
+  _globals['_GETLINKEDUSERSREQUEST']._serialized_start=315
+  _globals['_GETLINKEDUSERSREQUEST']._serialized_end=379
+  _globals['_RELATEDUSER']._serialized_start=381
+  _globals['_RELATEDUSER']._serialized_end=430
+  _globals['_GETLINKEDUSERSREPLY']._serialized_start=432
+  _globals['_GETLINKEDUSERSREPLY']._serialized_end=503
+  _globals['_USERSERVICE']._serialized_start=506
+  _globals['_USERSERVICE']._serialized_end=807
 # @@protoc_insertion_point(module_scope)

@@ -1,10 +1,12 @@
 syntax = "proto3";
 
-package auth;
+package user_service;
 
-service AuthService {
+service UserService {
   rpc SignUp(SignUpRequest) returns (AuthReply);
   rpc Login(LoginRequest) returns (AuthReply);
+  rpc LinkUser (LinkUserRequest) returns (LinkUserReply);
+  rpc GetLinkedUsers (GetLinkedUsersRequest) returns (GetLinkedUsersReply);
 }
 
 message SignUpRequest {
@@ -21,5 +23,29 @@ message AuthReply {
   string uid = 1;
   string id_token = 2;
   string message = 3;
+}
+
+message LinkUserRequest {
+    string patient_token = 1;
+    string doctor_uid = 2;
+    string relation_type = 3; // e.g. "doctor"
+}
+
+message LinkUserReply {
+    string message = 1;
+}
+
+message GetLinkedUsersRequest {
+    string id_token = 1;
+    string relation_type = 2;
+}
+
+message RelatedUser {
+    string uid = 1;
+    string relation_type = 2;
+}
+
+message GetLinkedUsersReply {
+    repeated RelatedUser related_users = 1;
 }
 
