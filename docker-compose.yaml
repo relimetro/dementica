@@ -7,6 +7,8 @@ services:
       - "50051:50051"
     networks:
       - backend
+    environment:
+      - PYTHONUNBUFFERED=1
 
   user_service:
     build: ./services/user_service
@@ -15,6 +17,7 @@ services:
     environment:
       - FIREBASE_WEB_API_KEY=${FIREBASE_WEB_API_KEY}
       - FIREBASE_CREDENTIALS=/run/secrets/firebase.json
+      - PYTHONUNBUFFERED=1 # force to log to stdOut
     volumes:
       - ./firebase.json:/run/secrets/firebase.json:ro
     restart: unless-stopped
@@ -42,6 +45,8 @@ services:
       - "50052:50052"
     networks:
       - backend
+    environment:
+      - PYTHONUNBUFFERED=1
 
   openresty:
     build: ./openresty
