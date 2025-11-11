@@ -22,21 +22,40 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
+from google.api import annotations_pb2 as google_dot_api_dot_annotations__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12user_service.proto\x12\x04\x61uth\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\";\n\tAuthReply\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x10\n\x08id_token\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t2k\n\x0b\x41uthService\x12.\n\x06SignUp\x12\x13.auth.SignUpRequest\x1a\x0f.auth.AuthReply\x12,\n\x05Login\x12\x12.auth.LoginRequest\x1a\x0f.auth.AuthReplyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12user_service.proto\x12\x0cuser_service\x1a\x1cgoogle/api/annotations.proto\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\";\n\tAuthReply\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x10\n\x08id_token\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\"S\n\x0fLinkUserRequest\x12\x15\n\rpatient_token\x18\x01 \x01(\t\x12\x12\n\ndoctor_uid\x18\x02 \x01(\t\x12\x15\n\rrelation_type\x18\x03 \x01(\t\" \n\rLinkUserReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"@\n\x15GetLinkedUsersRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x15\n\rrelation_type\x18\x02 \x01(\t\"1\n\x0bRelatedUser\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x15\n\rrelation_type\x18\x02 \x01(\t\"G\n\x13GetLinkedUsersReply\x12\x30\n\rrelated_users\x18\x01 \x03(\x0b\x32\x19.user_service.RelatedUser2\xf7\x03\n\x0bUserService\x12k\n\x05Login\x12\x1a.user_service.LoginRequest\x1a\x17.user_service.AuthReply\"-\x82\xd3\xe4\x93\x02\'\"\"/v1/user_service.UserService/Login:\x01*\x12n\n\x06SignUp\x12\x1b.user_service.SignUpRequest\x1a\x17.user_service.AuthReply\".\x82\xd3\xe4\x93\x02(\"#/v1/user_service.UserService/SignUp:\x01*\x12x\n\x08LinkUser\x12\x1d.user_service.LinkUserRequest\x1a\x1b.user_service.LinkUserReply\"0\x82\xd3\xe4\x93\x02*\"%/v1/user_service.UserService/LinkUser:\x01*\x12\x90\x01\n\x0eGetLinkedUsers\x12#.user_service.GetLinkedUsersRequest\x1a!.user_service.GetLinkedUsersReply\"6\x82\xd3\xe4\x93\x02\x30\"+/v1/user_service.UserService/GetLinkedUsers:\x01*b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'user_service_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_SIGNUPREQUEST']._serialized_start=28
-  _globals['_SIGNUPREQUEST']._serialized_end=76
-  _globals['_LOGINREQUEST']._serialized_start=78
-  _globals['_LOGINREQUEST']._serialized_end=125
-  _globals['_AUTHREPLY']._serialized_start=127
-  _globals['_AUTHREPLY']._serialized_end=186
-  _globals['_AUTHSERVICE']._serialized_start=188
-  _globals['_AUTHSERVICE']._serialized_end=295
+  _globals['_USERSERVICE'].methods_by_name['Login']._loaded_options = None
+  _globals['_USERSERVICE'].methods_by_name['Login']._serialized_options = b'\202\323\344\223\002\'\"\"/v1/user_service.UserService/Login:\001*'
+  _globals['_USERSERVICE'].methods_by_name['SignUp']._loaded_options = None
+  _globals['_USERSERVICE'].methods_by_name['SignUp']._serialized_options = b'\202\323\344\223\002(\"#/v1/user_service.UserService/SignUp:\001*'
+  _globals['_USERSERVICE'].methods_by_name['LinkUser']._loaded_options = None
+  _globals['_USERSERVICE'].methods_by_name['LinkUser']._serialized_options = b'\202\323\344\223\002*\"%/v1/user_service.UserService/LinkUser:\001*'
+  _globals['_USERSERVICE'].methods_by_name['GetLinkedUsers']._loaded_options = None
+  _globals['_USERSERVICE'].methods_by_name['GetLinkedUsers']._serialized_options = b'\202\323\344\223\0020\"+/v1/user_service.UserService/GetLinkedUsers:\001*'
+  _globals['_SIGNUPREQUEST']._serialized_start=66
+  _globals['_SIGNUPREQUEST']._serialized_end=114
+  _globals['_LOGINREQUEST']._serialized_start=116
+  _globals['_LOGINREQUEST']._serialized_end=163
+  _globals['_AUTHREPLY']._serialized_start=165
+  _globals['_AUTHREPLY']._serialized_end=224
+  _globals['_LINKUSERREQUEST']._serialized_start=226
+  _globals['_LINKUSERREQUEST']._serialized_end=309
+  _globals['_LINKUSERREPLY']._serialized_start=311
+  _globals['_LINKUSERREPLY']._serialized_end=343
+  _globals['_GETLINKEDUSERSREQUEST']._serialized_start=345
+  _globals['_GETLINKEDUSERSREQUEST']._serialized_end=409
+  _globals['_RELATEDUSER']._serialized_start=411
+  _globals['_RELATEDUSER']._serialized_end=460
+  _globals['_GETLINKEDUSERSREPLY']._serialized_start=462
+  _globals['_GETLINKEDUSERSREPLY']._serialized_end=533
+  _globals['_USERSERVICE']._serialized_start=536
+  _globals['_USERSERVICE']._serialized_end=1039
 # @@protoc_insertion_point(module_scope)

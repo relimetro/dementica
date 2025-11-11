@@ -7,19 +7,28 @@ services:
       - "50051:50051"
     networks:
       - backend
+    environment:
+      - PYTHONUNBUFFERED=1
 
   user_service:
+    container_name: user_service
     build: ./services/user_service
     ports:
       - "50061:50061"
     environment:
       - FIREBASE_WEB_API_KEY=${FIREBASE_WEB_API_KEY}
       - FIREBASE_CREDENTIALS=/run/secrets/firebase.json
+      - PYTHONUNBUFFERED=1 # force to log to stdOut
     volumes:
       - ./firebase.json:/run/secrets/firebase.json:ro
     restart: unless-stopped
+    networks:
+      - backend
     security_opt: 
       - label:disable
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
   firestore:
     build: ./services/firestore
@@ -48,6 +57,8 @@ services:
       - "50052:50053"
     networks:
       - backend
+    environment:
+      - PYTHONUNBUFFERED=1
 
   openresty:
     build: ./openresty
@@ -67,14 +78,18 @@ services:
     image: envoyproxy/envoy:v1.31-latest
     volumes:
       - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
-      - ./services/dummy/dummy.pb:/services/dummy.pb #unused
-      - ./proto/firestore.pb:/services/firestore.pb
+      - ./proto/descriptors.pb:/services/descriptors.pb
     ports:
       - "8080:8080"
     networks:
       - backend
     security_opt: 
       - label:disable
+    depends_on:
+      - user_service
+      - firestore
+      - vertexai
+      - dummy
 
 networks:
   backend:
