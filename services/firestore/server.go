@@ -2,8 +2,6 @@ package main
 
 import(
 	"log" // for loggin
-	"sync" // for mutex
-	"google.golang.org/api/iterator"
 
 	// Grpc
 	"net"
@@ -57,7 +55,7 @@ type server struct{
 func (s *server) Register(ctx context.Context, x *pb.UserRegister) (*pb.RegisterResult, error) {
 	log.Printf("register:") //%s, %s\n\n",x.UserName, x.PlaintextPassword)
 
-	if x.UserType == pb.UserType_Patient {
+	if x.UserType == pb.UserRegister_Patient {
 		myFire.RegisterPatient(s.c, x.Name, x.Password, "") // todo ability to assign to doctor
 	} else {
 		myFire.RegisterDoctor(s.c, x.Name, x.Password, x.RegisterWith) // todo check for correct email etc
@@ -66,7 +64,7 @@ func (s *server) Register(ctx context.Context, x *pb.UserRegister) (*pb.Register
 
 	// return session token
 	return &pb.RegisterResult{
-		Result: pb.RegResult_Ok,
+		Result: pb.RegisterResult_Ok,
 	}, nil
 }
 
@@ -80,8 +78,28 @@ func (s *server) Login(ctx context.Context, x *pb.UserLogin) (*pb.LoginResult, e
 	// return session token
 	return &pb.LoginResult{
 		UserID: UserId,
-		Result: RegResult.Ok,
+		Result: pb.LoginResult_Ok,
 	}, nil
+}
+
+
+
+func GoPatientToProtoPatient(p myFire.Patient) pb.PatientData {
+	hasDem := pb.PatientData_Unknown;
+	if ( p.HasDementia == "Positive" ) {
+		hasDem = pb.PatientData_Positive;
+	} else if ( p.HasDementia == "Negative") { hasDem = pb.PatientData_Negative;
+	} else if ( p.HasDementia == "Unknown") { hasDem = pb.PatientData_Unknown;
+	} else { log.Printf("ERROR: string(%s), could not be converted to dementia type",p.HasDementia) }
+
+	return pb.PatientData{
+		Result: pb.PatientData_Ok,
+		Name: p.Name,
+		HasDementia: hasDem,
+		DoctorID: p.DoctorID,
+		RiskScore: p.RiskScore,
+	}
+
 }
 
 
@@ -91,14 +109,10 @@ func (s *server) PatientInfo(ctx context.Context, x *pb.UserID) (*pb.PatientData
 
 	p, _ := myFire.GetPatientInfo(s.c, x.UserID)
 
+	p2 := GoPatientToProtoPatient(p)
+
 	// return session token
-	return &pb.PatientData{
-		Result: pb.PatientData_Ok,
-		Name: p.Name,
-		HasDementia: p.HasDementia,
-		DocotorID: p.DoctorID,
-		RiskScore: p.RiskScore,
-	}, nil
+	return &p2, nil
 }
 // Get Risk
 func (s *server) GetRisk(ctx context.Context, x *pb.UserID) (*pb.RiskResponse, error) {
@@ -135,10 +149,17 @@ func (s *server) PGetPatients(ctx context.Context, x *pb.UserID) (*pb.PatientsRe
 
 	ds := myFire.GetPatientsOfDoctor(s.c, x.UserID)
 
+	var ds2 []*pb.PatientData
+
+	for _,x := range(ds) {
+		temp := GoPatientToProtoPatient(x)
+		ds2 = append(ds2,&temp)
+	}
+
 	// return session token
 	return &pb.PatientsResponse{
 		Result: pb.PatientsResponse_Ok,
-		Patients: ds,
+		Patients: ds2,
 	}, nil
 }
 // Get Test History
@@ -147,10 +168,20 @@ func (s *server) GetTestHistory(ctx context.Context, x *pb.UserID) (*pb.TestHist
 
 	ts := myFire.GetTestHistory(s.c, x.UserID)
 
+	var ts2 []*pb.TestData
+	for _,x := range(ts){
+		temp := pb.TestData{
+			Date: x.Date,
+			RiskScore: x.RiskScore,
+		}
+		ts2 = append(ts2,&temp)
+
+	}
+
 	// return session token
 	return &pb.TestHistoryResponse{
 		Result: pb.TestHistoryResponse_Ok,
-		Patients: ts,
+		Tests: ts2,
 	}, nil
 }
 
@@ -170,11 +201,17 @@ func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb
 func (s *server) SendPatientDementia(ctx context.Context, x *pb.DementiaRequest) (*pb.DementiaResponse, error) {
 	log.Printf("SendPatientDementia:")
 
-	myFire.SetPatientDementica(s.c, x.UserID, x.Dementia)
+	demStr := "Unknown"
+	if x.Dementia == pb.DementiaRequest_Unknown { demStr = "Unknown" 
+	} else if x.Dementia == pb.DementiaRequest_Positive { demStr = "Positive" 
+	} else if x.Dementia == pb.DementiaRequest_Negative { demStr = "Negative" 
+	} else { log.Printf("ERROR: failed to convert DementiaRequest.dementia (%v) into string",x.Dementia)}
+
+	myFire.SetPatientDementica(s.c, x.UserID, demStr)
 
 	// return session token
-	return &pb.LifestyleResponse{
-		Result: pb.SendPatientDementia_Ok,
+	return &pb.DementiaResponse{
+		Result: pb.DementiaResponse_Ok,
 	}, nil
 }
 
@@ -203,11 +240,11 @@ func main() {
 	if err != nil { log.Fatalf("GRPC: failed to listen:\n%v", err) }
 
 	// serv GRPC
-	serverData := server{client:myFire.FirebaseInit()}
-	defer serverData.client.Close()
+	serverData := server{c:myFire.FirebaseInit()}
+	defer serverData.c.Close()
 
 	// Reset firestore
-	myFire.BURN_IT_ALL_DOWN(serverData.client)
+	myFire.BURN_IT_ALL_DOWN(serverData.c)
 
 
 	// start server

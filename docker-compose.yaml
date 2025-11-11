@@ -18,6 +18,8 @@ services:
     volumes:
       - ./firebase.json:/run/secrets/firebase.json:ro
     restart: unless-stopped
+    security_opt: 
+      - label:disable
 
   firestore:
     build: ./services/firestore
@@ -28,6 +30,8 @@ services:
       - backend
     volumes:
       - ./firebase.json:/usr/src/app/firebase.json
+    security_opt: 
+      - label:disable
 
   frontend:
     build: ./services/frontend
