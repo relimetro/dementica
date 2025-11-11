@@ -243,8 +243,8 @@ func main() {
 	serverData := server{c:myFire.FirebaseInit()}
 	defer serverData.c.Close()
 
-	// Reset firestore
-	myFire.BURN_IT_ALL_DOWN(serverData.c)
+	// Reset firestore (note not integrated with danis stuff (linking, auth))
+	// myFire.BURN_IT_ALL_DOWN(serverData.c)
 
 
 	// start server
