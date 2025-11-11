@@ -40,6 +40,20 @@ class UserService(user_service_pb2_grpc.UserServiceServicer):
             payload = str(request)
         logging.info(f"Received gRPC request: {method_name} | payload: {payload}")
 
+    def VerifyTokenRemote(self, request, context):
+        self.log_request("VerifyTokenRemote", request)
+        try:
+            uid = verify_token(request.id_token)
+            return user_service_pb2.VerifyTokenResponse(
+                res=True,
+                uid=uid
+            )
+        except ValueError as e:
+            return user_service_pb2.VerifyTokenResponse(
+                    res=False
+                uid="__INVALID__"
+            )
+
     def SignUp(self, request, context):
         self.log_request("SignUp", request)
         try:

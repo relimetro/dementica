@@ -37,6 +37,69 @@ func (s *server) ProcessLifestyle(x string) (string,bool) {
 	log.Printf("Response FTproompt: %s",resp.Message)
 	return resp.Message,true }
 
+func GoPatientToProtoPatient(p myFire.Patient) pb.PatientData {
+	hasDem := pb.PatientData_Unknown;
+	if ( p.HasDementia == "Positive" ) {
+		hasDem = pb.PatientData_Positive;
+	} else if ( p.HasDementia == "Negative") { hasDem = pb.PatientData_Negative;
+	} else if ( p.HasDementia == "Unknown") { hasDem = pb.PatientData_Unknown;
+	} else { log.Printf("ERROR: string(%s), could not be converted to dementia type",p.HasDementia) }
+
+	return pb.PatientData{
+		Result: pb.PatientData_Ok,
+		Name: p.Name,
+		HasDementia: hasDem,
+		DoctorID: p.DoctorID,
+		RiskScore: p.RiskScore,
+	}
+
+}
+
+
+///////////////////////////////////////////////////////////////
+/// UserService
+func (s *server) VerifyIdToken(txt string) (string,bool) {
+	var conn *grpc.ClientConn
+	// user_service
+	conn, err := grpc.Dial("localhost:50061", grpc.WithInsecure())
+	if err != nil { log.Printf("[ERROR] GRPC: cound not connect user_service at 50061: \n%s",err); return "",false; }
+	defer conn.Close()
+	c := UserService.NewUserServiceClient(conn)
+
+	message := UserService.VerifyTokenRequest { Id_token: txt}
+	resp, err := c.VerifyTokenRemote(context.Background(), &message)
+	if err != nil { log.Printf("[ERROR] firestore verify id_token, <%s>, <%d>",err,resp); return "",false; }
+	log.Printf("Response id_token verify: %v-%s",resp.Res,resp.Uid)
+	return resp.Uid,true }
+
+// returns id_token
+func (s *server) UserService_Register(email string, password string) (string,bool) {
+	var conn *grpc.ClientConn
+	// user_service
+	conn, err := grpc.Dial("localhost:50061", grpc.WithInsecure())
+	if err != nil { log.Printf("[ERROR] GRPC: cound not connect user_service at 50061: \n%s",err); return "",false; }
+	defer conn.Close()
+	c := UserService.NewUserServiceClient(conn)
+
+	message := UserService.SignUpRequest { Email: email, Password:password}
+	resp, err := c.SignUp(context.Background(), &message)
+	if err != nil { log.Printf("[ERROR] firestore user_service signup, <%s>, <%d>",err,resp); return "",false; }
+	log.Printf("Response user_service signup: %s",resp.Message)
+	return true }
+
+func (s *server) UserService_Login(email string, password string) bool {
+	var conn *grpc.ClientConn
+	// user_service
+	conn, err := grpc.Dial("localhost:50061", grpc.WithInsecure())
+	if err != nil { log.Printf("[ERROR] GRPC: cound not connect user_service at 50061: \n%s",err); return "",false; }
+	defer conn.Close()
+	c := UserService.NewUserServiceClient(conn)
+
+	message := UserService.LoginRequest { Email: email, Password: password }
+	resp, err := c.Login(context.Background(), &message)
+	if err != nil { log.Printf("[ERROR] firestore user_service login, <%s>, <%d>",err,resp); return "",false; }
+	log.Printf("Response user_service signup: %s",resp.Message)
+	return resp.id_token, true }
 
 
 
@@ -84,23 +147,6 @@ func (s *server) Login(ctx context.Context, x *pb.UserLogin) (*pb.LoginResult, e
 
 
 
-func GoPatientToProtoPatient(p myFire.Patient) pb.PatientData {
-	hasDem := pb.PatientData_Unknown;
-	if ( p.HasDementia == "Positive" ) {
-		hasDem = pb.PatientData_Positive;
-	} else if ( p.HasDementia == "Negative") { hasDem = pb.PatientData_Negative;
-	} else if ( p.HasDementia == "Unknown") { hasDem = pb.PatientData_Unknown;
-	} else { log.Printf("ERROR: string(%s), could not be converted to dementia type",p.HasDementia) }
-
-	return pb.PatientData{
-		Result: pb.PatientData_Ok,
-		Name: p.Name,
-		HasDementia: hasDem,
-		DoctorID: p.DoctorID,
-		RiskScore: p.RiskScore,
-	}
-
-}
 
 
 // PatientInfo
@@ -144,7 +190,7 @@ func (s *server) DoctorInfo(ctx context.Context, x *pb.UserID) (*pb.DoctorData, 
 
 
 // Get Patients
-func (s *server) PGetPatients(ctx context.Context, x *pb.UserID) (*pb.PatientsResponse, error) {
+func (s *server) GetPatients(ctx context.Context, x *pb.UserID) (*pb.PatientsResponse, error) {
 	log.Printf("GetPatients:")
 
 	ds := myFire.GetPatientsOfDoctor(s.c, x.UserID)

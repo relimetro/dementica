@@ -29,7 +29,12 @@ service UserService {
       body: "*"
     };
   }
+
+  rpc VerifyTokenRemote(VerifyTokenRequest) returns (VerifyTokenResponse) {}
+	// internal grpc, not exposed to rest (for firestore.go)
 }
+
+
 
 message SignUpRequest {
   string email = 1;
@@ -71,3 +76,7 @@ message GetLinkedUsersReply {
     repeated RelatedUser related_users = 1;
 }
 
+
+
+message VerifyTokenRequest { string id_token = 1; }
+message VerifyTokenResponse { bool res = 1; string uid = 2; }

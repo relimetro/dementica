@@ -11,6 +11,10 @@ protoc \
 	--go-grpc_out=./services/firestore/protoOut --go-grpc_opt=paths=source_relative \
 	firestore.proto
 
+# user_service
+python -m grpc_tools.protoc \
+	--proto_path=./proto/ ./proto/user_service.proto \
+	--python_out=./services/user_service --grpc_python_out=./services/user_service
 
 
 # vertexAI (python)
