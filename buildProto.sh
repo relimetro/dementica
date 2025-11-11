@@ -11,29 +11,43 @@ protoc \
 	--go-grpc_out=./services/firestore/protoOut --go-grpc_opt=paths=source_relative \
 	firestore.proto
 
+# firestore (UserService)
+protoc \
+	-I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto/user_service.pb \
+	--proto_path=./proto/ \
+	--go_out=./services/firestore/UserService --go_opt=paths=source_relative \
+	--go-grpc_out=./services/firestore/UserService --go-grpc_opt=paths=source_relative \
+	user_service.proto
+
+
+
 # user_service
-python -m grpc_tools.protoc \
-	--proto_path=./proto/ ./proto/user_service.proto \
-	--python_out=./services/user_service --grpc_python_out=./services/user_service
+protoc \
+	-I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto/user_service.pb \
+	--proto_path=./proto/ \
+	--python_out=./services/user_service --grpc_python_out=./services/user_service \
+	user_service.proto
 
 
-# vertexAI (python)
+
+# aiProompt (vertexAI) (with two o's lmao)
 python -m grpc_tools.protoc \
 	--proto_path=./proto/ ./proto/vertex.proto \
 	--python_out=./services/vertexai --grpc_python_out=./services/vertexai
 
-# vertexAI (keras)
+# aiProompt (keras)
 python -m grpc_tools.protoc \
 	--proto_path=./proto/ ./proto/vertex.proto \
 	--python_out=./services/keras --grpc_python_out=./services/keras
 
-# vertexAI (firebaseprototype)
+# aiProompt (firebaseprototype)
 protoc \
 	--proto_path=./proto \
 	--go_out=./services/firestore/protoAI --go_opt=paths=source_relative \
 	--go-grpc_out=./services/firestore/protoAI --go-grpc_opt=paths=source_relative \
 	vertex.proto
 
-# todo descriptor
-#protoc -I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto/descriptor.pb proto/firestore.proto proto/user_service.proto
-protoc -I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto/both.pb proto/firestore.proto proto/user_service.proto
+
+
+# descriptor
+protoc -I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto/descriptors.pb proto/firestore.proto proto/user_service.proto
