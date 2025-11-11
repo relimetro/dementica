@@ -11,6 +11,7 @@ services:
       - PYTHONUNBUFFERED=1
 
   user_service:
+    container_name: user_service
     build: ./services/user_service
     ports:
       - "50061:50061"
@@ -21,6 +22,11 @@ services:
     volumes:
       - ./firebase.json:/run/secrets/firebase.json:ro
     restart: unless-stopped
+    networks:
+      - backend
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
   firebaseprototype:
     build: ./services/firebaseprototype
@@ -66,15 +72,18 @@ services:
     image: envoyproxy/envoy:v1.31-latest
     volumes:
       - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
-      - ./services/dummy/dummy.pb:/services/dummy.pb
-      - ./proto/firebase.pb:/services/firebaseprototype.pb
-      - ./proto/both.pb:/services/both.pb # unused
+      - ./proto/descriptors.pb:/services/descriptors.pb # unused
     ports:
       - "8080:8080"
     networks:
       - backend
     security_opt: 
       - label:disable
+    depends_on:
+      - user_service
+      - firebaseprototype
+      - vertexai
+      - dummy
 
 networks:
   backend:

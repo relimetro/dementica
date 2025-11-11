@@ -10,6 +10,10 @@ import user_service_pb2_grpc
 import firebase_admin
 from firebase_admin import credentials, auth, initialize_app, firestore
 
+import logging
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+
 cred_path = os.getenv("FIREBASE_CREDENTIALS", "firebase.json")
 web_api_key = os.getenv("FIREBASE_WEB_API_KEY")
 
@@ -28,7 +32,16 @@ def verify_token(id_token):
 
 
 class UserService(user_service_pb2_grpc.UserServiceServicer):
+    def log_request(self, method_name, request):
+        try:
+            from google.protobuf.json_format import MessageToDict
+            payload = MessageToDict(request, preserving_proto_field_name=True)
+        except Exception:
+            payload = str(request)
+        logging.info(f"Received gRPC request: {method_name} | payload: {payload}")
+
     def SignUp(self, request, context):
+        self.log_request("SignUp", request)
         try:
             user = auth.create_user(
                 email=request.email,
@@ -44,6 +57,7 @@ class UserService(user_service_pb2_grpc.UserServiceServicer):
             return user_service_pb2.AuthReply(message="Signup failed.")
 
     def Login(self, request, context):
+        self.log_request("Login", request)
         try:
             payload = {
                 "email": request.email,
@@ -68,18 +82,16 @@ class UserService(user_service_pb2_grpc.UserServiceServicer):
             return user_service_pb2.AuthReply(message="Login failed.")
 
     def LinkUser(self, request, context):
-        """Patient links themselves to a doctor using their token."""
+        self.log_request("LinkUser", request)
         try:
             patient_uid = verify_token(request.patient_token)
             doctor_uid = request.doctor_uid
             relation_type = request.relation_type or "doctor"
 
-            # Store in Firestore
             doc_ref = db.collection("user_relations").document(patient_uid)
             doc = doc_ref.get()
             relations = doc.to_dict().get("relations", []) if doc.exists else []
 
-            # Prevent duplicates
             if any(r["related_uid"] == doctor_uid for r in relations):
                 return user_service_pb2.LinkUserReply(
                     message="Doctor already linked to this patient."
@@ -105,16 +117,15 @@ class UserService(user_service_pb2_grpc.UserServiceServicer):
             return user_service_pb2.LinkUserReply(message="Failed to link users.")
 
     def GetLinkedUsers(self, request, context):
+        self.log_request("GetLinkedUsers", request)
         try:
             user_uid = verify_token(request.id_token)
             relation_type = request.relation_type
 
-            # Fetch direct relations (same as before)
             doc_ref = db.collection("user_relations").document(user_uid)
             doc = doc_ref.get()
             direct_relations = doc.to_dict().get("relations", []) if doc.exists else []
 
-            # Fetch reverse relations: find docs where this user is listed in "relations"
             reverse_docs = db.collection("user_relations").stream()
             reverse_relations = []
             for d in reverse_docs:
