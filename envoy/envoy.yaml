@@ -74,8 +74,9 @@ static_resources:
                 port_value: 9000
 
   - name: user_service_cluster
-    connect_timeout: 0.25s
+    connect_timeout: 1s
     type: STRICT_DNS
+    dns_refresh_rate: 5s
     lb_policy: ROUND_ROBIN
     http2_protocol_options: {}
     load_assignment:
