@@ -38,6 +38,13 @@ func KerasCall(x string) (string,bool) {
 	log.Printf("Response FTproompt: %s",resp)
 	return resp.Message,true }
 
+func UpdateTestRiskScore(c *firestore.Client, data string, testId string){
+	out,succ := KerasCall(data)
+	log.Printf("UpdateTestRiskScore: %v -- %v",succ,out)
+	myFire.SetTestRiskScore(c, testId, out)
+	log.Printf("UpdateTestRiskScore: Done")
+}
+
 
 
 func GoPatientToProtoPatient(p myFire.Patient) pb.PatientData {
@@ -238,12 +245,12 @@ func (s *server) GetTestHistory(ctx context.Context, x *pb.UserID) (*pb.TestHist
 func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb.LifestyleResponse, error) {
 	log.Printf("SendLifestyle: '%s'",x.Data)
 
-	myFire.AddLifestyleTest(s.c, x.UserID, x.Data)
-	out,succ := KerasCall(x.Data)
+	// upload test
+	testId := myFire.AddLifestyleTest(s.c, x.UserID, x.Data)
 
-	// todo go func
-	log.Printf("%v -- %v",out,succ)
-	// and update riskScore in background
+	// update risk score in background
+	go UpdateTestRiskScore(s.c, x.Data, testId)
+
 
 	// return session token
 	return &pb.LifestyleResponse{
