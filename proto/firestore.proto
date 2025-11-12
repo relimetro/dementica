@@ -1,0 +1,162 @@
+syntax = "proto3";
+package firestore;
+option go_package = "example/proto_example";
+
+import "google/api/annotations.proto";
+
+service firestore {
+  rpc Register(UserRegister) returns (RegisterResult) {
+	option (google.api.http) = {
+		post: "/v1/register"
+		body: "*" }; }
+  rpc Login(UserLogin) returns (LoginResult) {
+	option (google.api.http) = {
+		post: "/v1/login"
+		body: "*" }; }
+
+
+  rpc PatientInfo(UserID) returns (PatientData) {
+	option (google.api.http) = {
+		post: "/v1/patient_info"
+		body: "*" }; }
+  rpc GetRisk(UserID) returns (RiskResponse) {
+	option (google.api.http) = {
+		post: "/v1/get_risk"
+		body: "*"
+	}; }
+  rpc DoctorInfo(UserID) returns (DoctorData) {
+	option (google.api.http) = {
+		post: "/v1/doctor_info"
+		body: "*" }; }
+
+
+  rpc GetPatients(UserID) returns (PatientsResponse) {
+	option (google.api.http) = {
+		post: "/v1/patients"
+		body: "*" }; }
+  rpc GetTestHistory(UserID) returns (TestHistoryResponse) {
+	option (google.api.http) = {
+		post: "/v1/test_history"
+		body: "*" }; }
+
+
+  rpc SendLifestyle(LifestyleRequest) returns (LifestyleResponse) {
+	option (google.api.http) = {
+		post: "/v1/send_lifestyle"
+		body: "*"
+	}; }
+  rpc SendPatientDementia(DementiaRequest) returns (DementiaResponse) {
+	option (google.api.http) = {
+		post: "/v1/send_dementia"
+		body: "*"
+	}; }
+
+  rpc GetNews(NewsRequest) returns (NewsResponse){
+	option (google.api.http) = {
+		post: "/v1/get_news"
+		body: "*"
+	}; }
+
+}
+
+
+
+// Register
+message UserRegister {
+  string Name = 1;
+  string Password = 2;
+  UserTypeE UserType = 3;
+  RegisterTypeE RegType = 4;
+  string RegisterWith = 5;
+  enum RegisterTypeE { None = 0; Email = 1; Social = 2; }
+  enum UserTypeE { Patient = 0; Doctor = 1; }
+}
+message RegisterResult {
+  RegResult Result = 1;
+  enum RegResult { Ok = 0; Taken = 1; }
+} // Ok: ok, TAKEN: username is taken
+
+// Login
+message UserLogin {
+  string Name = 1;
+  string Password = 2;
+  UserTypeE UserType = 3;
+  enum UserTypeE { Any = 0; Patient = 1; Doctor = 2; }
+}
+message LoginResult {
+  string UserID = 1;
+  RegResult Result = 2;
+  enum RegResult { Ok = 0; UserPass = 1; Type = 2;}
+} // Ok = Ok, USERPASS: username or password is incorrect, TYPE: incorect user type
+
+
+
+message UserID { string UserID = 1; }
+
+message PatientData { 
+  Res Result = 1;
+  string Name = 2;
+  Dementia HasDementia = 3;
+  string DoctorID = 4; // "" if not assigned
+  string RiskScore = 5; // "" is not assigned, else float
+  enum Dementia { Unknown = 0; Positive = 1; Negative = 2; }
+  enum Res { Ok = 0; NotFound = 1; NoPermission = 2; NotPatient = 3; }
+} // NOTFOUND: user does not exist,, NOPERMISSION: not have permission, NOTPATIENT: user is not patient
+message RiskResponse { Res Result = 1; string RiskScore = 2; enum Res { Ok = 0; NotFound = 1; NoPermission = 2; NotPatient = 3; } }
+message DoctorData {
+  Res Result = 1;
+  string Name = 2;
+  string Email = 3;
+  enum Res { Ok = 0; NotFound = 1; NoPermission = 2; NotDoctor = 3; }
+} // NOTFOUND: user does not exist,, NOPERMISSION: not have permission, NOTDOCTOR: user is not doctor
+
+
+message PatientsResponse {
+  Res Result = 1;
+  repeated PatientData Patients = 2;
+  enum Res { Ok = 0; NotFound = 1; NoPermission = 2;  NotDoctor = 3; }
+} // NOTFOUND: user not found, NOPERMISSION: no permission, NOTDOCTOR: user is not doctor
+
+
+
+message LifestyleRequest {
+  string UserID = 1;
+  string data = 2; }
+message LifestyleResponse {
+  Res Result = 1;
+  enum Res { Ok = 0; NotFound = 1; NoPermission = 2; NotPatient = 3; Invalid = 4; }
+} // NOTFOUND: user not found, NOPERMISSION: no permisison, NOTPATIENT: user not a patient, INVALID: invalid LifestyleRequest
+
+
+message TestData {
+  string Date = 1;
+  string RiskScore = 2; // "Calculating" if calculating
+}
+message TestHistoryResponse {
+  Res Result = 1;
+  repeated TestData Tests = 2;
+  enum Res { Ok = 0; NotFound = 1; NoPermission = 2;  NotPatient = 3; }
+} // NOTFOUND: user not found, NOPERMISSION: no permission: NOTPATIENT: userId is not patient
+
+
+message DementiaRequest {
+  string UserID = 1;
+  DementiaE Dementia = 2;
+  enum DementiaE { Unknown = 0; Positive = 1; Negative = 2; }
+}
+message DementiaResponse {
+  Res Result = 1;
+  enum Res { Ok = 0; NotFound = 1; NoOperation = 2; NotPatient = 3; }
+}
+
+
+message NewsRequest {
+  UserType Type = 1;
+  enum UserType { Patient = 0; Doctor = 1; }
+}
+message NewsResponse {
+  string Content = 1;
+}
+
+
+

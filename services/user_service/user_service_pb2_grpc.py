@@ -5,7 +5,7 @@ import warnings
 
 import user_service_pb2 as user__service__pb2
 
-GRPC_GENERATED_VERSION = '1.75.1'
+GRPC_GENERATED_VERSION = '1.76.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -18,14 +18,14 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in user_service_pb2_grpc.py depends on'
+        + ' but the generated code in user_service_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
     )
 
 
-class AuthServiceStub(object):
+class UserServiceStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -34,26 +34,35 @@ class AuthServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SignUp = channel.unary_unary(
-                '/auth.AuthService/SignUp',
-                request_serializer=user__service__pb2.SignUpRequest.SerializeToString,
-                response_deserializer=user__service__pb2.AuthReply.FromString,
-                _registered_method=True)
         self.Login = channel.unary_unary(
-                '/auth.AuthService/Login',
+                '/user_service.UserService/Login',
                 request_serializer=user__service__pb2.LoginRequest.SerializeToString,
                 response_deserializer=user__service__pb2.AuthReply.FromString,
                 _registered_method=True)
+        self.SignUp = channel.unary_unary(
+                '/user_service.UserService/SignUp',
+                request_serializer=user__service__pb2.SignUpRequest.SerializeToString,
+                response_deserializer=user__service__pb2.AuthReply.FromString,
+                _registered_method=True)
+        self.LinkUser = channel.unary_unary(
+                '/user_service.UserService/LinkUser',
+                request_serializer=user__service__pb2.LinkUserRequest.SerializeToString,
+                response_deserializer=user__service__pb2.LinkUserReply.FromString,
+                _registered_method=True)
+        self.GetLinkedUsers = channel.unary_unary(
+                '/user_service.UserService/GetLinkedUsers',
+                request_serializer=user__service__pb2.GetLinkedUsersRequest.SerializeToString,
+                response_deserializer=user__service__pb2.GetLinkedUsersReply.FromString,
+                _registered_method=True)
+        self.VerifyTokenRemote = channel.unary_unary(
+                '/user_service.UserService/VerifyTokenRemote',
+                request_serializer=user__service__pb2.VerifyTokenRequest.SerializeToString,
+                response_deserializer=user__service__pb2.VerifyTokenResponse.FromString,
+                _registered_method=True)
 
 
-class AuthServiceServicer(object):
+class UserServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
-
-    def SignUp(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
 
     def Login(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -61,56 +70,68 @@ class AuthServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def SignUp(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
-def add_AuthServiceServicer_to_server(servicer, server):
+    def LinkUser(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetLinkedUsers(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def VerifyTokenRemote(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SignUp': grpc.unary_unary_rpc_method_handler(
-                    servicer.SignUp,
-                    request_deserializer=user__service__pb2.SignUpRequest.FromString,
-                    response_serializer=user__service__pb2.AuthReply.SerializeToString,
-            ),
             'Login': grpc.unary_unary_rpc_method_handler(
                     servicer.Login,
                     request_deserializer=user__service__pb2.LoginRequest.FromString,
                     response_serializer=user__service__pb2.AuthReply.SerializeToString,
             ),
+            'SignUp': grpc.unary_unary_rpc_method_handler(
+                    servicer.SignUp,
+                    request_deserializer=user__service__pb2.SignUpRequest.FromString,
+                    response_serializer=user__service__pb2.AuthReply.SerializeToString,
+            ),
+            'LinkUser': grpc.unary_unary_rpc_method_handler(
+                    servicer.LinkUser,
+                    request_deserializer=user__service__pb2.LinkUserRequest.FromString,
+                    response_serializer=user__service__pb2.LinkUserReply.SerializeToString,
+            ),
+            'GetLinkedUsers': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetLinkedUsers,
+                    request_deserializer=user__service__pb2.GetLinkedUsersRequest.FromString,
+                    response_serializer=user__service__pb2.GetLinkedUsersReply.SerializeToString,
+            ),
+            'VerifyTokenRemote': grpc.unary_unary_rpc_method_handler(
+                    servicer.VerifyTokenRemote,
+                    request_deserializer=user__service__pb2.VerifyTokenRequest.FromString,
+                    response_serializer=user__service__pb2.VerifyTokenResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'auth.AuthService', rpc_method_handlers)
+            'user_service.UserService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('auth.AuthService', rpc_method_handlers)
+    server.add_registered_method_handlers('user_service.UserService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class AuthService(object):
+class UserService(object):
     """Missing associated documentation comment in .proto file."""
-
-    @staticmethod
-    def SignUp(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(
-            request,
-            target,
-            '/auth.AuthService/SignUp',
-            user__service__pb2.SignUpRequest.SerializeToString,
-            user__service__pb2.AuthReply.FromString,
-            options,
-            channel_credentials,
-            insecure,
-            call_credentials,
-            compression,
-            wait_for_ready,
-            timeout,
-            metadata,
-            _registered_method=True)
 
     @staticmethod
     def Login(request,
@@ -126,9 +147,117 @@ class AuthService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/auth.AuthService/Login',
+            '/user_service.UserService/Login',
             user__service__pb2.LoginRequest.SerializeToString,
             user__service__pb2.AuthReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def SignUp(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_service.UserService/SignUp',
+            user__service__pb2.SignUpRequest.SerializeToString,
+            user__service__pb2.AuthReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def LinkUser(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_service.UserService/LinkUser',
+            user__service__pb2.LinkUserRequest.SerializeToString,
+            user__service__pb2.LinkUserReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetLinkedUsers(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_service.UserService/GetLinkedUsers',
+            user__service__pb2.GetLinkedUsersRequest.SerializeToString,
+            user__service__pb2.GetLinkedUsersReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def VerifyTokenRemote(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_service.UserService/VerifyTokenRemote',
+            user__service__pb2.VerifyTokenRequest.SerializeToString,
+            user__service__pb2.VerifyTokenResponse.FromString,
             options,
             channel_credentials,
             insecure,

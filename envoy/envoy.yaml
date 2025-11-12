@@ -18,35 +18,34 @@ static_resources:
             - name: local_service
               domains: ["*"]
               routes:
-              - match:
-                  prefix: "/"
-                route:
-                  cluster: grpc_service
-                  timeout: 0s
+                # Route all gRPC JSON-transcoded HTTP traffic to our backend cluster
+                - match:
+                    prefix: "/"
+                  route:
+                    cluster: grpc_service
+                    timeout: 0s
               typed_per_filter_config:
                 envoy.filters.http.cors:
                   "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.CorsPolicy
                   allow_origin_string_match:
                   - safe_regex:
                       regex: \*
-                  allow_methods:  "POST" # "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+                  allow_methods: "POST"
                   allow_headers: "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization,Access-Control-Allow-Origin"
                   allow_credentials: true
                   max_age: "1728000"
-              routes:
-              - match:
-                  prefix: "/"
-                route:
-                  host_rewrite_literal: www.envoyproxy.io
-                  cluster: grpc_service
           http_filters:
           - name: envoy.filters.http.grpc_json_transcoder
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
-              proto_descriptor: "/services/firebaseprototype.pb"
-              services: ["firebaseprototype.serv"]
+              proto_descriptor: "/services/descriptors.pb"
+              services:
+                - firestore.firestore
+                - user_service.UserService
               print_options:
                 always_print_primitive_fields: true
+                add_whitespace: true
+                always_print_enums_as_ints: false
           - name: envoy.filters.http.cors
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors
@@ -57,8 +56,8 @@ static_resources:
   clusters:
   - name: grpc_service
     connect_timeout: 0.25s
-    type: logical_dns
-    lb_policy: round_robin
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
     http2_protocol_options: {}
     load_assignment:
       cluster_name: grpc_service
@@ -67,5 +66,18 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: firebaseprototype
+                address: firestore
                 port_value: 9000
+        - endpoint:
+            address:
+              socket_address:
+                address: user_service
+                port_value: 50061
+
+admin:
+  access_log_path: "/tmp/admin_access.log"
+  address:
+    socket_address:
+      address: 0.0.0.0
+      port_value: 9901
+

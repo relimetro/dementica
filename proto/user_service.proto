@@ -1,11 +1,41 @@
 syntax = "proto3";
 
-package auth;
+package user_service;
+option go_package = "example/user_service";
 
-service AuthService {
-  rpc SignUp(SignUpRequest) returns (AuthReply);
-  rpc Login(LoginRequest) returns (AuthReply);
+import "google/api/annotations.proto";
+
+service UserService {
+  rpc Login(LoginRequest) returns (AuthReply) {
+    option (google.api.http) = {
+      post: "/v1/user_service.UserService/Login"
+      body: "*"
+    };
+  }
+  rpc SignUp(SignUpRequest) returns (AuthReply) {
+    option (google.api.http) = {
+      post: "/v1/user_service.UserService/SignUp"
+      body: "*"
+    };
+  }  
+  rpc LinkUser (LinkUserRequest) returns (LinkUserReply) {
+    option (google.api.http) = {
+      post: "/v1/user_service.UserService/LinkUser"
+      body: "*"
+    };
+  }
+  rpc GetLinkedUsers (GetLinkedUsersRequest) returns (GetLinkedUsersReply) {
+    option (google.api.http) = {
+      post: "/v1/user_service.UserService/GetLinkedUsers"
+      body: "*"
+    };
+  }
+
+  rpc VerifyTokenRemote(VerifyTokenRequest) returns (VerifyTokenResponse) {}
+    // internal grpc, not exposed to rest (for firestore.go)
 }
+
+
 
 message SignUpRequest {
   string email = 1;
@@ -18,8 +48,37 @@ message LoginRequest {
 }
 
 message AuthReply {
-  string uid = 1;
-  string id_token = 2;
+  string uid = 1; //may be null
+  string id_token = 2; //may be null
   string message = 3;
 }
+
+message LinkUserRequest {
+    string patient_token = 1; 
+    string doctor_uid = 2;
+    string relation_type = 3; // e.g. "doctor" (for filtering options, not nessesary)
+}
+
+message LinkUserReply {
+    string message = 1;
+}
+
+message GetLinkedUsersRequest {
+    string id_token = 1;
+    string relation_type = 2; //optional for filtering
+}
+
+message RelatedUser {
+    string uid = 1;
+    string relation_type = 2;
+}
+
+message GetLinkedUsersReply {
+    repeated RelatedUser related_users = 1;
+}
+
+
+
+message VerifyTokenRequest { string id_token = 1; }
+message VerifyTokenResponse { bool res = 1; string uid = 2; }
 

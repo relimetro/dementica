@@ -7,25 +7,40 @@ services:
       - "50051:50051"
     networks:
       - backend
+    environment:
+      - PYTHONUNBUFFERED=1
 
-  # user_service:
-  #   build: ./services/user_service
-  #   ports:
-  #     - "50061:50061"
-  #   environment:
-  #     - FIREBASE_WEB_API_KEY=${FIREBASE_WEB_API_KEY}
-  #     - FIREBASE_CREDENTIALS=/run/secrets/firebase.json
-  #   volumes:
-  #     - ./firebase.json:/run/secrets/firebase.json:ro
-  #   restart: unless-stopped
+  user_service:
+    container_name: user_service
+    build: ./services/user_service
+    ports:
+      - "50061:50061"
+    environment:
+      - FIREBASE_WEB_API_KEY=${FIREBASE_WEB_API_KEY}
+      - FIREBASE_CREDENTIALS=/run/secrets/firebase.json
+      - PYTHONUNBUFFERED=1 # force to log to stdOut
+    volumes:
+      - ./firebase.json:/run/secrets/firebase.json:ro
+    restart: unless-stopped
+    networks:
+      - backend
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    security_opt: 
+      - label:disable
 
-  firebaseprototype:
-    build: ./services/firebaseprototype
-    container_name: firebaseprototype
+  firestore:
+    build: ./services/firestore
+    container_name: firestore
     ports:
       - "9000:9000"
     networks:
       - backend
+    volumes:
+      - ./firebase.json:/usr/src/app/firebase.json
+    security_opt: 
+      - label:disable
 
   frontend:
     build: ./services/frontend
@@ -42,6 +57,8 @@ services:
       - "50052:50052"
     networks:
       - backend
+    environment:
+      - PYTHONUNBUFFERED=1
 
   keras:
     build: ./services/keras
@@ -71,15 +88,18 @@ services:
     image: envoyproxy/envoy:v1.31-latest
     volumes:
       - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
-      - ./services/dummy/dummy.pb:/services/dummy.pb
-      - ./proto/firebase.pb:/services/firebaseprototype.pb
-      - ./proto/both.pb:/services/both.pb # unused
+      - ./proto/descriptors.pb:/services/descriptors.pb
     ports:
       - "8080:8080"
     networks:
       - backend
     security_opt: 
       - label:disable
+    depends_on:
+      - user_service
+      - firestore
+      - vertexai
+      - dummy
 
 networks:
   backend:
