@@ -5,7 +5,7 @@ import warnings
 
 import user_service_pb2 as user__service__pb2
 
-GRPC_GENERATED_VERSION = '1.76.0'
+GRPC_GENERATED_VERSION = '1.75.1'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + ' but the generated code in user_service_pb2_grpc.py depends on'
+        + f' but the generated code in user_service_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -34,6 +34,16 @@ class UserServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
+        self.AddUserDetails = channel.unary_unary(
+                '/user_service.UserService/AddUserDetails',
+                request_serializer=user__service__pb2.AddUserDetailsRequest.SerializeToString,
+                response_deserializer=user__service__pb2.AddUserDetailsReply.FromString,
+                _registered_method=True)
+        self.GetUserDetails = channel.unary_unary(
+                '/user_service.UserService/GetUserDetails',
+                request_serializer=user__service__pb2.GetUserDetailsRequest.SerializeToString,
+                response_deserializer=user__service__pb2.GetUserDetailsReply.FromString,
+                _registered_method=True)
         self.Login = channel.unary_unary(
                 '/user_service.UserService/Login',
                 request_serializer=user__service__pb2.LoginRequest.SerializeToString,
@@ -63,6 +73,18 @@ class UserServiceStub(object):
 
 class UserServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
+
+    def AddUserDetails(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetUserDetails(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
     def Login(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -97,6 +119,16 @@ class UserServiceServicer(object):
 
 def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
+            'AddUserDetails': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddUserDetails,
+                    request_deserializer=user__service__pb2.AddUserDetailsRequest.FromString,
+                    response_serializer=user__service__pb2.AddUserDetailsReply.SerializeToString,
+            ),
+            'GetUserDetails': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetUserDetails,
+                    request_deserializer=user__service__pb2.GetUserDetailsRequest.FromString,
+                    response_serializer=user__service__pb2.GetUserDetailsReply.SerializeToString,
+            ),
             'Login': grpc.unary_unary_rpc_method_handler(
                     servicer.Login,
                     request_deserializer=user__service__pb2.LoginRequest.FromString,
@@ -132,6 +164,60 @@ def add_UserServiceServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class UserService(object):
     """Missing associated documentation comment in .proto file."""
+
+    @staticmethod
+    def AddUserDetails(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_service.UserService/AddUserDetails',
+            user__service__pb2.AddUserDetailsRequest.SerializeToString,
+            user__service__pb2.AddUserDetailsReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetUserDetails(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_service.UserService/GetUserDetails',
+            user__service__pb2.GetUserDetailsRequest.SerializeToString,
+            user__service__pb2.GetUserDetailsReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
 
     @staticmethod
     def Login(request,

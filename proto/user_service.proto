@@ -6,6 +6,19 @@ option go_package = "example/user_service";
 import "google/api/annotations.proto";
 
 service UserService {
+    rpc AddUserDetails (AddUserDetailsRequest) returns (AddUserDetailsReply) {
+    option (google.api.http) = {
+      put: "/v1/user_service.UserService/AddUserDetails"
+      body: "*"
+    };
+  }
+
+  rpc GetUserDetails (GetUserDetailsRequest) returns (GetUserDetailsReply) {
+    option (google.api.http) = {
+      get: "/v1/user_service.UserService/GetUserDetails"
+    };
+  }
+
   rpc Login(LoginRequest) returns (AuthReply) {
     option (google.api.http) = {
       post: "/v1/user_service.UserService/Login"
@@ -77,6 +90,23 @@ message GetLinkedUsersReply {
     repeated RelatedUser related_users = 1;
 }
 
+message AddUserDetailsRequest {
+  string id_token = 1; // identifies the user
+  map<string, string> details = 2; // arbitrary key-value fields
+}
+
+message AddUserDetailsReply {
+  string message = 1;
+}
+
+message GetUserDetailsRequest {
+  string id_token = 1; // requester token
+  string target_uid = 2; // optional - uid of related user
+}
+
+message GetUserDetailsReply {
+  map<string, string> details = 1;
+}
 
 
 message VerifyTokenRequest { string id_token = 1; }
