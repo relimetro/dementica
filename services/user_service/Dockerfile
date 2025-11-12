@@ -12,6 +12,6 @@ COPY . .
 # Environment variable (path to key inside container)
 ENV FIREBASE_CREDENTIALS=/run/secrets/firebase.json
 
-EXPOSE 50051
+EXPOSE 50061
 CMD ["python", "server.py"]
 
