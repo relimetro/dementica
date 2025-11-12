@@ -35,7 +35,7 @@ func KerasCall(x string) (string,bool) {
 	message := aiProompt.ProomptMsg { Message: x}
 	resp, err := c.HealtcareProompt(context.Background(), &message)
 	if err != nil { log.Printf("[ERROR] FTproompt, <%s>, <%d>",err,resp); return "",false; }
-	log.Printf("Response FTproompt: %s",resp.Message)
+	log.Printf("Response FTproompt: %s",resp)
 	return resp.Message,true }
 
 
