@@ -21,22 +21,31 @@ import(
 ///////////////////////////////////////////////////////////////
 /// Functionality
 
-func (s *server) ProcessLifestyle(x string) (string,bool) {
+func KerasCall(x string) (string,bool) {
 
 	var conn *grpc.ClientConn
 	// conn, err := grpc.Dial("vertexai:50052", grpc.WithInsecure())
-	conn, err := grpc.Dial("localhost:50052", grpc.WithInsecure())
-	if err != nil { log.Printf("[ERROR] GRPC: cound not connect vertexAI at 50052: \n%s",err); return "",false; }
+	conn, err := grpc.Dial("keras:50053", grpc.WithInsecure())
+	if err != nil { log.Printf("[ERROR] GRPC: cound not connect keras at 50053: \n%s",err); return "",false; }
 	defer conn.Close()
 	c := aiProompt.NewAiProomptClient(conn)
 
-	txt := "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes"
-	// txt = "short response why is the sky blue"
-	message := aiProompt.ProomptMsg { Message: txt}
+	// txt := "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes"
+	log.Printf("calling keras (%s)",x)
+	message := aiProompt.ProomptMsg { Message: x}
 	resp, err := c.HealtcareProompt(context.Background(), &message)
 	if err != nil { log.Printf("[ERROR] FTproompt, <%s>, <%d>",err,resp); return "",false; }
-	log.Printf("Response FTproompt: %s",resp.Message)
+	log.Printf("Response FTproompt: %s",resp)
 	return resp.Message,true }
+
+func UpdateTestRiskScore(c *firestore.Client, data string, testId string){
+	out,succ := KerasCall(data)
+	log.Printf("UpdateTestRiskScore: %v -- %v",succ,out)
+	myFire.SetTestRiskScore(c, testId, out)
+	log.Printf("UpdateTestRiskScore: Done")
+}
+
+
 
 func GoPatientToProtoPatient(p myFire.Patient) pb.PatientData {
 	hasDem := pb.PatientData_Unknown;
@@ -234,9 +243,14 @@ func (s *server) GetTestHistory(ctx context.Context, x *pb.UserID) (*pb.TestHist
 
 // Send Lifestyle Questionares
 func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb.LifestyleResponse, error) {
-	log.Printf("SendLifestyle:")
+	log.Printf("SendLifestyle: '%s'",x.Data)
 
-	myFire.AddLifestyleTest(s.c, x.UserID, x.Data)
+	// upload test
+	testId := myFire.AddLifestyleTest(s.c, x.UserID, x.Data)
+
+	// update risk score in background
+	go UpdateTestRiskScore(s.c, x.Data, testId)
+
 
 	// return session token
 	return &pb.LifestyleResponse{

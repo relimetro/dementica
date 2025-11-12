@@ -51,10 +51,20 @@ services:
       - backend
 
   vertexai:
-    build: ./services/keras
+    build: ./services/vertexai
     container_name: vertexai
     ports:
-      - "50052:50053"
+      - "50052:50052"
+    networks:
+      - backend
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  keras:
+    build: ./services/keras
+    container_name: keras
+    ports:
+      - "50053:50053"
     networks:
       - backend
     environment:
@@ -67,6 +77,7 @@ services:
       - 80:80
     depends_on:
       - dummy
+      - envoy
     volumes:
     - ./openresty/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
     networks:

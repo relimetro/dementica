@@ -216,16 +216,18 @@ func GetPatientsOfDoctor(c *firestore.Client, docId string) []Patient{
 	return out
 }
 
-func AddLifestyleTest(c *firestore.Client, patId string, lifestyle string) {
+// returns document ID
+func AddLifestyleTest(c *firestore.Client, patId string, lifestyle string) string {
 	ctx := context.Background()
 
-	_, _, err := c.Collection("TestResults").Add(ctx, map[string]interface{}{
+	docRef, _, err := c.Collection("TestResults").Add(ctx, map[string]interface{}{
 		"UserID":patId,
 		"Date":"__NOT__IMPLEMENTED__",
 		"RiskScore":"Calculating",
 		"Data":lifestyle,
 	})
 	if err != nil { log.Fatalf("RegisterPatient error\n%v",err)}
+	return docRef.ID
 
 }
 func GetTestHistory(c *firestore.Client, patId string) []TestResult {
@@ -254,6 +256,12 @@ func SetPatientDementica(c *firestore.Client, patId string, dementica string) {
 	if err != nil { log.Printf("Error %v", err) }
 }
 
+func SetTestRiskScore(c *firestore.Client, testId string, riskScore string) {
+	ctx := context.Background()
+	_, err := c.Collection("TestResults").Doc(testId).Update(ctx, []firestore.Update{{
+		Path: "RiskScore", Value:riskScore},})
+	if err != nil { log.Printf("Error %v", err) }
+}
 
 
 

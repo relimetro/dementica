@@ -138,14 +138,10 @@ def LifestyleQuestionareFromIntermediary(txt:str) -> LifestyleQuestionare:
 		x = x.strip()
 		kp = x.split(":")
 		if len(kp) == 1 :
-			# print(kp[0])
 			if kp[0].startswith("ChronicHealthConditions"):
 				vals.append(kp[0][23:])
 		else :
-			# print("three")
 			vals.append(kp[1])
-	# for x in range(len(vals)):
-	# 	print(f"[{x}] {LifestyleFeatures[x]}: {vals[x]}")
 	return LifestyleQuestionareFromList(vals)
 
 
