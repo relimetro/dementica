@@ -8,7 +8,7 @@ from grpc_reflection.v1alpha import reflection
 class AiProompt(vertex_pb2_grpc.aiProomptServicer):
 	def HealtcareProompt(self, request, context):
 		out = "1"
-		print("recieved AI response")
+		print("recieved AI response",request)
 		print(f"response {out}")
 		return vertex_pb2.ProomptReturn(message=out)
 
