@@ -32,7 +32,7 @@ service UserService {
   }
 
   rpc VerifyTokenRemote(VerifyTokenRequest) returns (VerifyTokenResponse) {}
-	// internal grpc, not exposed to rest (for firestore.go)
+    // internal grpc, not exposed to rest (for firestore.go)
 }
 
 
@@ -81,3 +81,4 @@ message GetLinkedUsersReply {
 
 message VerifyTokenRequest { string id_token = 1; }
 message VerifyTokenResponse { bool res = 1; string uid = 2; }
+

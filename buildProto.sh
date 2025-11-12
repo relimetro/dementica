@@ -22,11 +22,13 @@ protoc \
 
 
 # user_service
-protoc \
+python -m grpc_tools.protoc \
 	-I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto/user_service.pb \
 	--proto_path=./proto/ \
-	--python_out=./services/user_service --grpc_python_out=./services/user_service \
+	--python_out=./services/user_service \
+	--grpc_python_out=./services/user_service \
 	user_service.proto
+ # can delete proto/user_service.pb afterward, just need so does not complain about annotation.proto
 
 
 

@@ -7,6 +7,7 @@ import(
 	"net"
 	pb "example/proto_example/protoOut"
 	aiProompt "example/proto_example/protoAI"
+	UserService "example/proto_example/UserService"
 	"google.golang.org/grpc"
 	"golang.org/x/net/context"
 
@@ -66,7 +67,7 @@ func (s *server) VerifyIdToken(txt string) (string,bool) {
 	defer conn.Close()
 	c := UserService.NewUserServiceClient(conn)
 
-	message := UserService.VerifyTokenRequest { Id_token: txt}
+	message := UserService.VerifyTokenRequest { IdToken: txt} // note GO: removed underscore and capitalizes id_token -> Id_Token
 	resp, err := c.VerifyTokenRemote(context.Background(), &message)
 	if err != nil { log.Printf("[ERROR] firestore verify id_token, <%s>, <%d>",err,resp); return "",false; }
 	log.Printf("Response id_token verify: %v-%s",resp.Res,resp.Uid)
@@ -85,21 +86,21 @@ func (s *server) UserService_Register(email string, password string) (string,boo
 	resp, err := c.SignUp(context.Background(), &message)
 	if err != nil { log.Printf("[ERROR] firestore user_service signup, <%s>, <%d>",err,resp); return "",false; }
 	log.Printf("Response user_service signup: %s",resp.Message)
-	return true }
+	return "AHHASH",true }
 
 func (s *server) UserService_Login(email string, password string) bool {
 	var conn *grpc.ClientConn
 	// user_service
 	conn, err := grpc.Dial("localhost:50061", grpc.WithInsecure())
-	if err != nil { log.Printf("[ERROR] GRPC: cound not connect user_service at 50061: \n%s",err); return "",false; }
+	if err != nil { log.Printf("[ERROR] GRPC: cound not connect user_service at 50061: \n%s",err); return false; }
 	defer conn.Close()
 	c := UserService.NewUserServiceClient(conn)
 
 	message := UserService.LoginRequest { Email: email, Password: password }
 	resp, err := c.Login(context.Background(), &message)
-	if err != nil { log.Printf("[ERROR] firestore user_service login, <%s>, <%d>",err,resp); return "",false; }
+	if err != nil { log.Printf("[ERROR] firestore user_service login, <%s>, <%d>",err,resp); return false; }
 	log.Printf("Response user_service signup: %s",resp.Message)
-	return resp.id_token, true }
+	return true }
 
 
 

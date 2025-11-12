@@ -571,7 +571,7 @@ const file_user_service_proto_rawDesc = "" +
 	"\x03uid\x18\x02 \x01(\tR\x03uid2\xd3\x04\n" +
 	"\vUserService\x12k\n" +
 	"\x05Login\x12\x1a.user_service.LoginRequest\x1a\x17.user_service.AuthReply\"-\x82\xd3\xe4\x93\x02':\x01*\"\"/v1/user_service.UserService/Login\x12n\n" +
-	"\x06SignUp\x12\x1b.user_service.SignUpRequest\x1a\x17.user_service.AuthReply\".\x82\xd3\xe4\x93\x02(:\x01*\"#/v1/user_service.UserService/SignUp\x12x\n" +
+	"\x06SignUp\x12\x1b.user_service.SignUpRequest\x1a\x17.user_service.AuthReply\".\x82\xd3\xe4\x93\x02(:\x01*\"#/v2/user_service.UserService/SignUp\x12x\n" +
 	"\bLinkUser\x12\x1d.user_service.LinkUserRequest\x1a\x1b.user_service.LinkUserReply\"0\x82\xd3\xe4\x93\x02*:\x01*\"%/v1/user_service.UserService/LinkUser\x12\x90\x01\n" +
 	"\x0eGetLinkedUsers\x12#.user_service.GetLinkedUsersRequest\x1a!.user_service.GetLinkedUsersReply\"6\x82\xd3\xe4\x93\x020:\x01*\"+/v1/user_service.UserService/GetLinkedUsers\x12Z\n" +
 	"\x11VerifyTokenRemote\x12 .user_service.VerifyTokenRequest\x1a!.user_service.VerifyTokenResponse\"\x00B\x16Z\x14example/user_serviceb\x06proto3"

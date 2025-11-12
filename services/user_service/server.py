@@ -40,7 +40,7 @@ class UserService(user_service_pb2_grpc.UserServiceServicer):
             payload = str(request)
         logging.info(f"Received gRPC request: {method_name} | payload: {payload}")
 
-    def VerifyTokenRemote(self, request, context):
+    def VerifyTokenRemote(self, request, context): # cathal added this :), for firestore to get user id from id_token
         self.log_request("VerifyTokenRemote", request)
         try:
             uid = verify_token(request.id_token)
@@ -50,7 +50,7 @@ class UserService(user_service_pb2_grpc.UserServiceServicer):
             )
         except ValueError as e:
             return user_service_pb2.VerifyTokenResponse(
-                    res=False
+                res=False,
                 uid="__INVALID__"
             )
 
