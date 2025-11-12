@@ -4,5 +4,6 @@
 [ $1 == "test" ] && { curl -X POST -d '{"name":"Bob"}' http://localhost:80/v1/say_hello; exit; }
 [ $1 == "firebase" ] && { curl -X POST -d '{"message":"Bob"}' http://localhost:80/v1/send_lifestyle; exit; }
 [ $1 == "news" ] && { curl -X POST -d '{"Type":"Doctor"}' http://localhost:80/v1/get_news; exit; }
+[ $1 == "user" ] && { curl -X POST -d '{"email":"Eoin","password":"12345"}' http://localhost:80/v1/user_service.UserService/Login; exit; }
 [ $1 == "build" ] && { sudo docker-compose -f docker-compose.yaml build && sudo docker-compose -f docker-compose.yaml up; }
 [ $1 == "run" ] && { sudo docker-compose -f docker-compose.yaml up; }
