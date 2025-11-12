@@ -1,0 +1,7 @@
+googleapis-common-protos
+grpcio
+grpcio-tools
+grpcio-reflection
+google-cloud-aiplatform
+tensorflow
+keras

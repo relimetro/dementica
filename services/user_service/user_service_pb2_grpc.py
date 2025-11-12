@@ -5,7 +5,7 @@ import warnings
 
 import user_service_pb2 as user__service__pb2
 
-GRPC_GENERATED_VERSION = '1.75.1'
+GRPC_GENERATED_VERSION = '1.76.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in user_service_pb2_grpc.py depends on'
+        + ' but the generated code in user_service_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -54,6 +54,11 @@ class UserServiceStub(object):
                 request_serializer=user__service__pb2.GetLinkedUsersRequest.SerializeToString,
                 response_deserializer=user__service__pb2.GetLinkedUsersReply.FromString,
                 _registered_method=True)
+        self.VerifyTokenRemote = channel.unary_unary(
+                '/user_service.UserService/VerifyTokenRemote',
+                request_serializer=user__service__pb2.VerifyTokenRequest.SerializeToString,
+                response_deserializer=user__service__pb2.VerifyTokenResponse.FromString,
+                _registered_method=True)
 
 
 class UserServiceServicer(object):
@@ -83,6 +88,12 @@ class UserServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def VerifyTokenRemote(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -105,6 +116,11 @@ def add_UserServiceServicer_to_server(servicer, server):
                     servicer.GetLinkedUsers,
                     request_deserializer=user__service__pb2.GetLinkedUsersRequest.FromString,
                     response_serializer=user__service__pb2.GetLinkedUsersReply.SerializeToString,
+            ),
+            'VerifyTokenRemote': grpc.unary_unary_rpc_method_handler(
+                    servicer.VerifyTokenRemote,
+                    request_deserializer=user__service__pb2.VerifyTokenRequest.FromString,
+                    response_serializer=user__service__pb2.VerifyTokenResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -215,6 +231,33 @@ class UserService(object):
             '/user_service.UserService/GetLinkedUsers',
             user__service__pb2.GetLinkedUsersRequest.SerializeToString,
             user__service__pb2.GetLinkedUsersReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def VerifyTokenRemote(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_service.UserService/VerifyTokenRemote',
+            user__service__pb2.VerifyTokenRequest.SerializeToString,
+            user__service__pb2.VerifyTokenResponse.FromString,
             options,
             channel_credentials,
             insecure,

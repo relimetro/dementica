@@ -14,7 +14,7 @@ func main() {
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure() )
 	if err != nil { log.Fatalf("GRPC: could not connect,\n%s", err)}
 	defer conn.Close()
-	c := pb.NewServClient(conn)
+	c := pb.NewFirestoreClient(conn)
 
 	// Login
 	message := pb.UserLogin { UserName: "name", PlaintextPassword:"pass", }
@@ -41,9 +41,10 @@ func main() {
 	log.Printf("Response from server: %d", response4.Score)
 
 	// Send lifestyle
-	message5 := pb.LifestyleRequest { Message:"123"}
+	lifestyle := "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes"
+	message5 := pb.LifestyleRequest { Message:lifestyle}
 	response5, err := c.SendLifestyle(context.Background(), &message5)
 	if err != nil { log.Fatalf("Err: send msg5: %s", err) }
-	log.Printf("Response from server: %d", response5.Success)
+	log.Printf("lifestyle from server: %d", response5.Success)
 
 }

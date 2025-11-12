@@ -27,14 +27,20 @@ services:
     dns:
       - 8.8.8.8
       - 8.8.4.4
+    security_opt: 
+      - label:disable
 
-  firebaseprototype:
-    build: ./services/firebaseprototype
-    container_name: firebaseprototype
+  firestore:
+    build: ./services/firestore
+    container_name: firestore
     ports:
       - "9000:9000"
     networks:
       - backend
+    volumes:
+      - ./firebase.json:/usr/src/app/firebase.json
+    security_opt: 
+      - label:disable
 
   frontend:
     build: ./services/frontend
@@ -45,10 +51,10 @@ services:
       - backend
 
   vertexai:
-    build: ./services/vertexai
+    build: ./services/keras
     container_name: vertexai
     ports:
-      - "50052:50052"
+      - "50052:50053"
     networks:
       - backend
     environment:
@@ -72,7 +78,7 @@ services:
     image: envoyproxy/envoy:v1.31-latest
     volumes:
       - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
-      - ./proto/descriptors.pb:/services/descriptors.pb # unused
+      - ./proto/descriptors.pb:/services/descriptors.pb
     ports:
       - "8080:8080"
     networks:
@@ -81,7 +87,7 @@ services:
       - label:disable
     depends_on:
       - user_service
-      - firebaseprototype
+      - firestore
       - vertexai
       - dummy
 

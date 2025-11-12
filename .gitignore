@@ -1,5 +1,4 @@
-services/firebaseprototype/firebase.json
 .venv/
-services/vertexai/copper-actor-475117-i7-92a1502a7bf4.json
+services/vertexai/*.json
 firebase.json
 .env
