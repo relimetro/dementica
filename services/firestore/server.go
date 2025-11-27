@@ -41,7 +41,8 @@ func KerasCall(x string) (string,bool) {
 func UpdateTestRiskScore(c *firestore.Client, data string, testId string){
 	out,succ := KerasCall(data)
 	log.Printf("UpdateTestRiskScore: %v -- %v",succ,out)
-	myFire.SetTestRiskScore(c, testId, out)
+	if succ { myFire.SetTestRiskScore(c, testId, out)
+	} else { myFire.SetTestRiskScore(c, testId, "ServerError") }
 	log.Printf("UpdateTestRiskScore: Done")
 }
 
@@ -175,6 +176,9 @@ func (s *server) GetRisk(ctx context.Context, x *pb.UserID) (*pb.RiskResponse, e
 	log.Printf("GetRisk: %s", x.UserID)
 
 	p, _ := myFire.GetPatientInfo(s.c, x.UserID)
+
+	score := p.RiskScore
+	if (score == "ServerError") { score = "Calculating" } // server error occurs when keras offline, convert to generic "Calculating" for users
 
 	// return session token
 	return &pb.RiskResponse{

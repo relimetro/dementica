@@ -102,7 +102,7 @@ message PatientData {
   enum Dementia { Unknown = 0; Positive = 1; Negative = 2; }
   enum Res { Ok = 0; NotFound = 1; NoPermission = 2; NotPatient = 3; }
 } // NOTFOUND: user does not exist,, NOPERMISSION: not have permission, NOTPATIENT: user is not patient
-message RiskResponse { Res Result = 1; string RiskScore = 2; enum Res { Ok = 0; NotFound = 1; NoPermission = 2; NotPatient = 3; } }
+message RiskResponse { Res Result = 1; string RiskScore = 2; enum Res { Ok = 0; NotFound = 1; NoPermission = 2; NotPatient = 3; } } // risk score is float in range 0-1 or Calculating
 message DoctorData {
   Res Result = 1;
   string Name = 2;
