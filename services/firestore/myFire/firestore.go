@@ -265,6 +265,27 @@ func SetTestRiskScore(c *firestore.Client, testId string, riskScore string) {
 
 
 
+func GetNews(c *firestore.Client, matchStr string) string{
+	ctx := context.Background()
+
+	iter := c.Collection("News").Documents(ctx)
+	for {
+		// iterate
+		doc, err := iter.Next()
+		if err == iterator.Done { break }
+		if err != nil { log.Fatalf("failed to iterate:\n%v",err)}
+		d := doc.Data()
+
+		if d["Type"].(string) == matchStr {
+			return d["Content"].(string) }
+	}
+	return "Sorry, no news found for type '"+matchStr+"'."
+}
+
+
+
+
+
 
 // Patient(UserID,Name,HasDementia,DoctorID?,RiskScore?)
 // Doctor(UserID,Name,Email)

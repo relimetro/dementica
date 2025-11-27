@@ -1,10 +1,12 @@
 #!/usr/bin/bash
 
+# passis123456@example.com, password:123456
 
 [ $1 == "test" ] && { curl -X POST -d '{"name":"Bob"}' http://localhost:80/v1/say_hello; exit; }
-[ $1 == "firebase" ] && { curl -X POST -d '{"message":"Bob"}' http://localhost:80/v1/send_lifestyle; exit; }
 [ $1 == "keras" ] && { curl -X POST -d '{"UserID":"__testing__","data":"Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes"}' http://localhost:80/v1/send_lifestyle; exit; }
-[ $1 == "news" ] && { curl -X POST -d '{"Type":"Doctor"}' http://localhost:80/v1/get_news; exit; }
-[ $1 == "user" ] && { curl -X POST -d '{"email":"Eoin","password":"12345"}' http://localhost:80/v1/user_service.UserService/Login; exit; }
+[ $1 == "kerasOnline" ] && { curl -X POST -d '{"UserID":"__testing__","data":"Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes"}' http://dementica.danigoes.online:80/v1/send_lifestyle; exit; }
+[ $1 == "newsD" ] && { curl -X POST -d '{"Type":"Doctor"}' http://localhost:80/v1/get_news; exit; }
+[ $1 == "newsP" ] && { curl -X POST -d '{"Type":"Doctor"}' http://localhost:80/v1/get_news; exit; }
+[ $1 == "user" ] && { curl -X POST -d '{"email":"passis123456","password":"123456"}' http://localhost:80/v1/user_service.UserService/Login; exit; }
 [ $1 == "build" ] && { sudo docker-compose -f docker-compose.yaml build && sudo docker-compose -f docker-compose.yaml up; }
 [ $1 == "run" ] && { sudo docker-compose -f docker-compose.yaml up; }

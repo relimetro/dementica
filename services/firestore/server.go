@@ -126,7 +126,7 @@ type server struct{
 
 // Register
 func (s *server) Register(ctx context.Context, x *pb.UserRegister) (*pb.RegisterResult, error) {
-	log.Printf("register:") //%s, %s\n\n",x.UserName, x.PlaintextPassword)
+	log.Printf("register: %s %s",x.Name,x.Password) //%s, %s\n\n",x.UserName, x.PlaintextPassword)
 
 	if x.UserType == pb.UserRegister_Patient {
 		myFire.RegisterPatient(s.c, x.Name, x.Password, "") // todo ability to assign to doctor
@@ -161,7 +161,7 @@ func (s *server) Login(ctx context.Context, x *pb.UserLogin) (*pb.LoginResult, e
 
 // PatientInfo
 func (s *server) PatientInfo(ctx context.Context, x *pb.UserID) (*pb.PatientData, error) {
-	log.Printf("patientInfo:")
+	log.Printf("patientInfo: %s",x.UserID)
 
 	p, _ := myFire.GetPatientInfo(s.c, x.UserID)
 
@@ -172,7 +172,7 @@ func (s *server) PatientInfo(ctx context.Context, x *pb.UserID) (*pb.PatientData
 }
 // Get Risk
 func (s *server) GetRisk(ctx context.Context, x *pb.UserID) (*pb.RiskResponse, error) {
-	log.Printf("GetRisk:")
+	log.Printf("GetRisk: %s", x.UserID)
 
 	p, _ := myFire.GetPatientInfo(s.c, x.UserID)
 
@@ -186,7 +186,7 @@ func (s *server) GetRisk(ctx context.Context, x *pb.UserID) (*pb.RiskResponse, e
 
 // Doctor Info
 func (s *server) DoctorInfo(ctx context.Context, x *pb.UserID) (*pb.DoctorData, error) {
-	log.Printf("DoctorInfo:")
+	log.Printf("DoctorInfo: %s", x.UserID)
 
 	d, _ := myFire.GetDoctorInfo(s.c, x.UserID)
 
@@ -201,7 +201,7 @@ func (s *server) DoctorInfo(ctx context.Context, x *pb.UserID) (*pb.DoctorData, 
 
 // Get Patients
 func (s *server) GetPatients(ctx context.Context, x *pb.UserID) (*pb.PatientsResponse, error) {
-	log.Printf("GetPatients:")
+	log.Printf("GetPatients: %s", x.UserID)
 
 	ds := myFire.GetPatientsOfDoctor(s.c, x.UserID)
 
@@ -220,7 +220,7 @@ func (s *server) GetPatients(ctx context.Context, x *pb.UserID) (*pb.PatientsRes
 }
 // Get Test History
 func (s *server) GetTestHistory(ctx context.Context, x *pb.UserID) (*pb.TestHistoryResponse, error) {
-	log.Printf("GetTestHistory:")
+	log.Printf("GetTestHistory: %s", x.UserID)
 
 	ts := myFire.GetTestHistory(s.c, x.UserID)
 
@@ -260,7 +260,7 @@ func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb
 
 // Send Patient Dementia
 func (s *server) SendPatientDementia(ctx context.Context, x *pb.DementiaRequest) (*pb.DementiaResponse, error) {
-	log.Printf("SendPatientDementia:")
+	log.Printf("SendPatientDementia: %s %s",x.UserID, x.Dementia)
 
 	demStr := "Unknown"
 	if x.Dementia == pb.DementiaRequest_Unknown { demStr = "Unknown" 
@@ -278,12 +278,19 @@ func (s *server) SendPatientDementia(ctx context.Context, x *pb.DementiaRequest)
 
 // GetNews
 func (s *server) GetNews(ctx context.Context, x *pb.NewsRequest) (*pb.NewsResponse, error) {
-	log.Printf("GetNews: __NotImplemented__")
+	log.Printf("GetNews: %s",x.Type)
 
-	// todo: check type
+	var typeStr string
+	if (x.Type == pb.NewsRequest_Patient) {
+		typeStr = "Patient"
+	} else if (x.Type == pb.NewsRequest_Doctor) { typeStr = "Doctor"
+	} else {
+		log.Printf("GetNews Invalid UserType\n%v",x)
+		return &pb.NewsResponse{ Content: "Internal Server Error firestore-GetNews", }, nil
+	}
 
 	return &pb.NewsResponse{
-		Content: "News Not Implemented Yet",
+		Content: myFire.GetNews(s.c,typeStr),
 	}, nil
 }
 
