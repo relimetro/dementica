@@ -69,25 +69,25 @@ func GoPatientToProtoPatient(p myFire.Patient) pb.PatientData {
 
 ///////////////////////////////////////////////////////////////
 /// UserService
-func (s *server) VerifyIdToken(txt string) (string,bool) {
+func (s *server) VerifyIdToken(idToken string) (string,bool) { // returns uid of given idToken
 	var conn *grpc.ClientConn
 	// user_service
-	conn, err := grpc.Dial("localhost:50061", grpc.WithInsecure())
+	conn, err := grpc.Dial("user_service:50061", grpc.WithInsecure())
 	if err != nil { log.Printf("[ERROR] GRPC: cound not connect user_service at 50061: \n%s",err); return "",false; }
 	defer conn.Close()
 	c := UserService.NewUserServiceClient(conn)
 
-	message := UserService.VerifyTokenRequest { IdToken: txt} // note GO: removed underscore and capitalizes id_token -> Id_Token
+	message := UserService.VerifyTokenRequest { IdToken: idToken} // note GO: removed underscore and capitalizes id_token -> Id_Token
 	resp, err := c.VerifyTokenRemote(context.Background(), &message)
 	if err != nil { log.Printf("[ERROR] firestore verify id_token, <%s>, <%d>",err,resp); return "",false; }
 	log.Printf("Response id_token verify: %v-%s",resp.Res,resp.Uid)
 	return resp.Uid,true }
 
-// returns id_token
-func (s *server) UserService_Register(email string, password string) (string,bool) {
+
+func (s *server) UserService_Register(email string, password string) (string,bool) { // returns uid and success
 	var conn *grpc.ClientConn
 	// user_service
-	conn, err := grpc.Dial("localhost:50061", grpc.WithInsecure())
+	conn, err := grpc.Dial("user_service:50061", grpc.WithInsecure())
 	if err != nil { log.Printf("[ERROR] GRPC: cound not connect user_service at 50061: \n%s",err); return "",false; }
 	defer conn.Close()
 	c := UserService.NewUserServiceClient(conn)
@@ -95,22 +95,25 @@ func (s *server) UserService_Register(email string, password string) (string,boo
 	message := UserService.SignUpRequest { Email: email, Password:password}
 	resp, err := c.SignUp(context.Background(), &message)
 	if err != nil { log.Printf("[ERROR] firestore user_service signup, <%s>, <%d>",err,resp); return "",false; }
-	log.Printf("Response user_service signup: %s",resp.Message)
-	return "AHHASH",true }
+	log.Printf("Response user_service signup: %s",resp)
+	if resp.Message == "Signup failed" {
+		return "", false; }
+	return resp.Uid,true }
 
-func (s *server) UserService_Login(email string, password string) bool {
+
+func (s *server) UserService_Login(email string, password string) (string,string,bool) { // returns id_token, uid, and success
 	var conn *grpc.ClientConn
 	// user_service
-	conn, err := grpc.Dial("localhost:50061", grpc.WithInsecure())
-	if err != nil { log.Printf("[ERROR] GRPC: cound not connect user_service at 50061: \n%s",err); return false; }
+	conn, err := grpc.Dial("user_service:50061", grpc.WithInsecure())
+	if err != nil { log.Printf("[ERROR] GRPC: cound not connect user_service at 50061: \n%s",err); return "","",false; }
 	defer conn.Close()
 	c := UserService.NewUserServiceClient(conn)
 
 	message := UserService.LoginRequest { Email: email, Password: password }
 	resp, err := c.Login(context.Background(), &message)
-	if err != nil { log.Printf("[ERROR] firestore user_service login, <%s>, <%d>",err,resp); return false; }
-	log.Printf("Response user_service signup: %s",resp.Message)
-	return true }
+	if err != nil { log.Printf("[ERROR] firestore user_service login, <%s>, <%d>",err,resp); return "","",false; }
+	log.Printf("Response user_service signup: [%s] <%s>",resp.Message,resp.IdToken)
+	return resp.IdToken, resp.Uid, true }
 
 
 
@@ -127,33 +130,55 @@ type server struct{
 
 // Register
 func (s *server) Register(ctx context.Context, x *pb.UserRegister) (*pb.RegisterResult, error) {
-	log.Printf("register: %s %s",x.Name,x.Password) //%s, %s\n\n",x.UserName, x.PlaintextPassword)
+	log.Printf("register: %s %s",x.Name,x.RegisterWith,x.Password,) //%s, %s\n\n",x.UserName, x.PlaintextPassword)
 
-	if x.UserType == pb.UserRegister_Patient {
-		myFire.RegisterPatient(s.c, x.Name, x.Password, "") // todo ability to assign to doctor
+	// only allow email
+	if x.RegType != pb.UserRegister_Email {
+		log.Printf("ERROR, only email registration is supported")
+		return &pb.RegisterResult{
+			Result: pb.RegisterResult_Failed,
+		}, nil }
+
+	uid, succ := s.UserService_Register(x.RegisterWith,x.Password)
+	if succ {
+		if x.UserType == pb.UserRegister_Patient {
+			myFire.RegisterPatient(s.c, uid, x.Name, x.RegisterWith)
+		} else {
+			myFire.RegisterDoctor(s.c, uid, x.Name, x.RegisterWith); }
+
+		// return Failed
+		return &pb.RegisterResult{
+			Result: pb.RegisterResult_Ok,
+		}, nil
 	} else {
-		myFire.RegisterDoctor(s.c, x.Name, x.Password, x.RegisterWith) // todo check for correct email etc
+		// return Failed
+		return &pb.RegisterResult{
+			Result: pb.RegisterResult_Taken,
+		}, nil
 	}
 
 
-	// return session token
-	return &pb.RegisterResult{
-		Result: pb.RegisterResult_Ok,
-	}, nil
 }
 
 // Login (UserLogin -> LoginResult)
 func (s *server) Login(ctx context.Context, x *pb.UserLogin) (*pb.LoginResult, error) {
-	log.Printf("login: %s, %s\n\n",x.Name, x.Password)
+	log.Printf("login: %s, %s\n\n",x.Email, x.Password)
+	// x.UserType
 
-	_, UserId, _ := myFire.Login(s.c,x.Name,x.Password)
-	// succ, UserId, _ := myFire.Login(s.c,x.Username,x.PlaintextPassword)
-
-	// return session token
-	return &pb.LoginResult{
-		UserID: UserId,
-		Result: pb.LoginResult_Ok,
-	}, nil
+	idToken, uid, succ := s.UserService_Login(x.Email,x.Password)
+	if succ {
+		return &pb.LoginResult{
+			IdToken: idToken,
+			UserID: uid,
+			Result: pb.LoginResult_Ok,
+		}, nil
+	} else {
+		return &pb.LoginResult{
+			IdToken: "",
+			UserID: "",
+			Result: pb.LoginResult_UserPass,
+		}, nil
+	}
 }
 
 

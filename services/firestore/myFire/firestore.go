@@ -46,19 +46,19 @@ func BURN_IT_ALL_DOWN(c *firestore.Client) {
 	DeleteCollection(c,"Users")
 	DeleteCollection(c,"TestResults")
 
-	docId := RegisterDoctor(c,"Eoin","Eoin@NeuroMind.com","12345")
-	patId := RegisterPatient(c,"Conor","12345",docId)
-	_ = RegisterPatient(c,"Conor2","12345",docId)
-	info, e := GetDoctorInfo(c,docId)
-	info2, e2 := GetPatientInfo(c,patId)
-	ps := GetPatientsOfDoctor(c,docId)
+	RegisterDoctor(c,"test1","Eoin","12345")
+	RegisterPatient(c,"test2","Conor","12345")
+	_ = RegisterPatient(c,"test3","Conor2","12345")
+	info, e := GetDoctorInfo(c,"test1")
+	info2, e2 := GetPatientInfo(c,"test2")
+	ps := GetPatientsOfDoctor(c,"test1")
 
-	AddLifestyleTest(c, patId, "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes" )
+	AddLifestyleTest(c, "test2", "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes" )
 	// ts := GetRiskScoreHistory(c, patId)
-	ts := GetTestHistory(c, patId)
+	ts := GetTestHistory(c, "test2")
 
-	log.Printf("%v",docId)
-	log.Printf("%v",patId)
+	log.Printf("%v","test1")
+	log.Printf("%v","test2")
 	// log.Printf("%v-%v-%v",v,docId2,logType)
 	log.Printf("%v-%v",info,e)
 	log.Printf("%v-%v",info2,e2)
@@ -121,60 +121,36 @@ func EmptyPatient() Patient { return Patient{UserID:"",Name:"", HasDementia:"Unk
 
 
 // Returns DocumentID
-func RegisterDoctor(c *firestore.Client, name string, email string, password string) string{
+func RegisterDoctor(c *firestore.Client, uid string, name string, email string) bool{
 	ctx := context.Background()
 
-	docRef, _, err := c.Collection("Users").Add(ctx, map[string]interface{}{
+	_, err := c.Collection("Users").Doc(uid).Set(ctx, map[string]interface{}{
 		"Name":name,
 		"Email":email,
-		"Password":password,
 		"Type":"Doctor",
 	})
 	if err != nil { log.Fatalf("RegisterDoc error\n%v",err)}
-	log.Printf("Registered Doctor: %s-%s-%s, %v\n\n",name,email,password, docRef)
-	return docRef.ID
+	log.Printf("Registered Doctor: %s-%s-%s, %v\n\n",name,email,uid)
+	return true
 }
 
-func RegisterPatient(c *firestore.Client, name string, password string, doctorRef string) string{
+func RegisterPatient(c *firestore.Client, uid string, name string, email string) bool{
 	ctx := context.Background()
 
-	docRef, _, err := c.Collection("Users").Add(ctx, map[string]interface{}{
+	_, err := c.Collection("Users").Doc(uid).Set(ctx, map[string]interface{}{
 		"Name":name,
-		"Password":password,
+		"Email":email,
 		"HasDementia":"Unknown",
-		"DoctorID":doctorRef,
+		"DoctorID":"",
 		"RiskScore":"0.5",
 		"Type":"Patient",
 	})
 	if err != nil { log.Fatalf("RegisterPatient error\n%v",err)}
-	log.Printf("Registered Patient: %s-%s, %v\n\n",name,password, docRef)
-	return docRef.ID
+	log.Printf("Registered Patient: %s-%s-%s, %v\n\n",name,email,uid)
+	return true
 }
 
 
-
-// Returns valid,UserID,type
-func Login(c *firestore.Client, name string, password string) (bool,string,string){
-	ctx := context.Background()
-
-	valid := true;
-	userId := "";
-	userType := "";
-
-	iter := c.Collection("Users").Documents(ctx)
-	for {
-		// iterate
-		doc, err := iter.Next()
-		if err == iterator.Done { break }
-		if err != nil { log.Fatalf("failed to iterate:\n%v",err)}
-
-		if doc.Data()["Name"].(string) != name { continue; }
-		if doc.Data()["Password"].(string) != password { valid = false; }
-		userType = doc.Data()["Type"].(string)
-		userId = doc.Ref.ID
-	}
-	return valid,userId,userType
-}
 
 // func Logout not implemented
 

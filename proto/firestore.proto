@@ -64,28 +64,29 @@ service firestore {
 // Register
 message UserRegister {
   string Name = 1;
-  string Password = 2;
-  UserTypeE UserType = 3;
-  RegisterTypeE RegType = 4;
-  string RegisterWith = 5;
+  string Password = 3;
+  UserTypeE UserType = 4;
+  RegisterTypeE RegType = 5;
+  string RegisterWith = 6; // ie the email or social media acount
   enum RegisterTypeE { None = 0; Email = 1; Social = 2; }
-  enum UserTypeE { Patient = 0; Doctor = 1; }
+  enum UserTypeE { Patient = 0; Doctor = 1; Admin = 2; }
 }
 message RegisterResult {
   RegResult Result = 1;
-  enum RegResult { Ok = 0; Taken = 1; }
+  enum RegResult { Ok = 0; Taken = 1; Failed = 2;}
 } // Ok: ok, TAKEN: username is taken
 
 // Login
 message UserLogin {
-  string Name = 1;
+  string Email = 1;
   string Password = 2;
   UserTypeE UserType = 3;
-  enum UserTypeE { Any = 0; Patient = 1; Doctor = 2; }
+  enum UserTypeE { Any = 0; Patient = 1; Doctor = 2; Admin = 3;}
 }
 message LoginResult {
-  string UserID = 1;
-  RegResult Result = 2;
+  string IdToken = 1;
+  string UserID = 2;
+  RegResult Result = 3;
   enum RegResult { Ok = 0; UserPass = 1; Type = 2;}
 } // Ok = Ok, USERPASS: username or password is incorrect, TYPE: incorect user type
 

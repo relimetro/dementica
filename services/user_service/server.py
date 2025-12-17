@@ -68,7 +68,7 @@ class UserService(user_service_pb2_grpc.UserServiceServicer):
         except Exception as e:
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(str(e))
-            return user_service_pb2.AuthReply(message="Signup failed.")
+            return user_service_pb2.AuthReply(message="Signup failed.") # note: firebase expects this exact message if signup if not successful
 
     def Login(self, request, context):
         self.log_request("Login", request)
@@ -87,6 +87,7 @@ class UserService(user_service_pb2_grpc.UserServiceServicer):
                 message=f"User {request.email} logged in successfully."
             )
         except requests.exceptions.HTTPError as e:
+            print(e)
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details(str(e))
             return user_service_pb2.AuthReply(message="Invalid email or password.")
