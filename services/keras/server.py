@@ -10,7 +10,7 @@ from datatypes import LifestyleQuestionare, LifestyleQuestionareFromIntermediary
 
 
 class AiProompt(vertex_pb2_grpc.aiProomptServicer):
-	def HealtcareProompt(self, request, context):
+	def Proompt(self, request, context):
 		print("recieved AI response",request.message)
 
 		lifestyle: LifestyleQuestionare = LifestyleQuestionareFromIntermediary(request.message)

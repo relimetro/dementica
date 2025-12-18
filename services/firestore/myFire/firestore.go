@@ -201,8 +201,24 @@ func AddLifestyleTest(c *firestore.Client, patId string, lifestyle string) strin
 		"Date":"__NOT__IMPLEMENTED__",
 		"RiskScore":"Calculating",
 		"Data":lifestyle,
+		"Type":"Lifestyle",
 	})
-	if err != nil { log.Fatalf("RegisterPatient error\n%v",err)}
+	if err != nil { log.Fatalf("AddLifestyle error\n%v",err)}
+	return docRef.ID
+
+}
+// returns document ID
+func AddTranscriptTest(c *firestore.Client, patId string, transcript string) string {
+	ctx := context.Background()
+
+	docRef, _, err := c.Collection("TestResults").Add(ctx, map[string]interface{}{
+		"UserID":patId,
+		"Date":"__NOT__IMPLEMENTED__",
+		"RiskScore":"Calculating",
+		"Data":transcript,
+		"Type":"Transcript",
+	})
+	if err != nil { log.Fatalf("AddTranscript error\n%v",err)}
 	return docRef.ID
 
 }

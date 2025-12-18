@@ -11,7 +11,7 @@ import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="./copper-actor-475117-i7-92a1502a7bf4.json"
 
 class AiProompt(vertex_pb2_grpc.aiProomptServicer):
-    def HealtcareProompt(self, request, context):
+    def Proompt(self, request, context):
         req = request.message
         print(f"recieved {req}")
         print("send request")

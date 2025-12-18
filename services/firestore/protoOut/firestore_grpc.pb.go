@@ -27,6 +27,7 @@ const (
 	Firestore_GetPatients_FullMethodName         = "/firestore.firestore/GetPatients"
 	Firestore_GetTestHistory_FullMethodName      = "/firestore.firestore/GetTestHistory"
 	Firestore_SendLifestyle_FullMethodName       = "/firestore.firestore/SendLifestyle"
+	Firestore_SendTranscript_FullMethodName      = "/firestore.firestore/SendTranscript"
 	Firestore_SendPatientDementia_FullMethodName = "/firestore.firestore/SendPatientDementia"
 	Firestore_GetNews_FullMethodName             = "/firestore.firestore/GetNews"
 )
@@ -43,6 +44,7 @@ type FirestoreClient interface {
 	GetPatients(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*PatientsResponse, error)
 	GetTestHistory(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*TestHistoryResponse, error)
 	SendLifestyle(ctx context.Context, in *LifestyleRequest, opts ...grpc.CallOption) (*LifestyleResponse, error)
+	SendTranscript(ctx context.Context, in *LifestyleRequest, opts ...grpc.CallOption) (*LifestyleResponse, error)
 	SendPatientDementia(ctx context.Context, in *DementiaRequest, opts ...grpc.CallOption) (*DementiaResponse, error)
 	GetNews(ctx context.Context, in *NewsRequest, opts ...grpc.CallOption) (*NewsResponse, error)
 }
@@ -135,6 +137,16 @@ func (c *firestoreClient) SendLifestyle(ctx context.Context, in *LifestyleReques
 	return out, nil
 }
 
+func (c *firestoreClient) SendTranscript(ctx context.Context, in *LifestyleRequest, opts ...grpc.CallOption) (*LifestyleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LifestyleResponse)
+	err := c.cc.Invoke(ctx, Firestore_SendTranscript_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *firestoreClient) SendPatientDementia(ctx context.Context, in *DementiaRequest, opts ...grpc.CallOption) (*DementiaResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DementiaResponse)
@@ -167,6 +179,7 @@ type FirestoreServer interface {
 	GetPatients(context.Context, *UserID) (*PatientsResponse, error)
 	GetTestHistory(context.Context, *UserID) (*TestHistoryResponse, error)
 	SendLifestyle(context.Context, *LifestyleRequest) (*LifestyleResponse, error)
+	SendTranscript(context.Context, *LifestyleRequest) (*LifestyleResponse, error)
 	SendPatientDementia(context.Context, *DementiaRequest) (*DementiaResponse, error)
 	GetNews(context.Context, *NewsRequest) (*NewsResponse, error)
 	mustEmbedUnimplementedFirestoreServer()
@@ -202,6 +215,9 @@ func (UnimplementedFirestoreServer) GetTestHistory(context.Context, *UserID) (*T
 }
 func (UnimplementedFirestoreServer) SendLifestyle(context.Context, *LifestyleRequest) (*LifestyleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendLifestyle not implemented")
+}
+func (UnimplementedFirestoreServer) SendTranscript(context.Context, *LifestyleRequest) (*LifestyleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendTranscript not implemented")
 }
 func (UnimplementedFirestoreServer) SendPatientDementia(context.Context, *DementiaRequest) (*DementiaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendPatientDementia not implemented")
@@ -374,6 +390,24 @@ func _Firestore_SendLifestyle_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Firestore_SendTranscript_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LifestyleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FirestoreServer).SendTranscript(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Firestore_SendTranscript_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FirestoreServer).SendTranscript(ctx, req.(*LifestyleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Firestore_SendPatientDementia_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DementiaRequest)
 	if err := dec(in); err != nil {
@@ -448,6 +482,10 @@ var Firestore_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendLifestyle",
 			Handler:    _Firestore_SendLifestyle_Handler,
+		},
+		{
+			MethodName: "SendTranscript",
+			Handler:    _Firestore_SendTranscript_Handler,
 		},
 		{
 			MethodName: "SendPatientDementia",

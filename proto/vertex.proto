@@ -3,7 +3,7 @@ package aiProompt;
 option go_package = "example/aiProompt";
 
 service aiProompt{
-  rpc HealtcareProompt(ProomptMsg) returns (ProomptReturn);
+  rpc Proompt(ProomptMsg) returns (ProomptReturn);
 }
 
 message ProomptMsg {

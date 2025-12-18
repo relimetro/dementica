@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cvertex.proto\x12\taiProompt\"\x1d\n\nProomptMsg\x12\x0f\n\x07message\x18\x01 \x01(\t\" \n\rProomptReturn\x12\x0f\n\x07message\x18\x01 \x01(\t2P\n\taiProompt\x12\x43\n\x10HealtcareProompt\x12\x15.aiProompt.ProomptMsg\x1a\x18.aiProompt.ProomptReturnB\x13Z\x11\x65xample/aiProomptb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cvertex.proto\x12\taiProompt\"\x1d\n\nProomptMsg\x12\x0f\n\x07message\x18\x01 \x01(\t\" \n\rProomptReturn\x12\x0f\n\x07message\x18\x01 \x01(\t2G\n\taiProompt\x12:\n\x07Proompt\x12\x15.aiProompt.ProomptMsg\x1a\x18.aiProompt.ProomptReturnB\x13Z\x11\x65xample/aiProomptb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -37,5 +37,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_PROOMPTRETURN']._serialized_start=58
   _globals['_PROOMPTRETURN']._serialized_end=90
   _globals['_AIPROOMPT']._serialized_start=92
-  _globals['_AIPROOMPT']._serialized_end=172
+  _globals['_AIPROOMPT']._serialized_end=163
 # @@protoc_insertion_point(module_scope)

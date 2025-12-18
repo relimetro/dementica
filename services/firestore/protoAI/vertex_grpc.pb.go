@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AiProompt_HealtcareProompt_FullMethodName = "/aiProompt.aiProompt/HealtcareProompt"
+	AiProompt_Proompt_FullMethodName = "/aiProompt.aiProompt/Proompt"
 )
 
 // AiProomptClient is the client API for AiProompt service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AiProomptClient interface {
-	HealtcareProompt(ctx context.Context, in *ProomptMsg, opts ...grpc.CallOption) (*ProomptReturn, error)
+	Proompt(ctx context.Context, in *ProomptMsg, opts ...grpc.CallOption) (*ProomptReturn, error)
 }
 
 type aiProomptClient struct {
@@ -37,10 +37,10 @@ func NewAiProomptClient(cc grpc.ClientConnInterface) AiProomptClient {
 	return &aiProomptClient{cc}
 }
 
-func (c *aiProomptClient) HealtcareProompt(ctx context.Context, in *ProomptMsg, opts ...grpc.CallOption) (*ProomptReturn, error) {
+func (c *aiProomptClient) Proompt(ctx context.Context, in *ProomptMsg, opts ...grpc.CallOption) (*ProomptReturn, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ProomptReturn)
-	err := c.cc.Invoke(ctx, AiProompt_HealtcareProompt_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, AiProompt_Proompt_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *aiProomptClient) HealtcareProompt(ctx context.Context, in *ProomptMsg, 
 // All implementations must embed UnimplementedAiProomptServer
 // for forward compatibility.
 type AiProomptServer interface {
-	HealtcareProompt(context.Context, *ProomptMsg) (*ProomptReturn, error)
+	Proompt(context.Context, *ProomptMsg) (*ProomptReturn, error)
 	mustEmbedUnimplementedAiProomptServer()
 }
 
@@ -62,8 +62,8 @@ type AiProomptServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAiProomptServer struct{}
 
-func (UnimplementedAiProomptServer) HealtcareProompt(context.Context, *ProomptMsg) (*ProomptReturn, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method HealtcareProompt not implemented")
+func (UnimplementedAiProomptServer) Proompt(context.Context, *ProomptMsg) (*ProomptReturn, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Proompt not implemented")
 }
 func (UnimplementedAiProomptServer) mustEmbedUnimplementedAiProomptServer() {}
 func (UnimplementedAiProomptServer) testEmbeddedByValue()                   {}
@@ -86,20 +86,20 @@ func RegisterAiProomptServer(s grpc.ServiceRegistrar, srv AiProomptServer) {
 	s.RegisterService(&AiProompt_ServiceDesc, srv)
 }
 
-func _AiProompt_HealtcareProompt_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AiProompt_Proompt_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ProomptMsg)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AiProomptServer).HealtcareProompt(ctx, in)
+		return srv.(AiProomptServer).Proompt(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AiProompt_HealtcareProompt_FullMethodName,
+		FullMethod: AiProompt_Proompt_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AiProomptServer).HealtcareProompt(ctx, req.(*ProomptMsg))
+		return srv.(AiProomptServer).Proompt(ctx, req.(*ProomptMsg))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +112,8 @@ var AiProompt_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AiProomptServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "HealtcareProompt",
-			Handler:    _AiProompt_HealtcareProompt_Handler,
+			MethodName: "Proompt",
+			Handler:    _AiProompt_Proompt_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
