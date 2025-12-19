@@ -267,38 +267,60 @@ class UserService(user_service_pb2_grpc.UserServiceServicer):
             requester_uid = verify_token(request.id_token)
             target_uid = request.target_uid or requester_uid
 
-            # Check access if requester != target
-            if target_uid != requester_uid:
-                rel_doc = db.collection("user_relations").document(target_uid).get()
-                is_related = False
-                if rel_doc.exists:
-                    relations = rel_doc.to_dict().get("relations", [])
-                    is_related = any(r["related_uid"] == requester_uid for r in relations)
-                # Also check reverse relationships
-                if not is_related:
-                    rev_doc = db.collection("user_relations").document(requester_uid).get()
-                    if rev_doc.exists:
-                        rels = rev_doc.to_dict().get("relations", [])
-                        is_related = any(r["related_uid"] == target_uid for r in rels)
-                if not is_related:
-                    context.set_code(grpc.StatusCode.PERMISSION_DENIED)
-                    context.set_details("Requester not related to target user.")
-                    return user_service_pb2.GetUserDetailsReply()
+            users_ref = db.collection("Users")
 
-            doc = db.collection("user_details").document(target_uid).get()
-            if not doc.exists:
-                return user_service_pb2.GetUserDetailsReply(details={})
+            requester_doc = users_ref.document(requester_uid).get()
+            if not requester_doc.exists:
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details("Requester not found.")
+                return user_service_pb2.GetUserDetailsReply()
 
-            return user_service_pb2.GetUserDetailsReply(details=doc.to_dict())
+            requester = requester_doc.to_dict()
+            requester_type = requester.get("Type")
+
+            target_doc = users_ref.document(target_uid).get()
+            if not target_doc.exists:
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details("Target user not found.")
+                return user_service_pb2.GetUserDetailsReply()
+
+            target = target_doc.to_dict()
+            target_type = target.get("Type")
+
+            if requester_uid == target_uid:
+                allowed = True
+
+            elif requester_type == "Admin":
+                allowed = True
+
+            elif requester_type == "Doctor" and target_type == "Patient":
+                allowed = target.get("DoctorID") == requester_uid
+
+            else:
+                allowed = False
+
+            if not allowed:
+                context.set_code(grpc.StatusCode.PERMISSION_DENIED)
+                context.set_details("Access denied.")
+                return user_service_pb2.GetUserDetailsReply()
+
+            details = {
+                k: str(v)
+                for k, v in target.items()
+                if v is not None
+            }
+
+            return user_service_pb2.GetUserDetailsReply(details=details)
+
         except ValueError as e:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details(str(e))
             return user_service_pb2.GetUserDetailsReply()
+
         except Exception as e:
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(str(e))
             return user_service_pb2.GetUserDetailsReply()
-
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
