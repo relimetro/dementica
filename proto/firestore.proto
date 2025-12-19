@@ -178,5 +178,11 @@ message NewsResponse {
   string Content = 1;
 }
 
+message NewsSet {
+  UserType Type = 1;
+  string Content = 2;
+  enum UserType { Patient = 0; Doctor = 1; }
+}
+
 
 

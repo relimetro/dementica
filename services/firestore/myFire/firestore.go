@@ -263,6 +263,13 @@ func SetPatientDementica(c *firestore.Client, patId string, dementica string) {
 	if err != nil { log.Printf("Error %v", err) }
 }
 
+func SetPatientRisk(c *firestore.Client, patId string, risk string) {
+	ctx := context.Background()
+	_, err := c.Collection("Users").Doc(patId).Update(ctx, []firestore.Update{{
+		Path: "RiskScore", Value:risk},})
+	if err != nil { log.Printf("Error %v", err) }
+}
+
 func SetTestRiskScore(c *firestore.Client, testId string, riskScore string) {
 	ctx := context.Background()
 	_, err := c.Collection("TestResults").Doc(testId).Update(ctx, []firestore.Update{{
@@ -287,6 +294,21 @@ func GetNews(c *firestore.Client, matchStr string) string{
 			return d["Content"].(string) }
 	}
 	return "Sorry, no news found for type '"+matchStr+"'."
+}
+
+func SetNews(c *firestore.Client, matchStr string, content string) {
+	ctx := context.Background()
+
+	iter := c.Collection("News").Documents(ctx)
+	for {
+		// iterate
+		doc, err := iter.Next()
+		if err == iterator.Done { break }
+		if err != nil { log.Fatalf("failed to iterate:\n%v",err)}
+		doc.Ref.Update(ctx, []firestore.Update{{
+			Path: "Content", Value:content},
+		})
+	}
 }
 
 

@@ -43,6 +43,7 @@ func UpdateTestRiskScore(c *firestore.Client, data string, testId string) (strin
 	log.Printf("UpdateTestRiskScore: %v -- %v",succ,out)
 	if succ {
 		myFire.SetTestRiskScore(c, testId, out)
+		myFire.SetPatientRisk(c,testId,out)
 		return out,true
 	} else {
 		myFire.SetTestRiskScore(c, testId, "ServerError") 
@@ -94,6 +95,7 @@ func UpdateTranscriptRiskScore(c *firestore.Client, data string, testId string) 
 	log.Printf("UpdateTranscrip tRiskScore: %v -- %v",succ,out)
 	if succ {
 		myFire.SetTestRiskScore(c, testId, out)
+		myFire.SetPatientRisk(c,testId,out)
 		return out,true
 	} else {
 		myFire.SetTestRiskScore(c, testId, "ServerError") 
@@ -395,6 +397,25 @@ func (s *server) GetNews(ctx context.Context, x *pb.NewsRequest) (*pb.NewsRespon
 
 	return &pb.NewsResponse{
 		Content: myFire.GetNews(s.c,typeStr),
+	}, nil
+}
+
+func (s *server) SetNews(ctx context.Context, x *pb.NewsSet) (*pb.NewsResponse, error) {
+	log.Printf("GetNews: %s",x.Type)
+
+	var typeStr string
+	if (x.Type == pb.NewsSet_Patient) {
+		typeStr = "Patient"
+	} else if (x.Type == pb.NewsSet_Doctor) { typeStr = "Doctor"
+	} else {
+		log.Printf("GetNews Invalid UserType\n%v",x)
+		return &pb.NewsResponse{ Content: "Internal Server Error firestore-GetNews", }, nil
+	}
+
+	myFire.SetNews(s.c,typeStr,x.Content )
+
+	return &pb.NewsResponse{
+		Content: "Ok",
 	}, nil
 }
 

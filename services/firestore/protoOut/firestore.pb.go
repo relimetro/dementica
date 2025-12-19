@@ -784,6 +784,52 @@ func (NewsRequest_UserType) EnumDescriptor() ([]byte, []int) {
 	return file_firestore_proto_rawDescGZIP(), []int{15, 0}
 }
 
+type NewsSet_UserType int32
+
+const (
+	NewsSet_Patient NewsSet_UserType = 0
+	NewsSet_Doctor  NewsSet_UserType = 1
+)
+
+// Enum value maps for NewsSet_UserType.
+var (
+	NewsSet_UserType_name = map[int32]string{
+		0: "Patient",
+		1: "Doctor",
+	}
+	NewsSet_UserType_value = map[string]int32{
+		"Patient": 0,
+		"Doctor":  1,
+	}
+)
+
+func (x NewsSet_UserType) Enum() *NewsSet_UserType {
+	p := new(NewsSet_UserType)
+	*p = x
+	return p
+}
+
+func (x NewsSet_UserType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (NewsSet_UserType) Descriptor() protoreflect.EnumDescriptor {
+	return file_firestore_proto_enumTypes[15].Descriptor()
+}
+
+func (NewsSet_UserType) Type() protoreflect.EnumType {
+	return &file_firestore_proto_enumTypes[15]
+}
+
+func (x NewsSet_UserType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use NewsSet_UserType.Descriptor instead.
+func (NewsSet_UserType) EnumDescriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{17, 0}
+}
+
 // Register
 type UserRegister struct {
 	state         protoimpl.MessageState     `protogen:"open.v1"`
@@ -1734,6 +1780,58 @@ func (x *NewsResponse) GetContent() string {
 	return ""
 }
 
+type NewsSet struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          NewsSet_UserType       `protobuf:"varint,1,opt,name=Type,proto3,enum=firestore.NewsSet_UserType" json:"Type,omitempty"`
+	Content       string                 `protobuf:"bytes,2,opt,name=Content,proto3" json:"Content,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NewsSet) Reset() {
+	*x = NewsSet{}
+	mi := &file_firestore_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NewsSet) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NewsSet) ProtoMessage() {}
+
+func (x *NewsSet) ProtoReflect() protoreflect.Message {
+	mi := &file_firestore_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NewsSet.ProtoReflect.Descriptor instead.
+func (*NewsSet) Descriptor() ([]byte, []int) {
+	return file_firestore_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *NewsSet) GetType() NewsSet_UserType {
+	if x != nil {
+		return x.Type
+	}
+	return NewsSet_Patient
+}
+
+func (x *NewsSet) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
 var File_firestore_proto protoreflect.FileDescriptor
 
 const file_firestore_proto_rawDesc = "" +
@@ -1877,7 +1975,14 @@ const file_firestore_proto_rawDesc = "" +
 	"\n" +
 	"\x06Doctor\x10\x01\"(\n" +
 	"\fNewsResponse\x12\x18\n" +
-	"\aContent\x18\x01 \x01(\tR\aContent2\xee\b\n" +
+	"\aContent\x18\x01 \x01(\tR\aContent\"y\n" +
+	"\aNewsSet\x12/\n" +
+	"\x04Type\x18\x01 \x01(\x0e2\x1b.firestore.NewsSet.UserTypeR\x04Type\x12\x18\n" +
+	"\aContent\x18\x02 \x01(\tR\aContent\"#\n" +
+	"\bUserType\x12\v\n" +
+	"\aPatient\x10\x00\x12\n" +
+	"\n" +
+	"\x06Doctor\x10\x012\xee\b\n" +
 	"\tfirestore\x12W\n" +
 	"\bRegister\x12\x17.firestore.UserRegister\x1a\x19.firestore.RegisterResult\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/register\x12K\n" +
 	"\x05Login\x12\x14.firestore.UserLogin\x1a\x16.firestore.LoginResult\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/login\x12U\n" +
@@ -1905,8 +2010,8 @@ func file_firestore_proto_rawDescGZIP() []byte {
 	return file_firestore_proto_rawDescData
 }
 
-var file_firestore_proto_enumTypes = make([]protoimpl.EnumInfo, 15)
-var file_firestore_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_firestore_proto_enumTypes = make([]protoimpl.EnumInfo, 16)
+var file_firestore_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_firestore_proto_goTypes = []any{
 	(UserRegister_RegisterTypeE)(0), // 0: firestore.UserRegister.RegisterTypeE
 	(UserRegister_UserTypeE)(0),     // 1: firestore.UserRegister.UserTypeE
@@ -1923,23 +2028,25 @@ var file_firestore_proto_goTypes = []any{
 	(DementiaRequest_DementiaE)(0),  // 12: firestore.DementiaRequest.DementiaE
 	(DementiaResponse_Res)(0),       // 13: firestore.DementiaResponse.Res
 	(NewsRequest_UserType)(0),       // 14: firestore.NewsRequest.UserType
-	(*UserRegister)(nil),            // 15: firestore.UserRegister
-	(*RegisterResult)(nil),          // 16: firestore.RegisterResult
-	(*UserLogin)(nil),               // 17: firestore.UserLogin
-	(*LoginResult)(nil),             // 18: firestore.LoginResult
-	(*UserID)(nil),                  // 19: firestore.UserID
-	(*PatientData)(nil),             // 20: firestore.PatientData
-	(*RiskResponse)(nil),            // 21: firestore.RiskResponse
-	(*DoctorData)(nil),              // 22: firestore.DoctorData
-	(*PatientsResponse)(nil),        // 23: firestore.PatientsResponse
-	(*LifestyleRequest)(nil),        // 24: firestore.LifestyleRequest
-	(*LifestyleResponse)(nil),       // 25: firestore.LifestyleResponse
-	(*TestData)(nil),                // 26: firestore.TestData
-	(*TestHistoryResponse)(nil),     // 27: firestore.TestHistoryResponse
-	(*DementiaRequest)(nil),         // 28: firestore.DementiaRequest
-	(*DementiaResponse)(nil),        // 29: firestore.DementiaResponse
-	(*NewsRequest)(nil),             // 30: firestore.NewsRequest
-	(*NewsResponse)(nil),            // 31: firestore.NewsResponse
+	(NewsSet_UserType)(0),           // 15: firestore.NewsSet.UserType
+	(*UserRegister)(nil),            // 16: firestore.UserRegister
+	(*RegisterResult)(nil),          // 17: firestore.RegisterResult
+	(*UserLogin)(nil),               // 18: firestore.UserLogin
+	(*LoginResult)(nil),             // 19: firestore.LoginResult
+	(*UserID)(nil),                  // 20: firestore.UserID
+	(*PatientData)(nil),             // 21: firestore.PatientData
+	(*RiskResponse)(nil),            // 22: firestore.RiskResponse
+	(*DoctorData)(nil),              // 23: firestore.DoctorData
+	(*PatientsResponse)(nil),        // 24: firestore.PatientsResponse
+	(*LifestyleRequest)(nil),        // 25: firestore.LifestyleRequest
+	(*LifestyleResponse)(nil),       // 26: firestore.LifestyleResponse
+	(*TestData)(nil),                // 27: firestore.TestData
+	(*TestHistoryResponse)(nil),     // 28: firestore.TestHistoryResponse
+	(*DementiaRequest)(nil),         // 29: firestore.DementiaRequest
+	(*DementiaResponse)(nil),        // 30: firestore.DementiaResponse
+	(*NewsRequest)(nil),             // 31: firestore.NewsRequest
+	(*NewsResponse)(nil),            // 32: firestore.NewsResponse
+	(*NewsSet)(nil),                 // 33: firestore.NewsSet
 }
 var file_firestore_proto_depIdxs = []int32{
 	1,  // 0: firestore.UserRegister.UserType:type_name -> firestore.UserRegister.UserTypeE
@@ -1952,42 +2059,43 @@ var file_firestore_proto_depIdxs = []int32{
 	7,  // 7: firestore.RiskResponse.Result:type_name -> firestore.RiskResponse.Res
 	8,  // 8: firestore.DoctorData.Result:type_name -> firestore.DoctorData.Res
 	9,  // 9: firestore.PatientsResponse.Result:type_name -> firestore.PatientsResponse.Res
-	20, // 10: firestore.PatientsResponse.Patients:type_name -> firestore.PatientData
+	21, // 10: firestore.PatientsResponse.Patients:type_name -> firestore.PatientData
 	10, // 11: firestore.LifestyleResponse.Result:type_name -> firestore.LifestyleResponse.Res
 	11, // 12: firestore.TestHistoryResponse.Result:type_name -> firestore.TestHistoryResponse.Res
-	26, // 13: firestore.TestHistoryResponse.Tests:type_name -> firestore.TestData
+	27, // 13: firestore.TestHistoryResponse.Tests:type_name -> firestore.TestData
 	12, // 14: firestore.DementiaRequest.Dementia:type_name -> firestore.DementiaRequest.DementiaE
 	13, // 15: firestore.DementiaResponse.Result:type_name -> firestore.DementiaResponse.Res
 	14, // 16: firestore.NewsRequest.Type:type_name -> firestore.NewsRequest.UserType
-	15, // 17: firestore.firestore.Register:input_type -> firestore.UserRegister
-	17, // 18: firestore.firestore.Login:input_type -> firestore.UserLogin
-	19, // 19: firestore.firestore.PatientInfo:input_type -> firestore.UserID
-	19, // 20: firestore.firestore.GetRisk:input_type -> firestore.UserID
-	19, // 21: firestore.firestore.DoctorInfo:input_type -> firestore.UserID
-	19, // 22: firestore.firestore.GetPatients:input_type -> firestore.UserID
-	19, // 23: firestore.firestore.GetTestHistory:input_type -> firestore.UserID
-	24, // 24: firestore.firestore.SendLifestyle:input_type -> firestore.LifestyleRequest
-	24, // 25: firestore.firestore.SendTranscript:input_type -> firestore.LifestyleRequest
-	24, // 26: firestore.firestore.SendMinimental:input_type -> firestore.LifestyleRequest
-	28, // 27: firestore.firestore.SendPatientDementia:input_type -> firestore.DementiaRequest
-	30, // 28: firestore.firestore.GetNews:input_type -> firestore.NewsRequest
-	16, // 29: firestore.firestore.Register:output_type -> firestore.RegisterResult
-	18, // 30: firestore.firestore.Login:output_type -> firestore.LoginResult
-	20, // 31: firestore.firestore.PatientInfo:output_type -> firestore.PatientData
-	21, // 32: firestore.firestore.GetRisk:output_type -> firestore.RiskResponse
-	22, // 33: firestore.firestore.DoctorInfo:output_type -> firestore.DoctorData
-	23, // 34: firestore.firestore.GetPatients:output_type -> firestore.PatientsResponse
-	27, // 35: firestore.firestore.GetTestHistory:output_type -> firestore.TestHistoryResponse
-	25, // 36: firestore.firestore.SendLifestyle:output_type -> firestore.LifestyleResponse
-	25, // 37: firestore.firestore.SendTranscript:output_type -> firestore.LifestyleResponse
-	25, // 38: firestore.firestore.SendMinimental:output_type -> firestore.LifestyleResponse
-	29, // 39: firestore.firestore.SendPatientDementia:output_type -> firestore.DementiaResponse
-	31, // 40: firestore.firestore.GetNews:output_type -> firestore.NewsResponse
-	29, // [29:41] is the sub-list for method output_type
-	17, // [17:29] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	15, // 17: firestore.NewsSet.Type:type_name -> firestore.NewsSet.UserType
+	16, // 18: firestore.firestore.Register:input_type -> firestore.UserRegister
+	18, // 19: firestore.firestore.Login:input_type -> firestore.UserLogin
+	20, // 20: firestore.firestore.PatientInfo:input_type -> firestore.UserID
+	20, // 21: firestore.firestore.GetRisk:input_type -> firestore.UserID
+	20, // 22: firestore.firestore.DoctorInfo:input_type -> firestore.UserID
+	20, // 23: firestore.firestore.GetPatients:input_type -> firestore.UserID
+	20, // 24: firestore.firestore.GetTestHistory:input_type -> firestore.UserID
+	25, // 25: firestore.firestore.SendLifestyle:input_type -> firestore.LifestyleRequest
+	25, // 26: firestore.firestore.SendTranscript:input_type -> firestore.LifestyleRequest
+	25, // 27: firestore.firestore.SendMinimental:input_type -> firestore.LifestyleRequest
+	29, // 28: firestore.firestore.SendPatientDementia:input_type -> firestore.DementiaRequest
+	31, // 29: firestore.firestore.GetNews:input_type -> firestore.NewsRequest
+	17, // 30: firestore.firestore.Register:output_type -> firestore.RegisterResult
+	19, // 31: firestore.firestore.Login:output_type -> firestore.LoginResult
+	21, // 32: firestore.firestore.PatientInfo:output_type -> firestore.PatientData
+	22, // 33: firestore.firestore.GetRisk:output_type -> firestore.RiskResponse
+	23, // 34: firestore.firestore.DoctorInfo:output_type -> firestore.DoctorData
+	24, // 35: firestore.firestore.GetPatients:output_type -> firestore.PatientsResponse
+	28, // 36: firestore.firestore.GetTestHistory:output_type -> firestore.TestHistoryResponse
+	26, // 37: firestore.firestore.SendLifestyle:output_type -> firestore.LifestyleResponse
+	26, // 38: firestore.firestore.SendTranscript:output_type -> firestore.LifestyleResponse
+	26, // 39: firestore.firestore.SendMinimental:output_type -> firestore.LifestyleResponse
+	30, // 40: firestore.firestore.SendPatientDementia:output_type -> firestore.DementiaResponse
+	32, // 41: firestore.firestore.GetNews:output_type -> firestore.NewsResponse
+	30, // [30:42] is the sub-list for method output_type
+	18, // [18:30] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_firestore_proto_init() }
@@ -2000,8 +2108,8 @@ func file_firestore_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_firestore_proto_rawDesc), len(file_firestore_proto_rawDesc)),
-			NumEnums:      15,
-			NumMessages:   17,
+			NumEnums:      16,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
