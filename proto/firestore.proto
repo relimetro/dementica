@@ -45,6 +45,13 @@ service firestore {
 		post: "/v1/send_lifestyle"
 		body: "*"
 	}; }
+
+  rpc SendTranscript(LifestyleRequest) returns (LifestyleResponse) {
+	option (google.api.http) = {
+		post: "/v1/send_transcript"
+		body: "*"
+	}; }
+
   rpc SendPatientDementia(DementiaRequest) returns (DementiaResponse) {
 	option (google.api.http) = {
 		post: "/v1/send_dementia"
@@ -123,9 +130,11 @@ message PatientsResponse {
 message LifestyleRequest {
   string UserID = 1;
   string data = 2; }
+
 message LifestyleResponse {
   Res Result = 1;
-  enum Res { Ok = 0; NotFound = 1; NoPermission = 2; NotPatient = 3; Invalid = 4; }
+  string RiskScore = 2;
+  enum Res { Ok = 0; NotFound = 1; NoPermission = 2; NotPatient = 3; Invalid = 4; Error = 5; }
 } // NOTFOUND: user not found, NOPERMISSION: no permisison, NOTPATIENT: user not a patient, INVALID: invalid LifestyleRequest
 
 

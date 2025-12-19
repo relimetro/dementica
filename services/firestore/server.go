@@ -33,17 +33,22 @@ func KerasCall(x string) (string,bool) {
 	// txt := "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes"
 	log.Printf("calling keras (%s)",x)
 	message := aiProompt.ProomptMsg { Message: x}
-	resp, err := c.HealtcareProompt(context.Background(), &message)
+	resp, err := c.Proompt(context.Background(), &message)
 	if err != nil { log.Printf("[ERROR] FTproompt, <%s>, <%d>",err,resp); return "",false; }
 	log.Printf("Response FTproompt: %s",resp)
 	return resp.Message,true }
 
-func UpdateTestRiskScore(c *firestore.Client, data string, testId string){
+func UpdateTestRiskScore(c *firestore.Client, data string, testId string) (string,bool) { // risk score, success
 	out,succ := KerasCall(data)
 	log.Printf("UpdateTestRiskScore: %v -- %v",succ,out)
-	if succ { myFire.SetTestRiskScore(c, testId, out)
-	} else { myFire.SetTestRiskScore(c, testId, "ServerError") }
-	log.Printf("UpdateTestRiskScore: Done")
+	if succ {
+		myFire.SetTestRiskScore(c, testId, out)
+		return out,true
+	} else {
+		myFire.SetTestRiskScore(c, testId, "ServerError") 
+		return "",false
+	}
+	// log.Printf("UpdateTestRiskScore: Done") // no longer async
 }
 
 
@@ -65,6 +70,11 @@ func GoPatientToProtoPatient(p myFire.Patient) pb.PatientData {
 	}
 
 }
+
+
+
+func UpdateTranscriptRiskScore(c *firestore.Client, data string, testId string) (string,bool) { // riskScore,success
+	return "0.5",true; }
 
 
 ///////////////////////////////////////////////////////////////
@@ -278,13 +288,44 @@ func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb
 	testId := myFire.AddLifestyleTest(s.c, x.UserID, x.Data)
 
 	// update risk score in background
-	go UpdateTestRiskScore(s.c, x.Data, testId)
+	riskScore,succ := UpdateTestRiskScore(s.c, x.Data, testId)
 
 
-	// return session token
-	return &pb.LifestyleResponse{
-		Result: pb.LifestyleResponse_Ok,
+	if succ {
+		return &pb.LifestyleResponse{
+			Result: pb.LifestyleResponse_Ok,
+			RiskScore: riskScore,
+		}, nil
+	} else {
+		return &pb.LifestyleResponse{
+			Result: pb.LifestyleResponse_Error,
+			RiskScore: "ServerError",
+		}, nil
+	}
+
+}
+// Send Transcript
+func (s *server) SendTranscript(ctx context.Context, x *pb.LifestyleRequest) (*pb.LifestyleResponse, error) {
+	log.Printf("SendTranscript: '%s'",x.Data)
+
+	// upload test
+	testId := myFire.AddTranscriptTest(s.c, x.UserID, x.Data)
+
+	// update risk score
+	riskScore,succ := UpdateTranscriptRiskScore(s.c, x.Data, testId)
+	if succ {
+		return &pb.LifestyleResponse{
+			Result: pb.LifestyleResponse_Ok,
+			RiskScore: riskScore,
 	}, nil
+	} else {
+		return &pb.LifestyleResponse{
+			Result: pb.LifestyleResponse_Error,
+			RiskScore: "ServerError",
+		}, nil
+	}
+
+
 }
 
 // Send Patient Dementia

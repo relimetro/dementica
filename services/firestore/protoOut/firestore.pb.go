@@ -535,6 +535,7 @@ const (
 	LifestyleResponse_NoPermission LifestyleResponse_Res = 2
 	LifestyleResponse_NotPatient   LifestyleResponse_Res = 3
 	LifestyleResponse_Invalid      LifestyleResponse_Res = 4
+	LifestyleResponse_Error        LifestyleResponse_Res = 5
 )
 
 // Enum value maps for LifestyleResponse_Res.
@@ -545,6 +546,7 @@ var (
 		2: "NoPermission",
 		3: "NotPatient",
 		4: "Invalid",
+		5: "Error",
 	}
 	LifestyleResponse_Res_value = map[string]int32{
 		"Ok":           0,
@@ -552,6 +554,7 @@ var (
 		"NoPermission": 2,
 		"NotPatient":   3,
 		"Invalid":      4,
+		"Error":        5,
 	}
 )
 
@@ -1362,6 +1365,7 @@ func (x *LifestyleRequest) GetData() string {
 type LifestyleResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Result        LifestyleResponse_Res  `protobuf:"varint,1,opt,name=Result,proto3,enum=firestore.LifestyleResponse_Res" json:"Result,omitempty"`
+	RiskScore     string                 `protobuf:"bytes,2,opt,name=RiskScore,proto3" json:"RiskScore,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1401,6 +1405,13 @@ func (x *LifestyleResponse) GetResult() LifestyleResponse_Res {
 		return x.Result
 	}
 	return LifestyleResponse_Ok
+}
+
+func (x *LifestyleResponse) GetRiskScore() string {
+	if x != nil {
+		return x.RiskScore
+	}
+	return ""
 }
 
 type TestData struct {
@@ -1784,16 +1795,18 @@ const file_firestore_proto_rawDesc = "" +
 	"\tNotDoctor\x10\x03\">\n" +
 	"\x10LifestyleRequest\x12\x16\n" +
 	"\x06UserID\x18\x01 \x01(\tR\x06UserID\x12\x12\n" +
-	"\x04data\x18\x02 \x01(\tR\x04data\"\x99\x01\n" +
+	"\x04data\x18\x02 \x01(\tR\x04data\"\xc2\x01\n" +
 	"\x11LifestyleResponse\x128\n" +
-	"\x06Result\x18\x01 \x01(\x0e2 .firestore.LifestyleResponse.ResR\x06Result\"J\n" +
+	"\x06Result\x18\x01 \x01(\x0e2 .firestore.LifestyleResponse.ResR\x06Result\x12\x1c\n" +
+	"\tRiskScore\x18\x02 \x01(\tR\tRiskScore\"U\n" +
 	"\x03Res\x12\x06\n" +
 	"\x02Ok\x10\x00\x12\f\n" +
 	"\bNotFound\x10\x01\x12\x10\n" +
 	"\fNoPermission\x10\x02\x12\x0e\n" +
 	"\n" +
 	"NotPatient\x10\x03\x12\v\n" +
-	"\aInvalid\x10\x04\"<\n" +
+	"\aInvalid\x10\x04\x12\t\n" +
+	"\x05Error\x10\x05\"<\n" +
 	"\bTestData\x12\x12\n" +
 	"\x04Date\x18\x01 \x01(\tR\x04Date\x12\x1c\n" +
 	"\tRiskScore\x18\x02 \x01(\tR\tRiskScore\"\xbb\x01\n" +
@@ -1828,7 +1841,7 @@ const file_firestore_proto_rawDesc = "" +
 	"\n" +
 	"\x06Doctor\x10\x01\"(\n" +
 	"\fNewsResponse\x12\x18\n" +
-	"\aContent\x18\x01 \x01(\tR\aContent2\x94\a\n" +
+	"\aContent\x18\x01 \x01(\tR\aContent2\x81\b\n" +
 	"\tfirestore\x12W\n" +
 	"\bRegister\x12\x17.firestore.UserRegister\x1a\x19.firestore.RegisterResult\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/register\x12K\n" +
 	"\x05Login\x12\x14.firestore.UserLogin\x1a\x16.firestore.LoginResult\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/login\x12U\n" +
@@ -1838,7 +1851,8 @@ const file_firestore_proto_rawDesc = "" +
 	"DoctorInfo\x12\x11.firestore.UserID\x1a\x15.firestore.DoctorData\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/v1/doctor_info\x12V\n" +
 	"\vGetPatients\x12\x11.firestore.UserID\x1a\x1b.firestore.PatientsResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/patients\x12`\n" +
 	"\x0eGetTestHistory\x12\x11.firestore.UserID\x1a\x1e.firestore.TestHistoryResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v1/test_history\x12i\n" +
-	"\rSendLifestyle\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/v1/send_lifestyle\x12l\n" +
+	"\rSendLifestyle\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/v1/send_lifestyle\x12k\n" +
+	"\x0eSendTranscript\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v1/send_transcript\x12l\n" +
 	"\x13SendPatientDementia\x12\x1a.firestore.DementiaRequest\x1a\x1b.firestore.DementiaResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/send_dementia\x12S\n" +
 	"\aGetNews\x12\x16.firestore.NewsRequest\x1a\x17.firestore.NewsResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/get_newsB\x17Z\x15example/proto_exampleb\x06proto3"
 
@@ -1916,20 +1930,22 @@ var file_firestore_proto_depIdxs = []int32{
 	19, // 22: firestore.firestore.GetPatients:input_type -> firestore.UserID
 	19, // 23: firestore.firestore.GetTestHistory:input_type -> firestore.UserID
 	24, // 24: firestore.firestore.SendLifestyle:input_type -> firestore.LifestyleRequest
-	28, // 25: firestore.firestore.SendPatientDementia:input_type -> firestore.DementiaRequest
-	30, // 26: firestore.firestore.GetNews:input_type -> firestore.NewsRequest
-	16, // 27: firestore.firestore.Register:output_type -> firestore.RegisterResult
-	18, // 28: firestore.firestore.Login:output_type -> firestore.LoginResult
-	20, // 29: firestore.firestore.PatientInfo:output_type -> firestore.PatientData
-	21, // 30: firestore.firestore.GetRisk:output_type -> firestore.RiskResponse
-	22, // 31: firestore.firestore.DoctorInfo:output_type -> firestore.DoctorData
-	23, // 32: firestore.firestore.GetPatients:output_type -> firestore.PatientsResponse
-	27, // 33: firestore.firestore.GetTestHistory:output_type -> firestore.TestHistoryResponse
-	25, // 34: firestore.firestore.SendLifestyle:output_type -> firestore.LifestyleResponse
-	29, // 35: firestore.firestore.SendPatientDementia:output_type -> firestore.DementiaResponse
-	31, // 36: firestore.firestore.GetNews:output_type -> firestore.NewsResponse
-	27, // [27:37] is the sub-list for method output_type
-	17, // [17:27] is the sub-list for method input_type
+	24, // 25: firestore.firestore.SendTranscript:input_type -> firestore.LifestyleRequest
+	28, // 26: firestore.firestore.SendPatientDementia:input_type -> firestore.DementiaRequest
+	30, // 27: firestore.firestore.GetNews:input_type -> firestore.NewsRequest
+	16, // 28: firestore.firestore.Register:output_type -> firestore.RegisterResult
+	18, // 29: firestore.firestore.Login:output_type -> firestore.LoginResult
+	20, // 30: firestore.firestore.PatientInfo:output_type -> firestore.PatientData
+	21, // 31: firestore.firestore.GetRisk:output_type -> firestore.RiskResponse
+	22, // 32: firestore.firestore.DoctorInfo:output_type -> firestore.DoctorData
+	23, // 33: firestore.firestore.GetPatients:output_type -> firestore.PatientsResponse
+	27, // 34: firestore.firestore.GetTestHistory:output_type -> firestore.TestHistoryResponse
+	25, // 35: firestore.firestore.SendLifestyle:output_type -> firestore.LifestyleResponse
+	25, // 36: firestore.firestore.SendTranscript:output_type -> firestore.LifestyleResponse
+	29, // 37: firestore.firestore.SendPatientDementia:output_type -> firestore.DementiaResponse
+	31, // 38: firestore.firestore.GetNews:output_type -> firestore.NewsResponse
+	28, // [28:39] is the sub-list for method output_type
+	17, // [17:28] is the sub-list for method input_type
 	17, // [17:17] is the sub-list for extension type_name
 	17, // [17:17] is the sub-list for extension extendee
 	0,  // [0:17] is the sub-list for field type_name

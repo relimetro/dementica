@@ -118,9 +118,9 @@ const file_vertex_proto_rawDesc = "" +
 	"ProomptMsg\x12\x18\n" +
 	"\amessage\x18\x01 \x01(\tR\amessage\")\n" +
 	"\rProomptReturn\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2P\n" +
-	"\taiProompt\x12C\n" +
-	"\x10HealtcareProompt\x12\x15.aiProompt.ProomptMsg\x1a\x18.aiProompt.ProomptReturnB\x13Z\x11example/aiProomptb\x06proto3"
+	"\amessage\x18\x01 \x01(\tR\amessage2G\n" +
+	"\taiProompt\x12:\n" +
+	"\aProompt\x12\x15.aiProompt.ProomptMsg\x1a\x18.aiProompt.ProomptReturnB\x13Z\x11example/aiProomptb\x06proto3"
 
 var (
 	file_vertex_proto_rawDescOnce sync.Once
@@ -140,8 +140,8 @@ var file_vertex_proto_goTypes = []any{
 	(*ProomptReturn)(nil), // 1: aiProompt.ProomptReturn
 }
 var file_vertex_proto_depIdxs = []int32{
-	0, // 0: aiProompt.aiProompt.HealtcareProompt:input_type -> aiProompt.ProomptMsg
-	1, // 1: aiProompt.aiProompt.HealtcareProompt:output_type -> aiProompt.ProomptReturn
+	0, // 0: aiProompt.aiProompt.Proompt:input_type -> aiProompt.ProomptMsg
+	1, // 1: aiProompt.aiProompt.Proompt:output_type -> aiProompt.ProomptReturn
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

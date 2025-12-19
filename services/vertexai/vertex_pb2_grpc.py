@@ -34,8 +34,8 @@ class aiProomptStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.HealtcareProompt = channel.unary_unary(
-                '/aiProompt.aiProompt/HealtcareProompt',
+        self.Proompt = channel.unary_unary(
+                '/aiProompt.aiProompt/Proompt',
                 request_serializer=vertex__pb2.ProomptMsg.SerializeToString,
                 response_deserializer=vertex__pb2.ProomptReturn.FromString,
                 _registered_method=True)
@@ -44,7 +44,7 @@ class aiProomptStub(object):
 class aiProomptServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def HealtcareProompt(self, request, context):
+    def Proompt(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -53,8 +53,8 @@ class aiProomptServicer(object):
 
 def add_aiProomptServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'HealtcareProompt': grpc.unary_unary_rpc_method_handler(
-                    servicer.HealtcareProompt,
+            'Proompt': grpc.unary_unary_rpc_method_handler(
+                    servicer.Proompt,
                     request_deserializer=vertex__pb2.ProomptMsg.FromString,
                     response_serializer=vertex__pb2.ProomptReturn.SerializeToString,
             ),
@@ -70,7 +70,7 @@ class aiProompt(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def HealtcareProompt(request,
+    def Proompt(request,
             target,
             options=(),
             channel_credentials=None,
@@ -83,7 +83,7 @@ class aiProompt(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/aiProompt.aiProompt/HealtcareProompt',
+            '/aiProompt.aiProompt/Proompt',
             vertex__pb2.ProomptMsg.SerializeToString,
             vertex__pb2.ProomptReturn.FromString,
             options,
