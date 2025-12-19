@@ -170,48 +170,76 @@ class UserService(user_service_pb2_grpc.UserServiceServicer):
     def GetLinkedUsers(self, request, context):
         self.log_request("GetLinkedUsers", request)
         try:
-            user_uid = verify_token(request.id_token)
-            relation_type = request.relation_type
+            requester_uid = verify_token(request.id_token)
+            relation_type = request.relation_type  # optional filter
 
-            doc_ref = db.collection("user_relations").document(user_uid)
-            doc = doc_ref.get()
-            direct_relations = doc.to_dict().get("relations", []) if doc.exists else []
+            requester_doc = db.collection("Users").document(requester_uid).get()
+            if not requester_doc.exists:
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details("Requester not found.")
+                return user_service_pb2.GetLinkedUsersReply()
 
-            reverse_docs = db.collection("user_relations").stream()
-            reverse_relations = []
-            for d in reverse_docs:
-                rels = d.to_dict().get("relations", [])
-                for r in rels:
-                    if r["related_uid"] == user_uid:
-                        reverse_relations.append({
-                            "related_uid": d.id,
-                            "relation_type": r["relation_type"]
-                        })
+            requester = requester_doc.to_dict()
+            requester_type = requester.get("Type")
 
-            all_relations = direct_relations + reverse_relations
+            related_users = []
 
-            if relation_type:
-                all_relations = [r for r in all_relations if r["relation_type"] == relation_type]
+            if requester_type == "Admin":
+                query = db.collection("Users")
+                if relation_type:
+                    query = query.where("Type", "==", relation_type)
 
-            related_users = [
-                user_service_pb2.RelatedUser(
-                    uid=r["related_uid"],
-                    relation_type=r["relation_type"]
-                )
-                for r in all_relations
-            ]
+                for doc in query.stream():
+                    related_users.append(
+                        user_service_pb2.RelatedUser(
+                            uid=doc.id,
+                            relation_type=doc.to_dict().get("Type", "unknown").lower()
+                        )
+                    )
 
-            return user_service_pb2.GetLinkedUsersReply(related_users=related_users)
+            elif requester_type == "Doctor":
+                query = db.collection("Users").where("DoctorID", "==", requester_uid)
+
+                if relation_type:
+                    query = query.where("Type", "==", relation_type)
+
+                for doc in query.stream():
+                    related_users.append(
+                        user_service_pb2.RelatedUser(
+                            uid=doc.id,
+                            relation_type="patient"
+                        )
+                    )
+
+            elif requester_type == "Patient":
+                doctor_uid = requester.get("DoctorID")
+                if doctor_uid:
+                    related_users.append(
+                        user_service_pb2.RelatedUser(
+                            uid=doctor_uid,
+                            relation_type="doctor"
+                        )
+                    )
+
+            else:
+                context.set_code(grpc.StatusCode.PERMISSION_DENIED)
+                context.set_details("Unknown user role.")
+                return user_service_pb2.GetLinkedUsersReply()
+
+            return user_service_pb2.GetLinkedUsersReply(
+                related_users=related_users
+            )
 
         except ValueError as e:
             context.set_code(grpc.StatusCode.UNAUTHENTICATED)
             context.set_details(str(e))
             return user_service_pb2.GetLinkedUsersReply()
+
         except Exception as e:
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(str(e))
             return user_service_pb2.GetLinkedUsersReply()
-    
+
     def AddUserDetails(self, request, context):
         self.log_request("AddUserDetails", request)
         try:
