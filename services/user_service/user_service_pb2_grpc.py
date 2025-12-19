@@ -5,7 +5,7 @@ import warnings
 
 import user_service_pb2 as user__service__pb2
 
-GRPC_GENERATED_VERSION = '1.76.0'
+GRPC_GENERATED_VERSION = '1.75.1'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + ' but the generated code in user_service_pb2_grpc.py depends on'
+        + f' but the generated code in user_service_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -38,6 +38,11 @@ class UserServiceStub(object):
                 '/user_service.UserService/AddUserDetails',
                 request_serializer=user__service__pb2.AddUserDetailsRequest.SerializeToString,
                 response_deserializer=user__service__pb2.AddUserDetailsReply.FromString,
+                _registered_method=True)
+        self.AddTestResult = channel.unary_unary(
+                '/user_service.UserService/AddTestResult',
+                request_serializer=user__service__pb2.AddTestResultRequest.SerializeToString,
+                response_deserializer=user__service__pb2.AddTestResultReply.FromString,
                 _registered_method=True)
         self.GetUserDetails = channel.unary_unary(
                 '/user_service.UserService/GetUserDetails',
@@ -75,6 +80,12 @@ class UserServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def AddUserDetails(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def AddTestResult(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -123,6 +134,11 @@ def add_UserServiceServicer_to_server(servicer, server):
                     servicer.AddUserDetails,
                     request_deserializer=user__service__pb2.AddUserDetailsRequest.FromString,
                     response_serializer=user__service__pb2.AddUserDetailsReply.SerializeToString,
+            ),
+            'AddTestResult': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddTestResult,
+                    request_deserializer=user__service__pb2.AddTestResultRequest.FromString,
+                    response_serializer=user__service__pb2.AddTestResultReply.SerializeToString,
             ),
             'GetUserDetails': grpc.unary_unary_rpc_method_handler(
                     servicer.GetUserDetails,
@@ -182,6 +198,33 @@ class UserService(object):
             '/user_service.UserService/AddUserDetails',
             user__service__pb2.AddUserDetailsRequest.SerializeToString,
             user__service__pb2.AddUserDetailsReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def AddTestResult(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_service.UserService/AddTestResult',
+            user__service__pb2.AddTestResultRequest.SerializeToString,
+            user__service__pb2.AddTestResultReply.FromString,
             options,
             channel_credentials,
             insecure,

@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import grpc
 from concurrent import futures
@@ -32,6 +33,41 @@ def verify_token(id_token):
 
 
 class UserService(user_service_pb2_grpc.UserServiceServicer):
+    def AddTestResult(self, request, context):
+    self.log_request("AddTestResult", request)
+    try:
+        # Verify token → get user ID
+        uid = verify_token(request.id_token)
+
+        # Prepare document
+        doc = {
+            "user_id": uid,
+            "data": request.data,
+            "risk_score": request.risk_score,
+            "date": firestore.SERVER_TIMESTAMP
+        }
+
+        # Insert into TestResults collection
+        db.collection("TestResults").add(doc)
+
+        return user_service_pb2.AddTestResultReply(
+            message="Test result stored successfully."
+        )
+
+    except ValueError as e:
+        context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+        context.set_details(str(e))
+        return user_service_pb2.AddTestResultReply(
+            message="Invalid token."
+        )
+
+    except Exception as e:
+        context.set_code(grpc.StatusCode.INTERNAL)
+        context.set_details(str(e))
+        return user_service_pb2.AddTestResultReply(
+            message="Failed to store test result."
+        )
+
     def log_request(self, method_name, request):
         try:
             from google.protobuf.json_format import MessageToDict
