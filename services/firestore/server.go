@@ -299,7 +299,7 @@ func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb
 	} else {
 		return &pb.LifestyleResponse{
 			Result: pb.LifestyleResponse_Error,
-			RiskScore: "Calculating",
+			RiskScore: "ServerError",
 		}, nil
 	}
 
@@ -321,7 +321,7 @@ func (s *server) SendTranscript(ctx context.Context, x *pb.LifestyleRequest) (*p
 	} else {
 		return &pb.LifestyleResponse{
 			Result: pb.LifestyleResponse_Error,
-			RiskScore: "Calculating",
+			RiskScore: "ServerError",
 		}, nil
 	}
 
