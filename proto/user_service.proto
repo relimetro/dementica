@@ -51,18 +51,18 @@ service UserService {
   }
 
   rpc VerifyTokenRemote(VerifyTokenRequest) returns (VerifyTokenResponse) {}
-    // internal grpc, not exposed to rest (for firestore.go)
+
   rpc GetUserTestResults (GetUserTestResultsRequest)
     returns (GetUserTestResultsReply) {
   option (google.api.http) = {
-    get: "/v1/user_service.UserService/GetUserTestResults"
+    get: "/v1/user_service.UserService/GetUserTestResults",
   };
 }
 
 rpc GetTestResultDetails (GetTestResultDetailsRequest)
     returns (GetTestResultDetailsReply) {
   option (google.api.http) = {
-    get: "/v1/user_service.UserService/GetTestResultDetails"
+    get: "/v1/user_service.UserService/GetTestResultDetails",
   };
 }
 }
@@ -165,3 +165,4 @@ message GetTestResultDetailsRequest {
 message GetTestResultDetailsReply {
   map<string, string> test = 1;
 }
+
