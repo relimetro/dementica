@@ -12,6 +12,12 @@ service UserService {
       body: "*"
     };
   }
+  rpc AddTestResult (AddTestResultRequest) returns (AddTestResultReply) {
+    option (google.api.http) = {
+      post: "/v1/user_service.UserService/AddTestResult"
+      body: "*"
+    };
+  }
 
   rpc GetUserDetails (GetUserDetailsRequest) returns (GetUserDetailsReply) {
     option (google.api.http) = {
@@ -111,4 +117,14 @@ message GetUserDetailsReply {
 
 message VerifyTokenRequest { string id_token = 1; }
 message VerifyTokenResponse { bool res = 1; string uid = 2; }
+
+message AddTestResultRequest {
+  string id_token = 1;     // identifies the user
+  string data = 2;         // unstructured data (JSON, text, etc.)
+  float risk_score = 3;    // calculated risk score
+}
+
+message AddTestResultReply {
+  string message = 1;
+}
 
