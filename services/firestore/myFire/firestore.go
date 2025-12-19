@@ -40,32 +40,32 @@ func DeleteCollection(c *firestore.Client, colName string){
 	}
 }
 
-func BURN_IT_ALL_DOWN(c *firestore.Client) {
-	log.Printf("BURN_IT_ALL_DOWN")
-
-	DeleteCollection(c,"Users")
-	DeleteCollection(c,"TestResults")
-
-	RegisterDoctor(c,"test1","Eoin","12345")
-	RegisterPatient(c,"test2","Conor","12345")
-	_ = RegisterPatient(c,"test3","Conor2","12345")
-	info, e := GetDoctorInfo(c,"test1")
-	info2, e2 := GetPatientInfo(c,"test2")
-	ps := GetPatientsOfDoctor(c,"test1")
-
-	AddLifestyleTest(c, "test2", "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes" )
-	// ts := GetRiskScoreHistory(c, patId)
-	ts := GetTestHistory(c, "test2")
-
-	log.Printf("%v","test1")
-	log.Printf("%v","test2")
-	// log.Printf("%v-%v-%v",v,docId2,logType)
-	log.Printf("%v-%v",info,e)
-	log.Printf("%v-%v",info2,e2)
-	log.Printf("list: %v",ps)
-	log.Printf("tests: %v",ts)
-	// log.Printf("patient2: %v-%v",info3,e3)
-}
+// func BURN_IT_ALL_DOWN(c *firestore.Client) {
+// 	log.Printf("BURN_IT_ALL_DOWN")
+// 
+// 	DeleteCollection(c,"Users")
+// 	DeleteCollection(c,"TestResults")
+// 
+// 	RegisterDoctor(c,"test1","Eoin","12345")
+// 	RegisterPatient(c,"test2","Conor","12345")
+// 	_ = RegisterPatient(c,"test3","Conor2","12345")
+// 	info, e := GetDoctorInfo(c,"test1")
+// 	info2, e2 := GetPatientInfo(c,"test2")
+// 	ps := GetPatientsOfDoctor(c,"test1")
+// 
+// 	AddLifestyleTest(c, "test2", "Diabetic:true,AlcoholLevel:0.084973629, HeartRate:98, BloodOxygenLevel:96.23074296, BodyTemperature:36.22485168, Weight:57.56397754, MRI_Delay:36.42102798, Presecription:None, DosageMg:0, Age:60, EducationLevel:Primary School, DominantHand:Left, Gender:Female, FamilyHistory:false, SmokingStatus:Current Smoker, APOE_e19:false, PhysicalActivity:Sedentary, DepressionStatus:false, MedicationHistory:false, NutritionDiet:Low-Carb Diet, SleepQuality:Poor, ChronicHealthConditionsDiabetes" )
+// 	// ts := GetRiskScoreHistory(c, patId)
+// 	ts := GetTestHistory(c, "test2")
+// 
+// 	log.Printf("%v","test1")
+// 	log.Printf("%v","test2")
+// 	// log.Printf("%v-%v-%v",v,docId2,logType)
+// 	log.Printf("%v-%v",info,e)
+// 	log.Printf("%v-%v",info2,e2)
+// 	log.Printf("list: %v",ps)
+// 	log.Printf("tests: %v",ts)
+// 	// log.Printf("patient2: %v-%v",info3,e3)
+// }
 
 
 
@@ -193,12 +193,12 @@ func GetPatientsOfDoctor(c *firestore.Client, docId string) []Patient{
 }
 
 // returns document ID
-func AddLifestyleTest(c *firestore.Client, patId string, lifestyle string) string {
+func AddLifestyleTest(c *firestore.Client, patId string, lifestyle string, dateTime string) string {
 	ctx := context.Background()
 
 	docRef, _, err := c.Collection("TestResults").Add(ctx, map[string]interface{}{
 		"UserID":patId,
-		"Date":"__NOT__IMPLEMENTED__",
+		"Date":dateTime,
 		"RiskScore":"Calculating",
 		"Data":lifestyle,
 		"Type":"Lifestyle",
@@ -208,20 +208,35 @@ func AddLifestyleTest(c *firestore.Client, patId string, lifestyle string) strin
 
 }
 // returns document ID
-func AddTranscriptTest(c *firestore.Client, patId string, transcript string) string {
+func AddTranscriptTest(c *firestore.Client, patId string, transcript string, dateTime string) string {
 	ctx := context.Background()
 
 	docRef, _, err := c.Collection("TestResults").Add(ctx, map[string]interface{}{
 		"UserID":patId,
-		"Date":"__NOT__IMPLEMENTED__",
+		"Date":dateTime,
 		"RiskScore":"Calculating",
 		"Data":transcript,
 		"Type":"Transcript",
 	})
 	if err != nil { log.Fatalf("AddTranscript error\n%v",err)}
 	return docRef.ID
-
 }
+
+func AddMinimentalTest(c *firestore.Client, patId string, data string, dateTime string) string {
+	ctx := context.Background()
+
+	docRef, _, err := c.Collection("TestResults").Add(ctx, map[string]interface{}{
+		"UserID":patId,
+		"Date":dateTime,
+		"RiskScore":data,
+		"Data":"",
+		"Type":"Minimental",
+	})
+	if err != nil { log.Fatalf("AddMinimental error\n%v",err)}
+	return docRef.ID
+}
+
+
 func GetTestHistory(c *firestore.Client, patId string) []TestResult {
 	ctx := context.Background()
 

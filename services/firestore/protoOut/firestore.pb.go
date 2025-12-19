@@ -1029,6 +1029,7 @@ func (x *LoginResult) GetResult() LoginResult_RegResult {
 type UserID struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserID        string                 `protobuf:"bytes,1,opt,name=UserID,proto3" json:"UserID,omitempty"`
+	IdToken       string                 `protobuf:"bytes,2,opt,name=IdToken,proto3" json:"IdToken,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1066,6 +1067,13 @@ func (*UserID) Descriptor() ([]byte, []int) {
 func (x *UserID) GetUserID() string {
 	if x != nil {
 		return x.UserID
+	}
+	return ""
+}
+
+func (x *UserID) GetIdToken() string {
+	if x != nil {
+		return x.IdToken
 	}
 	return ""
 }
@@ -1313,7 +1321,9 @@ func (x *PatientsResponse) GetPatients() []*PatientData {
 type LifestyleRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserID        string                 `protobuf:"bytes,1,opt,name=UserID,proto3" json:"UserID,omitempty"`
-	Data          string                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	IdToken       string                 `protobuf:"bytes,2,opt,name=IdToken,proto3" json:"IdToken,omitempty"`
+	Data          string                 `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	DateTime      string                 `protobuf:"bytes,4,opt,name=DateTime,proto3" json:"DateTime,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1355,9 +1365,23 @@ func (x *LifestyleRequest) GetUserID() string {
 	return ""
 }
 
+func (x *LifestyleRequest) GetIdToken() string {
+	if x != nil {
+		return x.IdToken
+	}
+	return ""
+}
+
 func (x *LifestyleRequest) GetData() string {
 	if x != nil {
 		return x.Data
+	}
+	return ""
+}
+
+func (x *LifestyleRequest) GetDateTime() string {
+	if x != nil {
+		return x.DateTime
 	}
 	return ""
 }
@@ -1521,7 +1545,8 @@ func (x *TestHistoryResponse) GetTests() []*TestData {
 type DementiaRequest struct {
 	state         protoimpl.MessageState    `protogen:"open.v1"`
 	UserID        string                    `protobuf:"bytes,1,opt,name=UserID,proto3" json:"UserID,omitempty"`
-	Dementia      DementiaRequest_DementiaE `protobuf:"varint,2,opt,name=Dementia,proto3,enum=firestore.DementiaRequest_DementiaE" json:"Dementia,omitempty"`
+	IdToken       string                    `protobuf:"bytes,2,opt,name=IdToken,proto3" json:"IdToken,omitempty"`
+	Dementia      DementiaRequest_DementiaE `protobuf:"varint,3,opt,name=Dementia,proto3,enum=firestore.DementiaRequest_DementiaE" json:"Dementia,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1559,6 +1584,13 @@ func (*DementiaRequest) Descriptor() ([]byte, []int) {
 func (x *DementiaRequest) GetUserID() string {
 	if x != nil {
 		return x.UserID
+	}
+	return ""
+}
+
+func (x *DementiaRequest) GetIdToken() string {
+	if x != nil {
+		return x.IdToken
 	}
 	return ""
 }
@@ -1747,9 +1779,10 @@ const file_firestore_proto_rawDesc = "" +
 	"\tRegResult\x12\x06\n" +
 	"\x02Ok\x10\x00\x12\f\n" +
 	"\bUserPass\x10\x01\x12\b\n" +
-	"\x04Type\x10\x02\" \n" +
+	"\x04Type\x10\x02\":\n" +
 	"\x06UserID\x12\x16\n" +
-	"\x06UserID\x18\x01 \x01(\tR\x06UserID\"\xc6\x02\n" +
+	"\x06UserID\x18\x01 \x01(\tR\x06UserID\x12\x18\n" +
+	"\aIdToken\x18\x02 \x01(\tR\aIdToken\"\xc6\x02\n" +
 	"\vPatientData\x122\n" +
 	"\x06Result\x18\x01 \x01(\x0e2\x1a.firestore.PatientData.ResR\x06Result\x12\x12\n" +
 	"\x04Name\x18\x02 \x01(\tR\x04Name\x12A\n" +
@@ -1792,10 +1825,12 @@ const file_firestore_proto_rawDesc = "" +
 	"\x02Ok\x10\x00\x12\f\n" +
 	"\bNotFound\x10\x01\x12\x10\n" +
 	"\fNoPermission\x10\x02\x12\r\n" +
-	"\tNotDoctor\x10\x03\">\n" +
+	"\tNotDoctor\x10\x03\"t\n" +
 	"\x10LifestyleRequest\x12\x16\n" +
-	"\x06UserID\x18\x01 \x01(\tR\x06UserID\x12\x12\n" +
-	"\x04data\x18\x02 \x01(\tR\x04data\"\xc2\x01\n" +
+	"\x06UserID\x18\x01 \x01(\tR\x06UserID\x12\x18\n" +
+	"\aIdToken\x18\x02 \x01(\tR\aIdToken\x12\x12\n" +
+	"\x04data\x18\x03 \x01(\tR\x04data\x12\x1a\n" +
+	"\bDateTime\x18\x04 \x01(\tR\bDateTime\"\xc2\x01\n" +
 	"\x11LifestyleResponse\x128\n" +
 	"\x06Result\x18\x01 \x01(\x0e2 .firestore.LifestyleResponse.ResR\x06Result\x12\x1c\n" +
 	"\tRiskScore\x18\x02 \x01(\tR\tRiskScore\"U\n" +
@@ -1818,10 +1853,11 @@ const file_firestore_proto_rawDesc = "" +
 	"\bNotFound\x10\x01\x12\x10\n" +
 	"\fNoPermission\x10\x02\x12\x0e\n" +
 	"\n" +
-	"NotPatient\x10\x03\"\xa1\x01\n" +
+	"NotPatient\x10\x03\"\xbb\x01\n" +
 	"\x0fDementiaRequest\x12\x16\n" +
-	"\x06UserID\x18\x01 \x01(\tR\x06UserID\x12@\n" +
-	"\bDementia\x18\x02 \x01(\x0e2$.firestore.DementiaRequest.DementiaER\bDementia\"4\n" +
+	"\x06UserID\x18\x01 \x01(\tR\x06UserID\x12\x18\n" +
+	"\aIdToken\x18\x02 \x01(\tR\aIdToken\x12@\n" +
+	"\bDementia\x18\x03 \x01(\x0e2$.firestore.DementiaRequest.DementiaER\bDementia\"4\n" +
 	"\tDementiaE\x12\v\n" +
 	"\aUnknown\x10\x00\x12\f\n" +
 	"\bPositive\x10\x01\x12\f\n" +
@@ -1841,7 +1877,7 @@ const file_firestore_proto_rawDesc = "" +
 	"\n" +
 	"\x06Doctor\x10\x01\"(\n" +
 	"\fNewsResponse\x12\x18\n" +
-	"\aContent\x18\x01 \x01(\tR\aContent2\x81\b\n" +
+	"\aContent\x18\x01 \x01(\tR\aContent2\xee\b\n" +
 	"\tfirestore\x12W\n" +
 	"\bRegister\x12\x17.firestore.UserRegister\x1a\x19.firestore.RegisterResult\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/register\x12K\n" +
 	"\x05Login\x12\x14.firestore.UserLogin\x1a\x16.firestore.LoginResult\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/login\x12U\n" +
@@ -1852,7 +1888,8 @@ const file_firestore_proto_rawDesc = "" +
 	"\vGetPatients\x12\x11.firestore.UserID\x1a\x1b.firestore.PatientsResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/patients\x12`\n" +
 	"\x0eGetTestHistory\x12\x11.firestore.UserID\x1a\x1e.firestore.TestHistoryResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/v1/test_history\x12i\n" +
 	"\rSendLifestyle\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/v1/send_lifestyle\x12k\n" +
-	"\x0eSendTranscript\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v1/send_transcript\x12l\n" +
+	"\x0eSendTranscript\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v1/send_transcript\x12k\n" +
+	"\x0eSendMinimental\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v1/send_minimental\x12l\n" +
 	"\x13SendPatientDementia\x12\x1a.firestore.DementiaRequest\x1a\x1b.firestore.DementiaResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/send_dementia\x12S\n" +
 	"\aGetNews\x12\x16.firestore.NewsRequest\x1a\x17.firestore.NewsResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/get_newsB\x17Z\x15example/proto_exampleb\x06proto3"
 
@@ -1931,21 +1968,23 @@ var file_firestore_proto_depIdxs = []int32{
 	19, // 23: firestore.firestore.GetTestHistory:input_type -> firestore.UserID
 	24, // 24: firestore.firestore.SendLifestyle:input_type -> firestore.LifestyleRequest
 	24, // 25: firestore.firestore.SendTranscript:input_type -> firestore.LifestyleRequest
-	28, // 26: firestore.firestore.SendPatientDementia:input_type -> firestore.DementiaRequest
-	30, // 27: firestore.firestore.GetNews:input_type -> firestore.NewsRequest
-	16, // 28: firestore.firestore.Register:output_type -> firestore.RegisterResult
-	18, // 29: firestore.firestore.Login:output_type -> firestore.LoginResult
-	20, // 30: firestore.firestore.PatientInfo:output_type -> firestore.PatientData
-	21, // 31: firestore.firestore.GetRisk:output_type -> firestore.RiskResponse
-	22, // 32: firestore.firestore.DoctorInfo:output_type -> firestore.DoctorData
-	23, // 33: firestore.firestore.GetPatients:output_type -> firestore.PatientsResponse
-	27, // 34: firestore.firestore.GetTestHistory:output_type -> firestore.TestHistoryResponse
-	25, // 35: firestore.firestore.SendLifestyle:output_type -> firestore.LifestyleResponse
-	25, // 36: firestore.firestore.SendTranscript:output_type -> firestore.LifestyleResponse
-	29, // 37: firestore.firestore.SendPatientDementia:output_type -> firestore.DementiaResponse
-	31, // 38: firestore.firestore.GetNews:output_type -> firestore.NewsResponse
-	28, // [28:39] is the sub-list for method output_type
-	17, // [17:28] is the sub-list for method input_type
+	24, // 26: firestore.firestore.SendMinimental:input_type -> firestore.LifestyleRequest
+	28, // 27: firestore.firestore.SendPatientDementia:input_type -> firestore.DementiaRequest
+	30, // 28: firestore.firestore.GetNews:input_type -> firestore.NewsRequest
+	16, // 29: firestore.firestore.Register:output_type -> firestore.RegisterResult
+	18, // 30: firestore.firestore.Login:output_type -> firestore.LoginResult
+	20, // 31: firestore.firestore.PatientInfo:output_type -> firestore.PatientData
+	21, // 32: firestore.firestore.GetRisk:output_type -> firestore.RiskResponse
+	22, // 33: firestore.firestore.DoctorInfo:output_type -> firestore.DoctorData
+	23, // 34: firestore.firestore.GetPatients:output_type -> firestore.PatientsResponse
+	27, // 35: firestore.firestore.GetTestHistory:output_type -> firestore.TestHistoryResponse
+	25, // 36: firestore.firestore.SendLifestyle:output_type -> firestore.LifestyleResponse
+	25, // 37: firestore.firestore.SendTranscript:output_type -> firestore.LifestyleResponse
+	25, // 38: firestore.firestore.SendMinimental:output_type -> firestore.LifestyleResponse
+	29, // 39: firestore.firestore.SendPatientDementia:output_type -> firestore.DementiaResponse
+	31, // 40: firestore.firestore.GetNews:output_type -> firestore.NewsResponse
+	29, // [29:41] is the sub-list for method output_type
+	17, // [17:29] is the sub-list for method input_type
 	17, // [17:17] is the sub-list for extension type_name
 	17, // [17:17] is the sub-list for extension extendee
 	0,  // [0:17] is the sub-list for field type_name

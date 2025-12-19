@@ -52,6 +52,12 @@ service firestore {
 		body: "*"
 	}; }
 
+  rpc SendMinimental(LifestyleRequest) returns (LifestyleResponse) {
+	option (google.api.http) = {
+		post: "/v1/send_minimental"
+		body: "*"
+	}; }
+
   rpc SendPatientDementia(DementiaRequest) returns (DementiaResponse) {
 	option (google.api.http) = {
 		post: "/v1/send_dementia"
@@ -99,7 +105,7 @@ message LoginResult {
 
 
 
-message UserID { string UserID = 1; }
+message UserID { string UserID = 1; string IdToken = 2; }
 
 message PatientData { 
   Res Result = 1;
@@ -129,7 +135,10 @@ message PatientsResponse {
 
 message LifestyleRequest {
   string UserID = 1;
-  string data = 2; }
+  string IdToken = 2;
+  string data = 3;
+  string DateTime =4;
+}
 
 message LifestyleResponse {
   Res Result = 1;
@@ -151,7 +160,8 @@ message TestHistoryResponse {
 
 message DementiaRequest {
   string UserID = 1;
-  DementiaE Dementia = 2;
+  string IdToken = 2;
+  DementiaE Dementia = 3;
   enum DementiaE { Unknown = 0; Positive = 1; Negative = 2; }
 }
 message DementiaResponse {

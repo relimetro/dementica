@@ -74,6 +74,16 @@ class UserServiceStub(object):
                 request_serializer=user__service__pb2.VerifyTokenRequest.SerializeToString,
                 response_deserializer=user__service__pb2.VerifyTokenResponse.FromString,
                 _registered_method=True)
+        self.GetUserTestResults = channel.unary_unary(
+                '/user_service.UserService/GetUserTestResults',
+                request_serializer=user__service__pb2.GetUserTestResultsRequest.SerializeToString,
+                response_deserializer=user__service__pb2.GetUserTestResultsReply.FromString,
+                _registered_method=True)
+        self.GetTestResultDetails = channel.unary_unary(
+                '/user_service.UserService/GetTestResultDetails',
+                request_serializer=user__service__pb2.GetTestResultDetailsRequest.SerializeToString,
+                response_deserializer=user__service__pb2.GetTestResultDetailsReply.FromString,
+                _registered_method=True)
 
 
 class UserServiceServicer(object):
@@ -127,6 +137,18 @@ class UserServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetUserTestResults(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetTestResultDetails(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -169,6 +191,16 @@ def add_UserServiceServicer_to_server(servicer, server):
                     servicer.VerifyTokenRemote,
                     request_deserializer=user__service__pb2.VerifyTokenRequest.FromString,
                     response_serializer=user__service__pb2.VerifyTokenResponse.SerializeToString,
+            ),
+            'GetUserTestResults': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetUserTestResults,
+                    request_deserializer=user__service__pb2.GetUserTestResultsRequest.FromString,
+                    response_serializer=user__service__pb2.GetUserTestResultsReply.SerializeToString,
+            ),
+            'GetTestResultDetails': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetTestResultDetails,
+                    request_deserializer=user__service__pb2.GetTestResultDetailsRequest.FromString,
+                    response_serializer=user__service__pb2.GetTestResultDetailsReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -387,6 +419,60 @@ class UserService(object):
             '/user_service.UserService/VerifyTokenRemote',
             user__service__pb2.VerifyTokenRequest.SerializeToString,
             user__service__pb2.VerifyTokenResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetUserTestResults(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_service.UserService/GetUserTestResults',
+            user__service__pb2.GetUserTestResultsRequest.SerializeToString,
+            user__service__pb2.GetUserTestResultsReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetTestResultDetails(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/user_service.UserService/GetTestResultDetails',
+            user__service__pb2.GetTestResultDetailsRequest.SerializeToString,
+            user__service__pb2.GetTestResultDetailsReply.FromString,
             options,
             channel_credentials,
             insecure,

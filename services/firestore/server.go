@@ -73,8 +73,32 @@ func GoPatientToProtoPatient(p myFire.Patient) pb.PatientData {
 
 
 
+func VertexCall(x string) (string,bool) {
+
+	var conn *grpc.ClientConn
+	// conn, err := grpc.Dial("vertexai:50052", grpc.WithInsecure())
+	conn, err := grpc.Dial("vertexai:50052", grpc.WithInsecure())
+	if err != nil { log.Printf("[ERROR] GRPC: cound not connect vertexai at 50052: \n%s",err); return "",false; }
+	defer conn.Close()
+	c := aiProompt.NewAiProomptClient(conn)
+
+	log.Printf("calling vertexai (%s)",x)
+	message := aiProompt.ProomptMsg { Message: x}
+	resp, err := c.Proompt(context.Background(), &message)
+	if err != nil { log.Printf("[ERROR] FTproompt, <%s>, <%d>",err,resp); return "",false; }
+	log.Printf("Response FTproompt: %s",resp)
+	return resp.Message,true }
+
 func UpdateTranscriptRiskScore(c *firestore.Client, data string, testId string) (string,bool) { // riskScore,success
-	return "0.5",true; }
+	out,succ := VertexCall(data)
+	log.Printf("UpdateTranscrip tRiskScore: %v -- %v",succ,out)
+	if succ {
+		myFire.SetTestRiskScore(c, testId, out)
+		return out,true
+	} else {
+		myFire.SetTestRiskScore(c, testId, "ServerError") 
+		return "",false }
+	}
 
 
 ///////////////////////////////////////////////////////////////
@@ -285,7 +309,7 @@ func (s *server) SendLifestyle(ctx context.Context, x *pb.LifestyleRequest) (*pb
 	log.Printf("SendLifestyle: '%s'",x.Data)
 
 	// upload test
-	testId := myFire.AddLifestyleTest(s.c, x.UserID, x.Data)
+	testId := myFire.AddLifestyleTest(s.c, x.UserID, x.Data, x.DateTime)
 
 	// update risk score in background
 	riskScore,succ := UpdateTestRiskScore(s.c, x.Data, testId)
@@ -309,7 +333,7 @@ func (s *server) SendTranscript(ctx context.Context, x *pb.LifestyleRequest) (*p
 	log.Printf("SendTranscript: '%s'",x.Data)
 
 	// upload test
-	testId := myFire.AddTranscriptTest(s.c, x.UserID, x.Data)
+	testId := myFire.AddTranscriptTest(s.c, x.UserID, x.Data, x.DateTime)
 
 	// update risk score
 	riskScore,succ := UpdateTranscriptRiskScore(s.c, x.Data, testId)
@@ -324,8 +348,18 @@ func (s *server) SendTranscript(ctx context.Context, x *pb.LifestyleRequest) (*p
 			RiskScore: "ServerError",
 		}, nil
 	}
+}
 
+// Send Transcript
+func (s *server) SendMinimental(ctx context.Context, x *pb.LifestyleRequest) (*pb.LifestyleResponse, error) {
+	log.Printf("SendMinimental: '%s'",x.Data)
 
+	// upload test
+	myFire.AddMinimentalTest(s.c, x.UserID, x.Data, x.DateTime)
+
+	return &pb.LifestyleResponse{
+		Result: pb.LifestyleResponse_Ok,
+		RiskScore: x.Data, }, nil
 }
 
 // Send Patient Dementia

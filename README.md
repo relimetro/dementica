@@ -18,3 +18,6 @@ sudo docker-compose -f docker-compose.yaml up
 
 `services/vertexai/*.json` serviceAccount for vertexAI
 
+`services/vertexai/<service
+
+

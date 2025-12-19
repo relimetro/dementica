@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from google.api import annotations_pb2 as google_dot_api_dot_annotations__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12user_service.proto\x12\x0cuser_service\x1a\x1cgoogle/api/annotations.proto\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\";\n\tAuthReply\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x10\n\x08id_token\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\"S\n\x0fLinkUserRequest\x12\x15\n\rpatient_token\x18\x01 \x01(\t\x12\x12\n\ndoctor_uid\x18\x02 \x01(\t\x12\x15\n\rrelation_type\x18\x03 \x01(\t\" \n\rLinkUserReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"@\n\x15GetLinkedUsersRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x15\n\rrelation_type\x18\x02 \x01(\t\"1\n\x0bRelatedUser\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x15\n\rrelation_type\x18\x02 \x01(\t\"G\n\x13GetLinkedUsersReply\x12\x30\n\rrelated_users\x18\x01 \x03(\x0b\x32\x19.user_service.RelatedUser\"\x9c\x01\n\x15\x41\x64\x64UserDetailsRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x41\n\x07\x64\x65tails\x18\x02 \x03(\x0b\x32\x30.user_service.AddUserDetailsRequest.DetailsEntry\x1a.\n\x0c\x44\x65tailsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"&\n\x13\x41\x64\x64UserDetailsReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"=\n\x15GetUserDetailsRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x12\n\ntarget_uid\x18\x02 \x01(\t\"\x86\x01\n\x13GetUserDetailsReply\x12?\n\x07\x64\x65tails\x18\x01 \x03(\x0b\x32..user_service.GetUserDetailsReply.DetailsEntry\x1a.\n\x0c\x44\x65tailsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"&\n\x12VerifyTokenRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\"/\n\x13VerifyTokenResponse\x12\x0b\n\x03res\x18\x01 \x01(\x08\x12\x0b\n\x03uid\x18\x02 \x01(\t\"J\n\x14\x41\x64\x64TestResultRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x12\n\nrisk_score\x18\x03 \x01(\x02\"%\n\x12\x41\x64\x64TestResultReply\x12\x0f\n\x07message\x18\x01 \x01(\t2\x85\x08\n\x0bUserService\x12\x90\x01\n\x0e\x41\x64\x64UserDetails\x12#.user_service.AddUserDetailsRequest\x1a!.user_service.AddUserDetailsReply\"6\x82\xd3\xe4\x93\x02\x30\x1a+/v1/user_service.UserService/AddUserDetails:\x01*\x12\x8c\x01\n\rAddTestResult\x12\".user_service.AddTestResultRequest\x1a .user_service.AddTestResultReply\"5\x82\xd3\xe4\x93\x02/\"*/v1/user_service.UserService/AddTestResult:\x01*\x12\x8d\x01\n\x0eGetUserDetails\x12#.user_service.GetUserDetailsRequest\x1a!.user_service.GetUserDetailsReply\"3\x82\xd3\xe4\x93\x02-\x12+/v1/user_service.UserService/GetUserDetails\x12k\n\x05Login\x12\x1a.user_service.LoginRequest\x1a\x17.user_service.AuthReply\"-\x82\xd3\xe4\x93\x02\'\"\"/v1/user_service.UserService/Login:\x01*\x12n\n\x06SignUp\x12\x1b.user_service.SignUpRequest\x1a\x17.user_service.AuthReply\".\x82\xd3\xe4\x93\x02(\"#/v1/user_service.UserService/SignUp:\x01*\x12x\n\x08LinkUser\x12\x1d.user_service.LinkUserRequest\x1a\x1b.user_service.LinkUserReply\"0\x82\xd3\xe4\x93\x02*\"%/v1/user_service.UserService/LinkUser:\x01*\x12\x90\x01\n\x0eGetLinkedUsers\x12#.user_service.GetLinkedUsersRequest\x1a!.user_service.GetLinkedUsersReply\"6\x82\xd3\xe4\x93\x02\x30\"+/v1/user_service.UserService/GetLinkedUsers:\x01*\x12Z\n\x11VerifyTokenRemote\x12 .user_service.VerifyTokenRequest\x1a!.user_service.VerifyTokenResponse\"\x00\x42\x16Z\x14\x65xample/user_serviceb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12user_service.proto\x12\x0cuser_service\x1a\x1cgoogle/api/annotations.proto\"0\n\rSignUpRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"/\n\x0cLoginRequest\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\";\n\tAuthReply\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x10\n\x08id_token\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\"S\n\x0fLinkUserRequest\x12\x15\n\rpatient_token\x18\x01 \x01(\t\x12\x12\n\ndoctor_uid\x18\x02 \x01(\t\x12\x15\n\rrelation_type\x18\x03 \x01(\t\" \n\rLinkUserReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"@\n\x15GetLinkedUsersRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x15\n\rrelation_type\x18\x02 \x01(\t\"1\n\x0bRelatedUser\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x15\n\rrelation_type\x18\x02 \x01(\t\"G\n\x13GetLinkedUsersReply\x12\x30\n\rrelated_users\x18\x01 \x03(\x0b\x32\x19.user_service.RelatedUser\"\xa9\x01\n\x15\x41\x64\x64UserDetailsRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x0b\n\x03uid\x18\x02 \x01(\t\x12\x41\n\x07\x64\x65tails\x18\x03 \x03(\x0b\x32\x30.user_service.AddUserDetailsRequest.DetailsEntry\x1a.\n\x0c\x44\x65tailsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"&\n\x13\x41\x64\x64UserDetailsReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"=\n\x15GetUserDetailsRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x12\n\ntarget_uid\x18\x02 \x01(\t\"\x86\x01\n\x13GetUserDetailsReply\x12?\n\x07\x64\x65tails\x18\x01 \x03(\x0b\x32..user_service.GetUserDetailsReply.DetailsEntry\x1a.\n\x0c\x44\x65tailsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"&\n\x12VerifyTokenRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\"/\n\x13VerifyTokenResponse\x12\x0b\n\x03res\x18\x01 \x01(\x08\x12\x0b\n\x03uid\x18\x02 \x01(\t\"J\n\x14\x41\x64\x64TestResultRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t\x12\x12\n\nrisk_score\x18\x03 \x01(\x02\"%\n\x12\x41\x64\x64TestResultReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"A\n\x19GetUserTestResultsRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x12\n\ntarget_uid\x18\x02 \x01(\t\"N\n\x0bTestSummary\x12\x0f\n\x07test_id\x18\x01 \x01(\t\x12\x0c\n\x04type\x18\x02 \x01(\t\x12\x12\n\nrisk_score\x18\x03 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\t\"C\n\x17GetUserTestResultsReply\x12(\n\x05tests\x18\x01 \x03(\x0b\x32\x19.user_service.TestSummary\"@\n\x1bGetTestResultDetailsRequest\x12\x10\n\x08id_token\x18\x01 \x01(\t\x12\x0f\n\x07test_id\x18\x02 \x01(\t\"\x89\x01\n\x19GetTestResultDetailsReply\x12?\n\x04test\x18\x01 \x03(\x0b\x32\x31.user_service.GetTestResultDetailsReply.TestEntry\x1a+\n\tTestEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x32\xcd\n\n\x0bUserService\x12\x90\x01\n\x0e\x41\x64\x64UserDetails\x12#.user_service.AddUserDetailsRequest\x1a!.user_service.AddUserDetailsReply\"6\x82\xd3\xe4\x93\x02\x30\x1a+/v1/user_service.UserService/AddUserDetails:\x01*\x12\x8c\x01\n\rAddTestResult\x12\".user_service.AddTestResultRequest\x1a .user_service.AddTestResultReply\"5\x82\xd3\xe4\x93\x02/\"*/v1/user_service.UserService/AddTestResult:\x01*\x12\x8d\x01\n\x0eGetUserDetails\x12#.user_service.GetUserDetailsRequest\x1a!.user_service.GetUserDetailsReply\"3\x82\xd3\xe4\x93\x02-\x12+/v1/user_service.UserService/GetUserDetails\x12k\n\x05Login\x12\x1a.user_service.LoginRequest\x1a\x17.user_service.AuthReply\"-\x82\xd3\xe4\x93\x02\'\"\"/v1/user_service.UserService/Login:\x01*\x12n\n\x06SignUp\x12\x1b.user_service.SignUpRequest\x1a\x17.user_service.AuthReply\".\x82\xd3\xe4\x93\x02(\"#/v1/user_service.UserService/SignUp:\x01*\x12x\n\x08LinkUser\x12\x1d.user_service.LinkUserRequest\x1a\x1b.user_service.LinkUserReply\"0\x82\xd3\xe4\x93\x02*\"%/v1/user_service.UserService/LinkUser:\x01*\x12\x90\x01\n\x0eGetLinkedUsers\x12#.user_service.GetLinkedUsersRequest\x1a!.user_service.GetLinkedUsersReply\"6\x82\xd3\xe4\x93\x02\x30\"+/v1/user_service.UserService/GetLinkedUsers:\x01*\x12Z\n\x11VerifyTokenRemote\x12 .user_service.VerifyTokenRequest\x1a!.user_service.VerifyTokenResponse\"\x00\x12\x9d\x01\n\x12GetUserTestResults\x12\'.user_service.GetUserTestResultsRequest\x1a%.user_service.GetUserTestResultsReply\"7\x82\xd3\xe4\x93\x02\x31\x12//v1/user_service.UserService/GetUserTestResults\x12\xa5\x01\n\x14GetTestResultDetails\x12).user_service.GetTestResultDetailsRequest\x1a\'.user_service.GetTestResultDetailsReply\"9\x82\xd3\xe4\x93\x02\x33\x12\x31/v1/user_service.UserService/GetTestResultDetailsB\x16Z\x14\x65xample/user_serviceb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -37,6 +37,8 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_ADDUSERDETAILSREQUEST_DETAILSENTRY']._serialized_options = b'8\001'
   _globals['_GETUSERDETAILSREPLY_DETAILSENTRY']._loaded_options = None
   _globals['_GETUSERDETAILSREPLY_DETAILSENTRY']._serialized_options = b'8\001'
+  _globals['_GETTESTRESULTDETAILSREPLY_TESTENTRY']._loaded_options = None
+  _globals['_GETTESTRESULTDETAILSREPLY_TESTENTRY']._serialized_options = b'8\001'
   _globals['_USERSERVICE'].methods_by_name['AddUserDetails']._loaded_options = None
   _globals['_USERSERVICE'].methods_by_name['AddUserDetails']._serialized_options = b'\202\323\344\223\0020\032+/v1/user_service.UserService/AddUserDetails:\001*'
   _globals['_USERSERVICE'].methods_by_name['AddTestResult']._loaded_options = None
@@ -51,6 +53,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_USERSERVICE'].methods_by_name['LinkUser']._serialized_options = b'\202\323\344\223\002*\"%/v1/user_service.UserService/LinkUser:\001*'
   _globals['_USERSERVICE'].methods_by_name['GetLinkedUsers']._loaded_options = None
   _globals['_USERSERVICE'].methods_by_name['GetLinkedUsers']._serialized_options = b'\202\323\344\223\0020\"+/v1/user_service.UserService/GetLinkedUsers:\001*'
+  _globals['_USERSERVICE'].methods_by_name['GetUserTestResults']._loaded_options = None
+  _globals['_USERSERVICE'].methods_by_name['GetUserTestResults']._serialized_options = b'\202\323\344\223\0021\022//v1/user_service.UserService/GetUserTestResults'
+  _globals['_USERSERVICE'].methods_by_name['GetTestResultDetails']._loaded_options = None
+  _globals['_USERSERVICE'].methods_by_name['GetTestResultDetails']._serialized_options = b'\202\323\344\223\0023\0221/v1/user_service.UserService/GetTestResultDetails'
   _globals['_SIGNUPREQUEST']._serialized_start=66
   _globals['_SIGNUPREQUEST']._serialized_end=114
   _globals['_LOGINREQUEST']._serialized_start=116
@@ -68,25 +74,37 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_GETLINKEDUSERSREPLY']._serialized_start=462
   _globals['_GETLINKEDUSERSREPLY']._serialized_end=533
   _globals['_ADDUSERDETAILSREQUEST']._serialized_start=536
-  _globals['_ADDUSERDETAILSREQUEST']._serialized_end=692
-  _globals['_ADDUSERDETAILSREQUEST_DETAILSENTRY']._serialized_start=646
-  _globals['_ADDUSERDETAILSREQUEST_DETAILSENTRY']._serialized_end=692
-  _globals['_ADDUSERDETAILSREPLY']._serialized_start=694
-  _globals['_ADDUSERDETAILSREPLY']._serialized_end=732
-  _globals['_GETUSERDETAILSREQUEST']._serialized_start=734
-  _globals['_GETUSERDETAILSREQUEST']._serialized_end=795
-  _globals['_GETUSERDETAILSREPLY']._serialized_start=798
-  _globals['_GETUSERDETAILSREPLY']._serialized_end=932
-  _globals['_GETUSERDETAILSREPLY_DETAILSENTRY']._serialized_start=646
-  _globals['_GETUSERDETAILSREPLY_DETAILSENTRY']._serialized_end=692
-  _globals['_VERIFYTOKENREQUEST']._serialized_start=934
-  _globals['_VERIFYTOKENREQUEST']._serialized_end=972
-  _globals['_VERIFYTOKENRESPONSE']._serialized_start=974
-  _globals['_VERIFYTOKENRESPONSE']._serialized_end=1021
-  _globals['_ADDTESTRESULTREQUEST']._serialized_start=1023
-  _globals['_ADDTESTRESULTREQUEST']._serialized_end=1097
-  _globals['_ADDTESTRESULTREPLY']._serialized_start=1099
-  _globals['_ADDTESTRESULTREPLY']._serialized_end=1136
-  _globals['_USERSERVICE']._serialized_start=1139
-  _globals['_USERSERVICE']._serialized_end=2168
+  _globals['_ADDUSERDETAILSREQUEST']._serialized_end=705
+  _globals['_ADDUSERDETAILSREQUEST_DETAILSENTRY']._serialized_start=659
+  _globals['_ADDUSERDETAILSREQUEST_DETAILSENTRY']._serialized_end=705
+  _globals['_ADDUSERDETAILSREPLY']._serialized_start=707
+  _globals['_ADDUSERDETAILSREPLY']._serialized_end=745
+  _globals['_GETUSERDETAILSREQUEST']._serialized_start=747
+  _globals['_GETUSERDETAILSREQUEST']._serialized_end=808
+  _globals['_GETUSERDETAILSREPLY']._serialized_start=811
+  _globals['_GETUSERDETAILSREPLY']._serialized_end=945
+  _globals['_GETUSERDETAILSREPLY_DETAILSENTRY']._serialized_start=659
+  _globals['_GETUSERDETAILSREPLY_DETAILSENTRY']._serialized_end=705
+  _globals['_VERIFYTOKENREQUEST']._serialized_start=947
+  _globals['_VERIFYTOKENREQUEST']._serialized_end=985
+  _globals['_VERIFYTOKENRESPONSE']._serialized_start=987
+  _globals['_VERIFYTOKENRESPONSE']._serialized_end=1034
+  _globals['_ADDTESTRESULTREQUEST']._serialized_start=1036
+  _globals['_ADDTESTRESULTREQUEST']._serialized_end=1110
+  _globals['_ADDTESTRESULTREPLY']._serialized_start=1112
+  _globals['_ADDTESTRESULTREPLY']._serialized_end=1149
+  _globals['_GETUSERTESTRESULTSREQUEST']._serialized_start=1151
+  _globals['_GETUSERTESTRESULTSREQUEST']._serialized_end=1216
+  _globals['_TESTSUMMARY']._serialized_start=1218
+  _globals['_TESTSUMMARY']._serialized_end=1296
+  _globals['_GETUSERTESTRESULTSREPLY']._serialized_start=1298
+  _globals['_GETUSERTESTRESULTSREPLY']._serialized_end=1365
+  _globals['_GETTESTRESULTDETAILSREQUEST']._serialized_start=1367
+  _globals['_GETTESTRESULTDETAILSREQUEST']._serialized_end=1431
+  _globals['_GETTESTRESULTDETAILSREPLY']._serialized_start=1434
+  _globals['_GETTESTRESULTDETAILSREPLY']._serialized_end=1571
+  _globals['_GETTESTRESULTDETAILSREPLY_TESTENTRY']._serialized_start=1528
+  _globals['_GETTESTRESULTDETAILSREPLY_TESTENTRY']._serialized_end=1571
+  _globals['_USERSERVICE']._serialized_start=1574
+  _globals['_USERSERVICE']._serialized_end=2931
 # @@protoc_insertion_point(module_scope)

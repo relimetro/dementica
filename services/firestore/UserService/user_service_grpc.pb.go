@@ -19,14 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_AddUserDetails_FullMethodName    = "/user_service.UserService/AddUserDetails"
-	UserService_AddTestResult_FullMethodName     = "/user_service.UserService/AddTestResult"
-	UserService_GetUserDetails_FullMethodName    = "/user_service.UserService/GetUserDetails"
-	UserService_Login_FullMethodName             = "/user_service.UserService/Login"
-	UserService_SignUp_FullMethodName            = "/user_service.UserService/SignUp"
-	UserService_LinkUser_FullMethodName          = "/user_service.UserService/LinkUser"
-	UserService_GetLinkedUsers_FullMethodName    = "/user_service.UserService/GetLinkedUsers"
-	UserService_VerifyTokenRemote_FullMethodName = "/user_service.UserService/VerifyTokenRemote"
+	UserService_AddUserDetails_FullMethodName       = "/user_service.UserService/AddUserDetails"
+	UserService_AddTestResult_FullMethodName        = "/user_service.UserService/AddTestResult"
+	UserService_GetUserDetails_FullMethodName       = "/user_service.UserService/GetUserDetails"
+	UserService_Login_FullMethodName                = "/user_service.UserService/Login"
+	UserService_SignUp_FullMethodName               = "/user_service.UserService/SignUp"
+	UserService_LinkUser_FullMethodName             = "/user_service.UserService/LinkUser"
+	UserService_GetLinkedUsers_FullMethodName       = "/user_service.UserService/GetLinkedUsers"
+	UserService_VerifyTokenRemote_FullMethodName    = "/user_service.UserService/VerifyTokenRemote"
+	UserService_GetUserTestResults_FullMethodName   = "/user_service.UserService/GetUserTestResults"
+	UserService_GetTestResultDetails_FullMethodName = "/user_service.UserService/GetTestResultDetails"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -41,6 +43,8 @@ type UserServiceClient interface {
 	LinkUser(ctx context.Context, in *LinkUserRequest, opts ...grpc.CallOption) (*LinkUserReply, error)
 	GetLinkedUsers(ctx context.Context, in *GetLinkedUsersRequest, opts ...grpc.CallOption) (*GetLinkedUsersReply, error)
 	VerifyTokenRemote(ctx context.Context, in *VerifyTokenRequest, opts ...grpc.CallOption) (*VerifyTokenResponse, error)
+	GetUserTestResults(ctx context.Context, in *GetUserTestResultsRequest, opts ...grpc.CallOption) (*GetUserTestResultsReply, error)
+	GetTestResultDetails(ctx context.Context, in *GetTestResultDetailsRequest, opts ...grpc.CallOption) (*GetTestResultDetailsReply, error)
 }
 
 type userServiceClient struct {
@@ -131,6 +135,26 @@ func (c *userServiceClient) VerifyTokenRemote(ctx context.Context, in *VerifyTok
 	return out, nil
 }
 
+func (c *userServiceClient) GetUserTestResults(ctx context.Context, in *GetUserTestResultsRequest, opts ...grpc.CallOption) (*GetUserTestResultsReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserTestResultsReply)
+	err := c.cc.Invoke(ctx, UserService_GetUserTestResults_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetTestResultDetails(ctx context.Context, in *GetTestResultDetailsRequest, opts ...grpc.CallOption) (*GetTestResultDetailsReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTestResultDetailsReply)
+	err := c.cc.Invoke(ctx, UserService_GetTestResultDetails_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
@@ -143,6 +167,8 @@ type UserServiceServer interface {
 	LinkUser(context.Context, *LinkUserRequest) (*LinkUserReply, error)
 	GetLinkedUsers(context.Context, *GetLinkedUsersRequest) (*GetLinkedUsersReply, error)
 	VerifyTokenRemote(context.Context, *VerifyTokenRequest) (*VerifyTokenResponse, error)
+	GetUserTestResults(context.Context, *GetUserTestResultsRequest) (*GetUserTestResultsReply, error)
+	GetTestResultDetails(context.Context, *GetTestResultDetailsRequest) (*GetTestResultDetailsReply, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -176,6 +202,12 @@ func (UnimplementedUserServiceServer) GetLinkedUsers(context.Context, *GetLinked
 }
 func (UnimplementedUserServiceServer) VerifyTokenRemote(context.Context, *VerifyTokenRequest) (*VerifyTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyTokenRemote not implemented")
+}
+func (UnimplementedUserServiceServer) GetUserTestResults(context.Context, *GetUserTestResultsRequest) (*GetUserTestResultsReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserTestResults not implemented")
+}
+func (UnimplementedUserServiceServer) GetTestResultDetails(context.Context, *GetTestResultDetailsRequest) (*GetTestResultDetailsReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTestResultDetails not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -342,6 +374,42 @@ func _UserService_VerifyTokenRemote_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_GetUserTestResults_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserTestResultsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetUserTestResults(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetUserTestResults_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetUserTestResults(ctx, req.(*GetUserTestResultsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetTestResultDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTestResultDetailsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetTestResultDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetTestResultDetails_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetTestResultDetails(ctx, req.(*GetTestResultDetailsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -380,6 +448,14 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerifyTokenRemote",
 			Handler:    _UserService_VerifyTokenRemote_Handler,
+		},
+		{
+			MethodName: "GetUserTestResults",
+			Handler:    _UserService_GetUserTestResults_Handler,
+		},
+		{
+			MethodName: "GetTestResultDetails",
+			Handler:    _UserService_GetTestResultDetails_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

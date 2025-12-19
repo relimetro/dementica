@@ -440,8 +440,9 @@ func (x *GetLinkedUsersReply) GetRelatedUsers() []*RelatedUser {
 
 type AddUserDetailsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	IdToken       string                 `protobuf:"bytes,1,opt,name=id_token,json=idToken,proto3" json:"id_token,omitempty"`                                                            // identifies the user
-	Details       map[string]string      `protobuf:"bytes,2,rep,name=details,proto3" json:"details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // arbitrary key-value fields
+	IdToken       string                 `protobuf:"bytes,1,opt,name=id_token,json=idToken,proto3" json:"id_token,omitempty"`
+	Uid           string                 `protobuf:"bytes,2,opt,name=uid,proto3" json:"uid,omitempty"`
+	Details       map[string]string      `protobuf:"bytes,3,rep,name=details,proto3" json:"details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // arbitrary key-value fields
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -479,6 +480,13 @@ func (*AddUserDetailsRequest) Descriptor() ([]byte, []int) {
 func (x *AddUserDetailsRequest) GetIdToken() string {
 	if x != nil {
 		return x.IdToken
+	}
+	return ""
+}
+
+func (x *AddUserDetailsRequest) GetUid() string {
+	if x != nil {
+		return x.Uid
 	}
 	return ""
 }
@@ -830,6 +838,266 @@ func (x *AddTestResultReply) GetMessage() string {
 	return ""
 }
 
+type GetUserTestResultsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IdToken       string                 `protobuf:"bytes,1,opt,name=id_token,json=idToken,proto3" json:"id_token,omitempty"`       // requester
+	TargetUid     string                 `protobuf:"bytes,2,opt,name=target_uid,json=targetUid,proto3" json:"target_uid,omitempty"` // patient uid (optional, defaults to self)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserTestResultsRequest) Reset() {
+	*x = GetUserTestResultsRequest{}
+	mi := &file_user_service_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserTestResultsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserTestResultsRequest) ProtoMessage() {}
+
+func (x *GetUserTestResultsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserTestResultsRequest.ProtoReflect.Descriptor instead.
+func (*GetUserTestResultsRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetUserTestResultsRequest) GetIdToken() string {
+	if x != nil {
+		return x.IdToken
+	}
+	return ""
+}
+
+func (x *GetUserTestResultsRequest) GetTargetUid() string {
+	if x != nil {
+		return x.TargetUid
+	}
+	return ""
+}
+
+type TestSummary struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TestId        string                 `protobuf:"bytes,1,opt,name=test_id,json=testId,proto3" json:"test_id,omitempty"`
+	Type          string                 `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
+	RiskScore     string                 `protobuf:"bytes,3,opt,name=risk_score,json=riskScore,proto3" json:"risk_score,omitempty"`
+	Date          string                 `protobuf:"bytes,4,opt,name=date,proto3" json:"date,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TestSummary) Reset() {
+	*x = TestSummary{}
+	mi := &file_user_service_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TestSummary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TestSummary) ProtoMessage() {}
+
+func (x *TestSummary) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TestSummary.ProtoReflect.Descriptor instead.
+func (*TestSummary) Descriptor() ([]byte, []int) {
+	return file_user_service_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *TestSummary) GetTestId() string {
+	if x != nil {
+		return x.TestId
+	}
+	return ""
+}
+
+func (x *TestSummary) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *TestSummary) GetRiskScore() string {
+	if x != nil {
+		return x.RiskScore
+	}
+	return ""
+}
+
+func (x *TestSummary) GetDate() string {
+	if x != nil {
+		return x.Date
+	}
+	return ""
+}
+
+type GetUserTestResultsReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Tests         []*TestSummary         `protobuf:"bytes,1,rep,name=tests,proto3" json:"tests,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserTestResultsReply) Reset() {
+	*x = GetUserTestResultsReply{}
+	mi := &file_user_service_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserTestResultsReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserTestResultsReply) ProtoMessage() {}
+
+func (x *GetUserTestResultsReply) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserTestResultsReply.ProtoReflect.Descriptor instead.
+func (*GetUserTestResultsReply) Descriptor() ([]byte, []int) {
+	return file_user_service_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetUserTestResultsReply) GetTests() []*TestSummary {
+	if x != nil {
+		return x.Tests
+	}
+	return nil
+}
+
+type GetTestResultDetailsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IdToken       string                 `protobuf:"bytes,1,opt,name=id_token,json=idToken,proto3" json:"id_token,omitempty"`
+	TestId        string                 `protobuf:"bytes,2,opt,name=test_id,json=testId,proto3" json:"test_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTestResultDetailsRequest) Reset() {
+	*x = GetTestResultDetailsRequest{}
+	mi := &file_user_service_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTestResultDetailsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTestResultDetailsRequest) ProtoMessage() {}
+
+func (x *GetTestResultDetailsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTestResultDetailsRequest.ProtoReflect.Descriptor instead.
+func (*GetTestResultDetailsRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetTestResultDetailsRequest) GetIdToken() string {
+	if x != nil {
+		return x.IdToken
+	}
+	return ""
+}
+
+func (x *GetTestResultDetailsRequest) GetTestId() string {
+	if x != nil {
+		return x.TestId
+	}
+	return ""
+}
+
+type GetTestResultDetailsReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Test          map[string]string      `protobuf:"bytes,1,rep,name=test,proto3" json:"test,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTestResultDetailsReply) Reset() {
+	*x = GetTestResultDetailsReply{}
+	mi := &file_user_service_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTestResultDetailsReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTestResultDetailsReply) ProtoMessage() {}
+
+func (x *GetTestResultDetailsReply) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTestResultDetailsReply.ProtoReflect.Descriptor instead.
+func (*GetTestResultDetailsReply) Descriptor() ([]byte, []int) {
+	return file_user_service_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *GetTestResultDetailsReply) GetTest() map[string]string {
+	if x != nil {
+		return x.Test
+	}
+	return nil
+}
+
 var File_user_service_proto protoreflect.FileDescriptor
 
 const file_user_service_proto_rawDesc = "" +
@@ -859,10 +1127,11 @@ const file_user_service_proto_rawDesc = "" +
 	"\x03uid\x18\x01 \x01(\tR\x03uid\x12#\n" +
 	"\rrelation_type\x18\x02 \x01(\tR\frelationType\"U\n" +
 	"\x13GetLinkedUsersReply\x12>\n" +
-	"\rrelated_users\x18\x01 \x03(\v2\x19.user_service.RelatedUserR\frelatedUsers\"\xba\x01\n" +
+	"\rrelated_users\x18\x01 \x03(\v2\x19.user_service.RelatedUserR\frelatedUsers\"\xcc\x01\n" +
 	"\x15AddUserDetailsRequest\x12\x19\n" +
-	"\bid_token\x18\x01 \x01(\tR\aidToken\x12J\n" +
-	"\adetails\x18\x02 \x03(\v20.user_service.AddUserDetailsRequest.DetailsEntryR\adetails\x1a:\n" +
+	"\bid_token\x18\x01 \x01(\tR\aidToken\x12\x10\n" +
+	"\x03uid\x18\x02 \x01(\tR\x03uid\x12J\n" +
+	"\adetails\x18\x03 \x03(\v20.user_service.AddUserDetailsRequest.DetailsEntryR\adetails\x1a:\n" +
 	"\fDetailsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"/\n" +
@@ -888,7 +1157,28 @@ const file_user_service_proto_rawDesc = "" +
 	"\n" +
 	"risk_score\x18\x03 \x01(\x02R\triskScore\".\n" +
 	"\x12AddTestResultReply\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2\x85\b\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage\"U\n" +
+	"\x19GetUserTestResultsRequest\x12\x19\n" +
+	"\bid_token\x18\x01 \x01(\tR\aidToken\x12\x1d\n" +
+	"\n" +
+	"target_uid\x18\x02 \x01(\tR\ttargetUid\"m\n" +
+	"\vTestSummary\x12\x17\n" +
+	"\atest_id\x18\x01 \x01(\tR\x06testId\x12\x12\n" +
+	"\x04type\x18\x02 \x01(\tR\x04type\x12\x1d\n" +
+	"\n" +
+	"risk_score\x18\x03 \x01(\tR\triskScore\x12\x12\n" +
+	"\x04date\x18\x04 \x01(\tR\x04date\"J\n" +
+	"\x17GetUserTestResultsReply\x12/\n" +
+	"\x05tests\x18\x01 \x03(\v2\x19.user_service.TestSummaryR\x05tests\"Q\n" +
+	"\x1bGetTestResultDetailsRequest\x12\x19\n" +
+	"\bid_token\x18\x01 \x01(\tR\aidToken\x12\x17\n" +
+	"\atest_id\x18\x02 \x01(\tR\x06testId\"\x9b\x01\n" +
+	"\x19GetTestResultDetailsReply\x12E\n" +
+	"\x04test\x18\x01 \x03(\v21.user_service.GetTestResultDetailsReply.TestEntryR\x04test\x1a7\n" +
+	"\tTestEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x012\xcd\n" +
+	"\n" +
 	"\vUserService\x12\x90\x01\n" +
 	"\x0eAddUserDetails\x12#.user_service.AddUserDetailsRequest\x1a!.user_service.AddUserDetailsReply\"6\x82\xd3\xe4\x93\x020:\x01*\x1a+/v1/user_service.UserService/AddUserDetails\x12\x8c\x01\n" +
 	"\rAddTestResult\x12\".user_service.AddTestResultRequest\x1a .user_service.AddTestResultReply\"5\x82\xd3\xe4\x93\x02/:\x01*\"*/v1/user_service.UserService/AddTestResult\x12\x8d\x01\n" +
@@ -897,7 +1187,9 @@ const file_user_service_proto_rawDesc = "" +
 	"\x06SignUp\x12\x1b.user_service.SignUpRequest\x1a\x17.user_service.AuthReply\".\x82\xd3\xe4\x93\x02(:\x01*\"#/v1/user_service.UserService/SignUp\x12x\n" +
 	"\bLinkUser\x12\x1d.user_service.LinkUserRequest\x1a\x1b.user_service.LinkUserReply\"0\x82\xd3\xe4\x93\x02*:\x01*\"%/v1/user_service.UserService/LinkUser\x12\x90\x01\n" +
 	"\x0eGetLinkedUsers\x12#.user_service.GetLinkedUsersRequest\x1a!.user_service.GetLinkedUsersReply\"6\x82\xd3\xe4\x93\x020:\x01*\"+/v1/user_service.UserService/GetLinkedUsers\x12Z\n" +
-	"\x11VerifyTokenRemote\x12 .user_service.VerifyTokenRequest\x1a!.user_service.VerifyTokenResponse\"\x00B\x16Z\x14example/user_serviceb\x06proto3"
+	"\x11VerifyTokenRemote\x12 .user_service.VerifyTokenRequest\x1a!.user_service.VerifyTokenResponse\"\x00\x12\x9d\x01\n" +
+	"\x12GetUserTestResults\x12'.user_service.GetUserTestResultsRequest\x1a%.user_service.GetUserTestResultsReply\"7\x82\xd3\xe4\x93\x021\x12//v1/user_service.UserService/GetUserTestResults\x12\xa5\x01\n" +
+	"\x14GetTestResultDetails\x12).user_service.GetTestResultDetailsRequest\x1a'.user_service.GetTestResultDetailsReply\"9\x82\xd3\xe4\x93\x023\x121/v1/user_service.UserService/GetTestResultDetailsB\x16Z\x14example/user_serviceb\x06proto3"
 
 var (
 	file_user_service_proto_rawDescOnce sync.Once
@@ -911,52 +1203,64 @@ func file_user_service_proto_rawDescGZIP() []byte {
 	return file_user_service_proto_rawDescData
 }
 
-var file_user_service_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_user_service_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_user_service_proto_goTypes = []any{
-	(*SignUpRequest)(nil),         // 0: user_service.SignUpRequest
-	(*LoginRequest)(nil),          // 1: user_service.LoginRequest
-	(*AuthReply)(nil),             // 2: user_service.AuthReply
-	(*LinkUserRequest)(nil),       // 3: user_service.LinkUserRequest
-	(*LinkUserReply)(nil),         // 4: user_service.LinkUserReply
-	(*GetLinkedUsersRequest)(nil), // 5: user_service.GetLinkedUsersRequest
-	(*RelatedUser)(nil),           // 6: user_service.RelatedUser
-	(*GetLinkedUsersReply)(nil),   // 7: user_service.GetLinkedUsersReply
-	(*AddUserDetailsRequest)(nil), // 8: user_service.AddUserDetailsRequest
-	(*AddUserDetailsReply)(nil),   // 9: user_service.AddUserDetailsReply
-	(*GetUserDetailsRequest)(nil), // 10: user_service.GetUserDetailsRequest
-	(*GetUserDetailsReply)(nil),   // 11: user_service.GetUserDetailsReply
-	(*VerifyTokenRequest)(nil),    // 12: user_service.VerifyTokenRequest
-	(*VerifyTokenResponse)(nil),   // 13: user_service.VerifyTokenResponse
-	(*AddTestResultRequest)(nil),  // 14: user_service.AddTestResultRequest
-	(*AddTestResultReply)(nil),    // 15: user_service.AddTestResultReply
-	nil,                           // 16: user_service.AddUserDetailsRequest.DetailsEntry
-	nil,                           // 17: user_service.GetUserDetailsReply.DetailsEntry
+	(*SignUpRequest)(nil),               // 0: user_service.SignUpRequest
+	(*LoginRequest)(nil),                // 1: user_service.LoginRequest
+	(*AuthReply)(nil),                   // 2: user_service.AuthReply
+	(*LinkUserRequest)(nil),             // 3: user_service.LinkUserRequest
+	(*LinkUserReply)(nil),               // 4: user_service.LinkUserReply
+	(*GetLinkedUsersRequest)(nil),       // 5: user_service.GetLinkedUsersRequest
+	(*RelatedUser)(nil),                 // 6: user_service.RelatedUser
+	(*GetLinkedUsersReply)(nil),         // 7: user_service.GetLinkedUsersReply
+	(*AddUserDetailsRequest)(nil),       // 8: user_service.AddUserDetailsRequest
+	(*AddUserDetailsReply)(nil),         // 9: user_service.AddUserDetailsReply
+	(*GetUserDetailsRequest)(nil),       // 10: user_service.GetUserDetailsRequest
+	(*GetUserDetailsReply)(nil),         // 11: user_service.GetUserDetailsReply
+	(*VerifyTokenRequest)(nil),          // 12: user_service.VerifyTokenRequest
+	(*VerifyTokenResponse)(nil),         // 13: user_service.VerifyTokenResponse
+	(*AddTestResultRequest)(nil),        // 14: user_service.AddTestResultRequest
+	(*AddTestResultReply)(nil),          // 15: user_service.AddTestResultReply
+	(*GetUserTestResultsRequest)(nil),   // 16: user_service.GetUserTestResultsRequest
+	(*TestSummary)(nil),                 // 17: user_service.TestSummary
+	(*GetUserTestResultsReply)(nil),     // 18: user_service.GetUserTestResultsReply
+	(*GetTestResultDetailsRequest)(nil), // 19: user_service.GetTestResultDetailsRequest
+	(*GetTestResultDetailsReply)(nil),   // 20: user_service.GetTestResultDetailsReply
+	nil,                                 // 21: user_service.AddUserDetailsRequest.DetailsEntry
+	nil,                                 // 22: user_service.GetUserDetailsReply.DetailsEntry
+	nil,                                 // 23: user_service.GetTestResultDetailsReply.TestEntry
 }
 var file_user_service_proto_depIdxs = []int32{
 	6,  // 0: user_service.GetLinkedUsersReply.related_users:type_name -> user_service.RelatedUser
-	16, // 1: user_service.AddUserDetailsRequest.details:type_name -> user_service.AddUserDetailsRequest.DetailsEntry
-	17, // 2: user_service.GetUserDetailsReply.details:type_name -> user_service.GetUserDetailsReply.DetailsEntry
-	8,  // 3: user_service.UserService.AddUserDetails:input_type -> user_service.AddUserDetailsRequest
-	14, // 4: user_service.UserService.AddTestResult:input_type -> user_service.AddTestResultRequest
-	10, // 5: user_service.UserService.GetUserDetails:input_type -> user_service.GetUserDetailsRequest
-	1,  // 6: user_service.UserService.Login:input_type -> user_service.LoginRequest
-	0,  // 7: user_service.UserService.SignUp:input_type -> user_service.SignUpRequest
-	3,  // 8: user_service.UserService.LinkUser:input_type -> user_service.LinkUserRequest
-	5,  // 9: user_service.UserService.GetLinkedUsers:input_type -> user_service.GetLinkedUsersRequest
-	12, // 10: user_service.UserService.VerifyTokenRemote:input_type -> user_service.VerifyTokenRequest
-	9,  // 11: user_service.UserService.AddUserDetails:output_type -> user_service.AddUserDetailsReply
-	15, // 12: user_service.UserService.AddTestResult:output_type -> user_service.AddTestResultReply
-	11, // 13: user_service.UserService.GetUserDetails:output_type -> user_service.GetUserDetailsReply
-	2,  // 14: user_service.UserService.Login:output_type -> user_service.AuthReply
-	2,  // 15: user_service.UserService.SignUp:output_type -> user_service.AuthReply
-	4,  // 16: user_service.UserService.LinkUser:output_type -> user_service.LinkUserReply
-	7,  // 17: user_service.UserService.GetLinkedUsers:output_type -> user_service.GetLinkedUsersReply
-	13, // 18: user_service.UserService.VerifyTokenRemote:output_type -> user_service.VerifyTokenResponse
-	11, // [11:19] is the sub-list for method output_type
-	3,  // [3:11] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	21, // 1: user_service.AddUserDetailsRequest.details:type_name -> user_service.AddUserDetailsRequest.DetailsEntry
+	22, // 2: user_service.GetUserDetailsReply.details:type_name -> user_service.GetUserDetailsReply.DetailsEntry
+	17, // 3: user_service.GetUserTestResultsReply.tests:type_name -> user_service.TestSummary
+	23, // 4: user_service.GetTestResultDetailsReply.test:type_name -> user_service.GetTestResultDetailsReply.TestEntry
+	8,  // 5: user_service.UserService.AddUserDetails:input_type -> user_service.AddUserDetailsRequest
+	14, // 6: user_service.UserService.AddTestResult:input_type -> user_service.AddTestResultRequest
+	10, // 7: user_service.UserService.GetUserDetails:input_type -> user_service.GetUserDetailsRequest
+	1,  // 8: user_service.UserService.Login:input_type -> user_service.LoginRequest
+	0,  // 9: user_service.UserService.SignUp:input_type -> user_service.SignUpRequest
+	3,  // 10: user_service.UserService.LinkUser:input_type -> user_service.LinkUserRequest
+	5,  // 11: user_service.UserService.GetLinkedUsers:input_type -> user_service.GetLinkedUsersRequest
+	12, // 12: user_service.UserService.VerifyTokenRemote:input_type -> user_service.VerifyTokenRequest
+	16, // 13: user_service.UserService.GetUserTestResults:input_type -> user_service.GetUserTestResultsRequest
+	19, // 14: user_service.UserService.GetTestResultDetails:input_type -> user_service.GetTestResultDetailsRequest
+	9,  // 15: user_service.UserService.AddUserDetails:output_type -> user_service.AddUserDetailsReply
+	15, // 16: user_service.UserService.AddTestResult:output_type -> user_service.AddTestResultReply
+	11, // 17: user_service.UserService.GetUserDetails:output_type -> user_service.GetUserDetailsReply
+	2,  // 18: user_service.UserService.Login:output_type -> user_service.AuthReply
+	2,  // 19: user_service.UserService.SignUp:output_type -> user_service.AuthReply
+	4,  // 20: user_service.UserService.LinkUser:output_type -> user_service.LinkUserReply
+	7,  // 21: user_service.UserService.GetLinkedUsers:output_type -> user_service.GetLinkedUsersReply
+	13, // 22: user_service.UserService.VerifyTokenRemote:output_type -> user_service.VerifyTokenResponse
+	18, // 23: user_service.UserService.GetUserTestResults:output_type -> user_service.GetUserTestResultsReply
+	20, // 24: user_service.UserService.GetTestResultDetails:output_type -> user_service.GetTestResultDetailsReply
+	15, // [15:25] is the sub-list for method output_type
+	5,  // [5:15] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_user_service_proto_init() }
@@ -970,7 +1274,7 @@ func file_user_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_service_proto_rawDesc), len(file_user_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
