@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	UserService_AddUserDetails_FullMethodName    = "/user_service.UserService/AddUserDetails"
+	UserService_AddTestResult_FullMethodName     = "/user_service.UserService/AddTestResult"
 	UserService_GetUserDetails_FullMethodName    = "/user_service.UserService/GetUserDetails"
 	UserService_Login_FullMethodName             = "/user_service.UserService/Login"
 	UserService_SignUp_FullMethodName            = "/user_service.UserService/SignUp"
@@ -33,6 +34,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
 	AddUserDetails(ctx context.Context, in *AddUserDetailsRequest, opts ...grpc.CallOption) (*AddUserDetailsReply, error)
+	AddTestResult(ctx context.Context, in *AddTestResultRequest, opts ...grpc.CallOption) (*AddTestResultReply, error)
 	GetUserDetails(ctx context.Context, in *GetUserDetailsRequest, opts ...grpc.CallOption) (*GetUserDetailsReply, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*AuthReply, error)
 	SignUp(ctx context.Context, in *SignUpRequest, opts ...grpc.CallOption) (*AuthReply, error)
@@ -53,6 +55,16 @@ func (c *userServiceClient) AddUserDetails(ctx context.Context, in *AddUserDetai
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AddUserDetailsReply)
 	err := c.cc.Invoke(ctx, UserService_AddUserDetails_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AddTestResult(ctx context.Context, in *AddTestResultRequest, opts ...grpc.CallOption) (*AddTestResultReply, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddTestResultReply)
+	err := c.cc.Invoke(ctx, UserService_AddTestResult_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -124,6 +136,7 @@ func (c *userServiceClient) VerifyTokenRemote(ctx context.Context, in *VerifyTok
 // for forward compatibility.
 type UserServiceServer interface {
 	AddUserDetails(context.Context, *AddUserDetailsRequest) (*AddUserDetailsReply, error)
+	AddTestResult(context.Context, *AddTestResultRequest) (*AddTestResultReply, error)
 	GetUserDetails(context.Context, *GetUserDetailsRequest) (*GetUserDetailsReply, error)
 	Login(context.Context, *LoginRequest) (*AuthReply, error)
 	SignUp(context.Context, *SignUpRequest) (*AuthReply, error)
@@ -142,6 +155,9 @@ type UnimplementedUserServiceServer struct{}
 
 func (UnimplementedUserServiceServer) AddUserDetails(context.Context, *AddUserDetailsRequest) (*AddUserDetailsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddUserDetails not implemented")
+}
+func (UnimplementedUserServiceServer) AddTestResult(context.Context, *AddTestResultRequest) (*AddTestResultReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddTestResult not implemented")
 }
 func (UnimplementedUserServiceServer) GetUserDetails(context.Context, *GetUserDetailsRequest) (*GetUserDetailsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserDetails not implemented")
@@ -196,6 +212,24 @@ func _UserService_AddUserDetails_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).AddUserDetails(ctx, req.(*AddUserDetailsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AddTestResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddTestResultRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AddTestResult(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_AddTestResult_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AddTestResult(ctx, req.(*AddTestResultRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -318,6 +352,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddUserDetails",
 			Handler:    _UserService_AddUserDetails_Handler,
+		},
+		{
+			MethodName: "AddTestResult",
+			Handler:    _UserService_AddTestResult_Handler,
 		},
 		{
 			MethodName: "GetUserDetails",

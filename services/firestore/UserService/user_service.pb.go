@@ -726,6 +726,110 @@ func (x *VerifyTokenResponse) GetUid() string {
 	return ""
 }
 
+type AddTestResultRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IdToken       string                 `protobuf:"bytes,1,opt,name=id_token,json=idToken,proto3" json:"id_token,omitempty"`         // identifies the user
+	Data          string                 `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`                              // unstructured data (JSON, text, etc.)
+	RiskScore     float32                `protobuf:"fixed32,3,opt,name=risk_score,json=riskScore,proto3" json:"risk_score,omitempty"` // calculated risk score
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddTestResultRequest) Reset() {
+	*x = AddTestResultRequest{}
+	mi := &file_user_service_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddTestResultRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddTestResultRequest) ProtoMessage() {}
+
+func (x *AddTestResultRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddTestResultRequest.ProtoReflect.Descriptor instead.
+func (*AddTestResultRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *AddTestResultRequest) GetIdToken() string {
+	if x != nil {
+		return x.IdToken
+	}
+	return ""
+}
+
+func (x *AddTestResultRequest) GetData() string {
+	if x != nil {
+		return x.Data
+	}
+	return ""
+}
+
+func (x *AddTestResultRequest) GetRiskScore() float32 {
+	if x != nil {
+		return x.RiskScore
+	}
+	return 0
+}
+
+type AddTestResultReply struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Message       string                 `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddTestResultReply) Reset() {
+	*x = AddTestResultReply{}
+	mi := &file_user_service_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddTestResultReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddTestResultReply) ProtoMessage() {}
+
+func (x *AddTestResultReply) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddTestResultReply.ProtoReflect.Descriptor instead.
+func (*AddTestResultReply) Descriptor() ([]byte, []int) {
+	return file_user_service_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *AddTestResultReply) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_user_service_proto protoreflect.FileDescriptor
 
 const file_user_service_proto_rawDesc = "" +
@@ -777,9 +881,17 @@ const file_user_service_proto_rawDesc = "" +
 	"\bid_token\x18\x01 \x01(\tR\aidToken\"9\n" +
 	"\x13VerifyTokenResponse\x12\x10\n" +
 	"\x03res\x18\x01 \x01(\bR\x03res\x12\x10\n" +
-	"\x03uid\x18\x02 \x01(\tR\x03uid2\xf6\x06\n" +
+	"\x03uid\x18\x02 \x01(\tR\x03uid\"d\n" +
+	"\x14AddTestResultRequest\x12\x19\n" +
+	"\bid_token\x18\x01 \x01(\tR\aidToken\x12\x12\n" +
+	"\x04data\x18\x02 \x01(\tR\x04data\x12\x1d\n" +
+	"\n" +
+	"risk_score\x18\x03 \x01(\x02R\triskScore\".\n" +
+	"\x12AddTestResultReply\x12\x18\n" +
+	"\amessage\x18\x01 \x01(\tR\amessage2\x85\b\n" +
 	"\vUserService\x12\x90\x01\n" +
-	"\x0eAddUserDetails\x12#.user_service.AddUserDetailsRequest\x1a!.user_service.AddUserDetailsReply\"6\x82\xd3\xe4\x93\x020:\x01*\x1a+/v1/user_service.UserService/AddUserDetails\x12\x8d\x01\n" +
+	"\x0eAddUserDetails\x12#.user_service.AddUserDetailsRequest\x1a!.user_service.AddUserDetailsReply\"6\x82\xd3\xe4\x93\x020:\x01*\x1a+/v1/user_service.UserService/AddUserDetails\x12\x8c\x01\n" +
+	"\rAddTestResult\x12\".user_service.AddTestResultRequest\x1a .user_service.AddTestResultReply\"5\x82\xd3\xe4\x93\x02/:\x01*\"*/v1/user_service.UserService/AddTestResult\x12\x8d\x01\n" +
 	"\x0eGetUserDetails\x12#.user_service.GetUserDetailsRequest\x1a!.user_service.GetUserDetailsReply\"3\x82\xd3\xe4\x93\x02-\x12+/v1/user_service.UserService/GetUserDetails\x12k\n" +
 	"\x05Login\x12\x1a.user_service.LoginRequest\x1a\x17.user_service.AuthReply\"-\x82\xd3\xe4\x93\x02':\x01*\"\"/v1/user_service.UserService/Login\x12n\n" +
 	"\x06SignUp\x12\x1b.user_service.SignUpRequest\x1a\x17.user_service.AuthReply\".\x82\xd3\xe4\x93\x02(:\x01*\"#/v1/user_service.UserService/SignUp\x12x\n" +
@@ -799,7 +911,7 @@ func file_user_service_proto_rawDescGZIP() []byte {
 	return file_user_service_proto_rawDescData
 }
 
-var file_user_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_user_service_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_user_service_proto_goTypes = []any{
 	(*SignUpRequest)(nil),         // 0: user_service.SignUpRequest
 	(*LoginRequest)(nil),          // 1: user_service.LoginRequest
@@ -815,29 +927,33 @@ var file_user_service_proto_goTypes = []any{
 	(*GetUserDetailsReply)(nil),   // 11: user_service.GetUserDetailsReply
 	(*VerifyTokenRequest)(nil),    // 12: user_service.VerifyTokenRequest
 	(*VerifyTokenResponse)(nil),   // 13: user_service.VerifyTokenResponse
-	nil,                           // 14: user_service.AddUserDetailsRequest.DetailsEntry
-	nil,                           // 15: user_service.GetUserDetailsReply.DetailsEntry
+	(*AddTestResultRequest)(nil),  // 14: user_service.AddTestResultRequest
+	(*AddTestResultReply)(nil),    // 15: user_service.AddTestResultReply
+	nil,                           // 16: user_service.AddUserDetailsRequest.DetailsEntry
+	nil,                           // 17: user_service.GetUserDetailsReply.DetailsEntry
 }
 var file_user_service_proto_depIdxs = []int32{
 	6,  // 0: user_service.GetLinkedUsersReply.related_users:type_name -> user_service.RelatedUser
-	14, // 1: user_service.AddUserDetailsRequest.details:type_name -> user_service.AddUserDetailsRequest.DetailsEntry
-	15, // 2: user_service.GetUserDetailsReply.details:type_name -> user_service.GetUserDetailsReply.DetailsEntry
+	16, // 1: user_service.AddUserDetailsRequest.details:type_name -> user_service.AddUserDetailsRequest.DetailsEntry
+	17, // 2: user_service.GetUserDetailsReply.details:type_name -> user_service.GetUserDetailsReply.DetailsEntry
 	8,  // 3: user_service.UserService.AddUserDetails:input_type -> user_service.AddUserDetailsRequest
-	10, // 4: user_service.UserService.GetUserDetails:input_type -> user_service.GetUserDetailsRequest
-	1,  // 5: user_service.UserService.Login:input_type -> user_service.LoginRequest
-	0,  // 6: user_service.UserService.SignUp:input_type -> user_service.SignUpRequest
-	3,  // 7: user_service.UserService.LinkUser:input_type -> user_service.LinkUserRequest
-	5,  // 8: user_service.UserService.GetLinkedUsers:input_type -> user_service.GetLinkedUsersRequest
-	12, // 9: user_service.UserService.VerifyTokenRemote:input_type -> user_service.VerifyTokenRequest
-	9,  // 10: user_service.UserService.AddUserDetails:output_type -> user_service.AddUserDetailsReply
-	11, // 11: user_service.UserService.GetUserDetails:output_type -> user_service.GetUserDetailsReply
-	2,  // 12: user_service.UserService.Login:output_type -> user_service.AuthReply
-	2,  // 13: user_service.UserService.SignUp:output_type -> user_service.AuthReply
-	4,  // 14: user_service.UserService.LinkUser:output_type -> user_service.LinkUserReply
-	7,  // 15: user_service.UserService.GetLinkedUsers:output_type -> user_service.GetLinkedUsersReply
-	13, // 16: user_service.UserService.VerifyTokenRemote:output_type -> user_service.VerifyTokenResponse
-	10, // [10:17] is the sub-list for method output_type
-	3,  // [3:10] is the sub-list for method input_type
+	14, // 4: user_service.UserService.AddTestResult:input_type -> user_service.AddTestResultRequest
+	10, // 5: user_service.UserService.GetUserDetails:input_type -> user_service.GetUserDetailsRequest
+	1,  // 6: user_service.UserService.Login:input_type -> user_service.LoginRequest
+	0,  // 7: user_service.UserService.SignUp:input_type -> user_service.SignUpRequest
+	3,  // 8: user_service.UserService.LinkUser:input_type -> user_service.LinkUserRequest
+	5,  // 9: user_service.UserService.GetLinkedUsers:input_type -> user_service.GetLinkedUsersRequest
+	12, // 10: user_service.UserService.VerifyTokenRemote:input_type -> user_service.VerifyTokenRequest
+	9,  // 11: user_service.UserService.AddUserDetails:output_type -> user_service.AddUserDetailsReply
+	15, // 12: user_service.UserService.AddTestResult:output_type -> user_service.AddTestResultReply
+	11, // 13: user_service.UserService.GetUserDetails:output_type -> user_service.GetUserDetailsReply
+	2,  // 14: user_service.UserService.Login:output_type -> user_service.AuthReply
+	2,  // 15: user_service.UserService.SignUp:output_type -> user_service.AuthReply
+	4,  // 16: user_service.UserService.LinkUser:output_type -> user_service.LinkUserReply
+	7,  // 17: user_service.UserService.GetLinkedUsers:output_type -> user_service.GetLinkedUsersReply
+	13, // 18: user_service.UserService.VerifyTokenRemote:output_type -> user_service.VerifyTokenResponse
+	11, // [11:19] is the sub-list for method output_type
+	3,  // [3:11] is the sub-list for method input_type
 	3,  // [3:3] is the sub-list for extension type_name
 	3,  // [3:3] is the sub-list for extension extendee
 	0,  // [0:3] is the sub-list for field type_name
@@ -854,7 +970,7 @@ func file_user_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_service_proto_rawDesc), len(file_user_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
