@@ -11,7 +11,7 @@ from datatypes import LifestyleQuestionare, LifestyleQuestionareFromIntermediary
 
 class AiProompt(vertex_pb2_grpc.aiProomptServicer):
 	def Proompt(self, request, context):
-		print("recieved AI response",request.message)
+		print("recieved request",request.message)
 
 		lifestyle: LifestyleQuestionare = LifestyleQuestionareFromIntermediary(request.message)
 		riskScore: str = kerasRun(lifestyle)

@@ -9,6 +9,8 @@
 [ $1 == "signup" ] && { curl -X POST -d '{"Name":"test","Password":"123456","RegisterWith":"test@example.com","RegType":"Email","UserType":"Patient"}' http://localhost:80/v1/register; exit; }
 [ $1 == "login" ] && { curl -X POST -d '{"Email":"test@example.com","Password":"123456","UserType":"Patient"}' http://localhost:80/v1/login; exit; }
 [ $1 == "patientInfo" ] && { curl -X POST -d "{'UserID': '$2' }" http://localhost:80/v1/patient_info; exit; }
+[ $1 == "transcript" ] && { curl -X POST -d '{"UserID":"__testing__","data":"It has a nice pool and the children are trying to get the cookies."}' http://localhost:80/v1/send_transcript; exit; }
+[ $1 == "mental" ] && { curl -X POST -d '{"UserID":"__testing__","data":"5","timeDate":"2025-02-12"}' http://localhost:80/v1/send_minimental; exit; }
 
 [ $1 == "build" ] && { sudo docker-compose -f docker-compose.yaml build && sudo docker-compose -f docker-compose.yaml up; }
 [ $1 == "run" ] && { sudo docker-compose -f docker-compose.yaml up; }
