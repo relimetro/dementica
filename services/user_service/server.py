@@ -33,6 +33,29 @@ def verify_token(id_token):
 
 
 class UserService(user_service_pb2_grpc.UserServiceServicer):
+    def _can_access_user(self, requester_uid, target_uid):
+        users_ref = db.collection("Users")
+
+        requester_doc = users_ref.document(requester_uid).get()
+        target_doc = users_ref.document(target_uid).get()
+
+        if not requester_doc.exists or not target_doc.exists:
+            return False
+
+        requester = requester_doc.to_dict()
+        target = target_doc.to_dict()
+
+        if requester_uid == target_uid:
+            return True
+
+        if requester.get("Type") == "Admin":
+            return True
+
+        if requester.get("Type") == "Doctor" and target.get("Type") == "Patient":
+            return target.get("DoctorID") == requester_uid
+
+        return False
+
     def AddTestResult(self, request, context):
         self.log_request("AddTestResult", request)
         try:
@@ -377,6 +400,90 @@ class UserService(user_service_pb2_grpc.UserServiceServicer):
             context.set_code(grpc.StatusCode.INTERNAL)
             context.set_details(str(e))
             return user_service_pb2.GetUserDetailsReply()
+
+    def GetUserTestResults(self, request, context):
+        self.log_request("GetUserTestResults", request)
+
+        try:
+            requester_uid = verify_token(request.id_token)
+            target_uid = request.target_uid or requester_uid
+
+            if not self._can_access_user(requester_uid, target_uid):
+                context.set_code(grpc.StatusCode.PERMISSION_DENIED)
+                context.set_details("Access denied.")
+                return user_service_pb2.GetUserTestResultsReply()
+
+            tests = []
+            query = (
+                db.collection("TestResults")
+                .where("UserID", "==", target_uid)
+            )
+
+            for doc in query.stream():
+                d = doc.to_dict()
+                tests.append(
+                    user_service_pb2.TestSummary(
+                        test_id=doc.id,
+                        type=str(d.get("Type", "")),
+                        risk_score=str(d.get("RiskScore", "")),
+                        date=str(d.get("Date", "")),
+                    )
+                )
+
+            return user_service_pb2.GetUserTestResultsReply(tests=tests)
+
+        except ValueError as e:
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details(str(e))
+            return user_service_pb2.GetUserTestResultsReply()
+
+        except Exception as e:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(str(e))
+            return user_service_pb2.GetUserTestResultsReply()
+
+    def GetTestResultDetails(self, request, context):
+        self.log_request("GetTestResultDetails", request)
+
+        try:
+            requester_uid = verify_token(request.id_token)
+
+            doc_ref = db.collection("TestResults").document(request.test_id)
+            doc = doc_ref.get()
+
+            if not doc.exists:
+                context.set_code(grpc.StatusCode.NOT_FOUND)
+                context.set_details("Test result not found.")
+                return user_service_pb2.GetTestResultDetailsReply()
+
+            test = doc.to_dict()
+            target_uid = test.get("UserID")
+
+            if not self._can_access_user(requester_uid, target_uid):
+                context.set_code(grpc.StatusCode.PERMISSION_DENIED)
+                context.set_details("Access denied.")
+                return user_service_pb2.GetTestResultDetailsReply()
+
+            # Convert to string map for proto
+            result = {
+                k: str(v)
+                for k, v in test.items()
+                if v is not None
+            }
+            result["TestID"] = request.test_id
+
+            return user_service_pb2.GetTestResultDetailsReply(test=result)
+
+        except ValueError as e:
+            context.set_code(grpc.StatusCode.UNAUTHENTICATED)
+            context.set_details(str(e))
+            return user_service_pb2.GetTestResultDetailsReply()
+
+        except Exception as e:
+            context.set_code(grpc.StatusCode.INTERNAL)
+            context.set_details(str(e))
+            return user_service_pb2.GetTestResultDetailsReply()
+
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

@@ -52,6 +52,19 @@ service UserService {
 
   rpc VerifyTokenRemote(VerifyTokenRequest) returns (VerifyTokenResponse) {}
     // internal grpc, not exposed to rest (for firestore.go)
+  rpc GetUserTestResults (GetUserTestResultsRequest)
+    returns (GetUserTestResultsReply) {
+  option (google.api.http) = {
+    get: "/v1/user_service.UserService/GetUserTestResults"
+  };
+}
+
+rpc GetTestResultDetails (GetTestResultDetailsRequest)
+    returns (GetTestResultDetailsReply) {
+  option (google.api.http) = {
+    get: "/v1/user_service.UserService/GetTestResultDetails"
+  };
+}
 }
 
 
@@ -128,4 +141,27 @@ message AddTestResultRequest {
 message AddTestResultReply {
   string message = 1;
 }
+message GetUserTestResultsRequest {
+  string id_token = 1;      // requester
+  string target_uid = 2;    // patient uid (optional, defaults to self)
+}
 
+message TestSummary {
+  string test_id = 1;
+  string type = 2;
+  string risk_score = 3;
+  string date = 4;
+}
+
+message GetUserTestResultsReply {
+  repeated TestSummary tests = 1;
+}
+
+message GetTestResultDetailsRequest {
+  string id_token = 1;
+  string test_id = 2;
+}
+
+message GetTestResultDetailsReply {
+  map<string, string> test = 1;
+}
