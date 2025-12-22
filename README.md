@@ -1,5 +1,8 @@
 # dementica
 
+# website
+available at http://dementica.danigoes.online.com
+
 
 # build and run
 ```
