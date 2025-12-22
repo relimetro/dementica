@@ -94,6 +94,11 @@ class firestoreStub(object):
                 request_serializer=firestore__pb2.NewsRequest.SerializeToString,
                 response_deserializer=firestore__pb2.NewsResponse.FromString,
                 _registered_method=True)
+        self.SetNews = channel.unary_unary(
+                '/firestore.firestore/SetNews',
+                request_serializer=firestore__pb2.NewsSet.SerializeToString,
+                response_deserializer=firestore__pb2.NewsResponse.FromString,
+                _registered_method=True)
 
 
 class firestoreServicer(object):
@@ -171,6 +176,12 @@ class firestoreServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def SetNews(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_firestoreServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -232,6 +243,11 @@ def add_firestoreServicer_to_server(servicer, server):
             'GetNews': grpc.unary_unary_rpc_method_handler(
                     servicer.GetNews,
                     request_deserializer=firestore__pb2.NewsRequest.FromString,
+                    response_serializer=firestore__pb2.NewsResponse.SerializeToString,
+            ),
+            'SetNews': grpc.unary_unary_rpc_method_handler(
+                    servicer.SetNews,
+                    request_deserializer=firestore__pb2.NewsSet.FromString,
                     response_serializer=firestore__pb2.NewsResponse.SerializeToString,
             ),
     }
@@ -558,6 +574,33 @@ class firestore(object):
             target,
             '/firestore.firestore/GetNews',
             firestore__pb2.NewsRequest.SerializeToString,
+            firestore__pb2.NewsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def SetNews(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/firestore.firestore/SetNews',
+            firestore__pb2.NewsSet.SerializeToString,
             firestore__pb2.NewsResponse.FromString,
             options,
             channel_credentials,

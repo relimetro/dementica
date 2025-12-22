@@ -4,7 +4,7 @@ from langchain_community.tools import DuckDuckGoSearchRun
 
 class DuckDuckGoTool(BaseTool):
 	name: str = "DuckDuckGo Search Tool"
-	description: str = "Search the web for a given query. the query should be a string, do not include any aditional information or dictionarys"
+	description: str = "Search the web for a given query. use the format '{ query: QUERY_STRING }'.the query should be a string, do not include any aditional information or dictionarys"
 
 	def _run(self, query: str) -> str:
 		# Ensure the DuckDuckGoSearchRun is invoked properly.

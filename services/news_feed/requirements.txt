@@ -1,0 +1,4 @@
+grpcio
+crewai
+langchain_community
+ddgs

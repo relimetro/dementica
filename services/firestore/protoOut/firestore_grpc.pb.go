@@ -31,6 +31,7 @@ const (
 	Firestore_SendMinimental_FullMethodName      = "/firestore.firestore/SendMinimental"
 	Firestore_SendPatientDementia_FullMethodName = "/firestore.firestore/SendPatientDementia"
 	Firestore_GetNews_FullMethodName             = "/firestore.firestore/GetNews"
+	Firestore_SetNews_FullMethodName             = "/firestore.firestore/SetNews"
 )
 
 // FirestoreClient is the client API for Firestore service.
@@ -49,6 +50,7 @@ type FirestoreClient interface {
 	SendMinimental(ctx context.Context, in *LifestyleRequest, opts ...grpc.CallOption) (*LifestyleResponse, error)
 	SendPatientDementia(ctx context.Context, in *DementiaRequest, opts ...grpc.CallOption) (*DementiaResponse, error)
 	GetNews(ctx context.Context, in *NewsRequest, opts ...grpc.CallOption) (*NewsResponse, error)
+	SetNews(ctx context.Context, in *NewsSet, opts ...grpc.CallOption) (*NewsResponse, error)
 }
 
 type firestoreClient struct {
@@ -179,6 +181,16 @@ func (c *firestoreClient) GetNews(ctx context.Context, in *NewsRequest, opts ...
 	return out, nil
 }
 
+func (c *firestoreClient) SetNews(ctx context.Context, in *NewsSet, opts ...grpc.CallOption) (*NewsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(NewsResponse)
+	err := c.cc.Invoke(ctx, Firestore_SetNews_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FirestoreServer is the server API for Firestore service.
 // All implementations must embed UnimplementedFirestoreServer
 // for forward compatibility.
@@ -195,6 +207,7 @@ type FirestoreServer interface {
 	SendMinimental(context.Context, *LifestyleRequest) (*LifestyleResponse, error)
 	SendPatientDementia(context.Context, *DementiaRequest) (*DementiaResponse, error)
 	GetNews(context.Context, *NewsRequest) (*NewsResponse, error)
+	SetNews(context.Context, *NewsSet) (*NewsResponse, error)
 	mustEmbedUnimplementedFirestoreServer()
 }
 
@@ -240,6 +253,9 @@ func (UnimplementedFirestoreServer) SendPatientDementia(context.Context, *Dement
 }
 func (UnimplementedFirestoreServer) GetNews(context.Context, *NewsRequest) (*NewsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNews not implemented")
+}
+func (UnimplementedFirestoreServer) SetNews(context.Context, *NewsSet) (*NewsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetNews not implemented")
 }
 func (UnimplementedFirestoreServer) mustEmbedUnimplementedFirestoreServer() {}
 func (UnimplementedFirestoreServer) testEmbeddedByValue()                   {}
@@ -478,6 +494,24 @@ func _Firestore_GetNews_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Firestore_SetNews_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NewsSet)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FirestoreServer).SetNews(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Firestore_SetNews_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FirestoreServer).SetNews(ctx, req.(*NewsSet))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Firestore_ServiceDesc is the grpc.ServiceDesc for Firestore service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -532,6 +566,10 @@ var Firestore_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetNews",
 			Handler:    _Firestore_GetNews_Handler,
+		},
+		{
+			MethodName: "SetNews",
+			Handler:    _Firestore_SetNews_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

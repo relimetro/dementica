@@ -1982,7 +1982,7 @@ const file_firestore_proto_rawDesc = "" +
 	"\bUserType\x12\v\n" +
 	"\aPatient\x10\x00\x12\n" +
 	"\n" +
-	"\x06Doctor\x10\x012\xee\b\n" +
+	"\x06Doctor\x10\x012\xbf\t\n" +
 	"\tfirestore\x12W\n" +
 	"\bRegister\x12\x17.firestore.UserRegister\x1a\x19.firestore.RegisterResult\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/register\x12K\n" +
 	"\x05Login\x12\x14.firestore.UserLogin\x1a\x16.firestore.LoginResult\"\x14\x82\xd3\xe4\x93\x02\x0e:\x01*\"\t/v1/login\x12U\n" +
@@ -1996,7 +1996,8 @@ const file_firestore_proto_rawDesc = "" +
 	"\x0eSendTranscript\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v1/send_transcript\x12k\n" +
 	"\x0eSendMinimental\x12\x1b.firestore.LifestyleRequest\x1a\x1c.firestore.LifestyleResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/v1/send_minimental\x12l\n" +
 	"\x13SendPatientDementia\x12\x1a.firestore.DementiaRequest\x1a\x1b.firestore.DementiaResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/send_dementia\x12S\n" +
-	"\aGetNews\x12\x16.firestore.NewsRequest\x1a\x17.firestore.NewsResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/get_newsB\x17Z\x15example/proto_exampleb\x06proto3"
+	"\aGetNews\x12\x16.firestore.NewsRequest\x1a\x17.firestore.NewsResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/get_news\x12O\n" +
+	"\aSetNews\x12\x12.firestore.NewsSet\x1a\x17.firestore.NewsResponse\"\x17\x82\xd3\xe4\x93\x02\x11:\x01*\"\f/v1/set_newsB\x17Z\x15example/proto_exampleb\x06proto3"
 
 var (
 	file_firestore_proto_rawDescOnce sync.Once
@@ -2079,20 +2080,22 @@ var file_firestore_proto_depIdxs = []int32{
 	25, // 27: firestore.firestore.SendMinimental:input_type -> firestore.LifestyleRequest
 	29, // 28: firestore.firestore.SendPatientDementia:input_type -> firestore.DementiaRequest
 	31, // 29: firestore.firestore.GetNews:input_type -> firestore.NewsRequest
-	17, // 30: firestore.firestore.Register:output_type -> firestore.RegisterResult
-	19, // 31: firestore.firestore.Login:output_type -> firestore.LoginResult
-	21, // 32: firestore.firestore.PatientInfo:output_type -> firestore.PatientData
-	22, // 33: firestore.firestore.GetRisk:output_type -> firestore.RiskResponse
-	23, // 34: firestore.firestore.DoctorInfo:output_type -> firestore.DoctorData
-	24, // 35: firestore.firestore.GetPatients:output_type -> firestore.PatientsResponse
-	28, // 36: firestore.firestore.GetTestHistory:output_type -> firestore.TestHistoryResponse
-	26, // 37: firestore.firestore.SendLifestyle:output_type -> firestore.LifestyleResponse
-	26, // 38: firestore.firestore.SendTranscript:output_type -> firestore.LifestyleResponse
-	26, // 39: firestore.firestore.SendMinimental:output_type -> firestore.LifestyleResponse
-	30, // 40: firestore.firestore.SendPatientDementia:output_type -> firestore.DementiaResponse
-	32, // 41: firestore.firestore.GetNews:output_type -> firestore.NewsResponse
-	30, // [30:42] is the sub-list for method output_type
-	18, // [18:30] is the sub-list for method input_type
+	33, // 30: firestore.firestore.SetNews:input_type -> firestore.NewsSet
+	17, // 31: firestore.firestore.Register:output_type -> firestore.RegisterResult
+	19, // 32: firestore.firestore.Login:output_type -> firestore.LoginResult
+	21, // 33: firestore.firestore.PatientInfo:output_type -> firestore.PatientData
+	22, // 34: firestore.firestore.GetRisk:output_type -> firestore.RiskResponse
+	23, // 35: firestore.firestore.DoctorInfo:output_type -> firestore.DoctorData
+	24, // 36: firestore.firestore.GetPatients:output_type -> firestore.PatientsResponse
+	28, // 37: firestore.firestore.GetTestHistory:output_type -> firestore.TestHistoryResponse
+	26, // 38: firestore.firestore.SendLifestyle:output_type -> firestore.LifestyleResponse
+	26, // 39: firestore.firestore.SendTranscript:output_type -> firestore.LifestyleResponse
+	26, // 40: firestore.firestore.SendMinimental:output_type -> firestore.LifestyleResponse
+	30, // 41: firestore.firestore.SendPatientDementia:output_type -> firestore.DementiaResponse
+	32, // 42: firestore.firestore.GetNews:output_type -> firestore.NewsResponse
+	32, // 43: firestore.firestore.SetNews:output_type -> firestore.NewsResponse
+	31, // [31:44] is the sub-list for method output_type
+	18, // [18:31] is the sub-list for method input_type
 	18, // [18:18] is the sub-list for extension type_name
 	18, // [18:18] is the sub-list for extension extendee
 	0,  // [0:18] is the sub-list for field type_name

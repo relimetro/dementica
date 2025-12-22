@@ -305,9 +305,12 @@ func SetNews(c *firestore.Client, matchStr string, content string) {
 		doc, err := iter.Next()
 		if err == iterator.Done { break }
 		if err != nil { log.Fatalf("failed to iterate:\n%v",err)}
-		doc.Ref.Update(ctx, []firestore.Update{{
+
+		d := doc.Data()
+		if d["Type"].(string) == matchStr {
+			doc.Ref.Update(ctx, []firestore.Update{{
 			Path: "Content", Value:content},
-		})
+		}) }
 	}
 }
 

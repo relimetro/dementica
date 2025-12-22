@@ -12,6 +12,7 @@
 [ $1 == "transcript" ] && { curl -X POST -d '{"UserID":"__testing__","data":"It has a nice pool and the children are trying to get the cookies.","dateTime":"2025-12-10"}' http://localhost:80/v1/send_transcript; exit; }
 [ $1 == "transcript2" ] && { curl -X POST -d '{"UserID":"__testing__","data":"well uh for one thing this boys on the stool getting cookies.  and his stools about to fall.  and and the little girls reaching for some cookies.  she got her finger in her mouth.  um the mothers drying dishes and waters running over.  she got her, pl yeah and she drying dishes waters running over.  shes standing in water.  theres a sink there.  plate and a cup.  outside you can see outside there the the walkway and hedges, a window, tree.  and uh outside the, cup the cookie jar would hafta be in the cupboard.  and theres a what you call it, the counter on in the kitchen.  thats, and the curtains.  and the window.","dateTime":"2025-12-10"}' http://localhost:80/v1/send_transcript; exit; }
 [ $1 == "mental" ] && { curl -X POST -d '{"UserID":"__testing__","data":"5","DateTime":"2025-02-12"}' http://localhost:80/v1/send_minimental; exit; }
+[ $1 == "newsSet" ] && { curl -X POST -d '{"Type":"Patient","Content":"test"}' http://localhost:80/v1/set_news; exit; }
 
 [ $1 == "build" ] && { sudo docker-compose -f docker-compose.yaml build && sudo docker-compose -f docker-compose.yaml up; }
 [ $1 == "run" ] && { sudo docker-compose -f docker-compose.yaml up; }

@@ -70,6 +70,12 @@ service firestore {
 		body: "*"
 	}; }
 
+  rpc SetNews(NewsSet) returns (NewsResponse){
+	option (google.api.http) = {
+		post: "/v1/set_news"
+		body: "*"
+	}; }
+
 }
 
 

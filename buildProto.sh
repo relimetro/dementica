@@ -49,6 +49,7 @@ protoc \
 	--go-grpc_out=./services/firestore/protoAI --go-grpc_opt=paths=source_relative \
 	vertex.proto
 
+# news_feed
 python -m grpc_tools.protoc \
 	-I${GOOGLEAPIS_DIR} -I. --include_imports --include_source_info --descriptor_set_out=proto/firestore.pb \
 	--proto_path=./proto/ \

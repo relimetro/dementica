@@ -1,6 +1,7 @@
 import os
 from crewai import Agent, Task, Crew, Process, LLM
 import time
+import grpc
 
 import firestore_pb2
 import firestore_pb2_grpc
@@ -40,13 +41,11 @@ PatientTask = Task(
 	Compile an report of multiple news articles.
 
 	Research multiple news articles that a patient suffering from dementia might find useful, informative, funny, or uplifting.
-	Including:
-	1) a quick descriptions of the news
-	2) then a detailed descriptions of the news
-	3) research any terminology a dementia patient would not know and provide a simple and concise explanation, do not explain dementia.
-	4) Explains how may affect a person living with dementia
-
-	if an article is not in english, ignore it and find a diffrent article.
+	1) find several news articles that a patient might find useful.
+	2) list all the news articles and explain the content of each one.
+	3) Research any terminology a dementia patient would not know and provide a simple and concise explanation, do not explain dementia.
+	4) Include for each article an explanation on how may affect a person living with dementia.
+	5) format into a news report, including explanations of each article and including explanations and terminology.
 	""",
     expected_output="A detailed news report containing a paragraph for each previously mentioned news article, in plaintext for patients suffering from dementia. without links.",
     tools=[ddgs],
@@ -75,19 +74,15 @@ DoctorTask = Task(
 	description="""
 	Compile an report of multiple news articles.
 
-	Research multiple news articles that a doctor researching dementia might find useful and informative.
-	Including:
-	1) a quick descriptions of the news
-	2) then a detailed descriptions of the news
-	3) Explains how may affect a person living with dementia
-	4) Explain applications to medical practice.
-
-	if an article is not in english, ignore it and find a diffrent article.
+	Research multiple news articles, that a doctor researching dementia might find useful and informative.
+	1) find several news articles that a doctor might find useful.
+	2) list all the news articles explaining the content.
+	3) include in the list of articles applications to medical practice.
 	""",
-    expected_output="A detailed news report containing a paragraph for each previously mentioned news article, in plaintext for patients suffering from dementia. without links.",
+	expected_output="A detailed news report containing a paragraph for each previously mentioned news article, in plaintext, without links. In the format 1. **Article 1 - {title}** Description: {description}. Explanation: {explanation on impact}",
     tools=[ddgs],
     output_file='output-doctor.md',
-    agent=PatientResearcher,
+    agent=DoctorResearcher,
     llm=llm
 )
 
@@ -96,29 +91,32 @@ DoctorTask = Task(
 
 
 
+def uploadResult(content:str,userType:str):
+	port = "9000"
+	channel = grpc.insecure_channel('localhost:'+port)
+	stub = firestore_pb2_grpc.firestoreStub(channel)
+	req = firestore_pb2.NewsSet(Type=userType,Content=content)
+	resp = stub.SetNews(req)
+	print(resp)
+
+
 
 def main():
-	sleep(60*60*24)
-	# Initialize the crew
 	result = Crew(
 		agents=[PatientResearcher],
 		tasks=[PatientTask],
 		process=Process.sequential,
 		).kickoff()
-	# with open("output.md","w") as f:
-		# f.write(str(result))
+	uploadResult(str(result),"Patient")
+
 	result = Crew(
 		agents=[DoctorResearcher],
 		tasks=[DoctorTask],
 		process=Process.sequential,
 		).kickoff()
-	with open("output.md","w") as f:
-		f.write(str(result))
-	port = "50052"
-	channel = grpc.insecure_channel('localhost:'+port)
-	stub = firestore_pb2_grpc.firestore(channel)
-	req = firestore_pb2.NewsSet(Type="Patient",Content=str(result))
-	resp = stub.SetNews(req)
+	uploadResult(str(result),"Doctor")
+
+	time.sleep(60*60*24)
 
 main()
 

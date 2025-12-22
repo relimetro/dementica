@@ -401,7 +401,7 @@ func (s *server) GetNews(ctx context.Context, x *pb.NewsRequest) (*pb.NewsRespon
 }
 
 func (s *server) SetNews(ctx context.Context, x *pb.NewsSet) (*pb.NewsResponse, error) {
-	log.Printf("GetNews: %s",x.Type)
+	log.Printf("SetNews: %s",x.Type)
 
 	var typeStr string
 	if (x.Type == pb.NewsSet_Patient) {
